@@ -135,6 +135,8 @@
   --text-body--line-height: 1.6;
   --text-control: 0.9375rem;
   --text-control--line-height: 1;
+  --text-role: clamp(1.125rem, 0.5rem + 3vw, 2.625rem);
+  --text-role--line-height: 1.2;
   --text-eyebrow: 0.875rem;
   --text-eyebrow--line-height: 1.4;
   --text-eyebrow--letter-spacing: 0.2em;
@@ -151,6 +153,84 @@
 
   /* Motion (mirrored in lib/motion.ts for Motion for React) */
   --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* CSS-driven animations. Apply with motion-safe: so reduced motion disables them. */
+  --animate-caret: caret-blink 0.9s steps(1) infinite;
+  --animate-floor-drift: floor-drift 24s linear infinite;
+  --animate-rise: rise 0.6s var(--ease-out-expo) both;
+
+  @keyframes caret-blink {
+    50% {
+      opacity: 0;
+    }
+  }
+  /* Exactly one major grid cell, so the loop is seamless. */
+  @keyframes floor-drift {
+    to {
+      transform: translateY(16rem);
+    }
+  }
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+  }
+}
+
+@layer components {
+  /* Hero perspective floor: engineering-paper grid (minor 4rem, major 16rem) laid back in perspective. */
+  .gb-floor {
+    position: absolute;
+    inset-inline: -50%;
+    bottom: -10%;
+    height: 55%;
+    overflow: hidden;
+    pointer-events: none;
+    transform: perspective(700px) rotateX(64deg);
+    transform-origin: 50% 100%;
+    mask-image: linear-gradient(to top, black 10%, transparent 85%);
+  }
+
+  @media (min-width: 64rem) {
+    .gb-floor {
+      height: 70%;
+    }
+  }
+
+  .gb-floor-grid {
+    --gb-minor: var(--color-line);
+    --gb-major: color-mix(in srgb, var(--color-forest) 26%, transparent);
+    position: absolute;
+    inset-inline: 0;
+    top: -16rem;
+    bottom: 0;
+    background-image:
+      linear-gradient(var(--gb-major) 1px, transparent 1px),
+      linear-gradient(90deg, var(--gb-major) 1px, transparent 1px),
+      linear-gradient(var(--gb-minor) 1px, transparent 1px),
+      linear-gradient(90deg, var(--gb-minor) 1px, transparent 1px);
+    background-size:
+      16rem 16rem,
+      16rem 16rem,
+      4rem 4rem,
+      4rem 4rem;
+    background-position: 50% 0;
+  }
+
+  /* The hero's pause control also stops the floor drift. */
+  section:has([data-motion-paused]) .gb-floor-grid {
+    animation-play-state: paused;
+  }
+
+  /* Fine technical grid used inside panels (e.g. the founder monogram). */
+  .gb-grid-paper {
+    background-image:
+      linear-gradient(var(--color-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-line) 1px, transparent 1px);
+    background-size: 1.5rem 1.5rem;
+    background-position: 50% 50%;
+  }
 }
 
 @layer base {

@@ -82,6 +82,8 @@ const paths = {
     </>
   ),
   moon: <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />,
+  pause: <path d="M6 4h4v16H6zM14 4h4v16h-4z" />,
+  play: <path d="M5 3l14 9-14 9V3z" />,
 } satisfies Record<string, ReactNode>;
 
 export type IconName = keyof typeof paths;

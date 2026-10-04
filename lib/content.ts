@@ -50,6 +50,12 @@ export const navigation: readonly NavItem[] = [
 
 /* ── Hero ────────────────────────────────────────────── */
 
+export type PortraitImage = {
+  /** Path under /public, e.g. "/images/founder/ade-akeju.jpg". Displayed at a 4:5 crop. */
+  src: string;
+  alt: string;
+};
+
 export const roles: readonly string[] = [
   "Software Developer",
   "Professional Coder",
@@ -69,6 +75,8 @@ export const hero = {
   primaryCta: { label: "Start a Project", href: "#contacts" },
   secondaryCta: { label: "View Recent Projects", href: "#portfolio" },
   socialLabel: "Find us",
+  /** null until the real founder photo is supplied; the monogram treatment is shown instead. */
+  portrait: null as PortraitImage | null,
   /** Services shown as floating indicators around the founder portrait. */
   featuredServiceIds: [
     "web-development",

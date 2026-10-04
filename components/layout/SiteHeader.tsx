@@ -105,7 +105,7 @@ export function SiteHeader() {
             type="button"
             className={cn(buttonStyles({ variant: "icon" }), "lg:hidden")}
             aria-expanded={menuOpen}
-            aria-controls="mobile-nav"
+            aria-controls={menuOpen ? "mobile-nav" : undefined}
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             onClick={() => setMenuOpen((open) => !open)}
           >

@@ -31,6 +31,28 @@ export const metadata: Metadata = {
   },
   description: siteMetadata.description,
   applicationName: company.name,
+  authors: [{ name: company.founder.name }],
+  creator: company.name,
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    url: "/",
+    siteName: company.name,
+    title: siteMetadata.title,
+    description: siteMetadata.description,
+    // Image: app/opengraph-image.tsx (file convention, attached automatically).
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteMetadata.title,
+    description: siteMetadata.description,
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export const viewport: Viewport = {

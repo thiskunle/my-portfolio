@@ -1,5 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Montserrat, Poppins } from "next/font/google";
+import { BackToTop } from "@/components/layout/BackToTop";
+import { SiteFooter } from "@/components/layout/SiteFooter";
+import { SiteHeader } from "@/components/layout/SiteHeader";
+import { SkipLink } from "@/components/layout/SkipLink";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { company, siteMetadata } from "@/lib/content";
 import { themeColors, themeInitScript } from "@/lib/theme";
@@ -51,8 +55,16 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <style>{`[data-reveal]{opacity:1!important;transform:none!important}`}</style>
         </noscript>
       </head>
-      <body className="min-h-dvh bg-paper font-body text-ink antialiased">
-        <MotionProvider>{children}</MotionProvider>
+      <body className="flex min-h-dvh flex-col bg-paper font-body text-ink antialiased">
+        {/* Target for the brand and back-to-top links. */}
+        <div id="top" />
+        <SkipLink />
+        <MotionProvider>
+          <SiteHeader />
+          <div className="flex-1">{children}</div>
+          <SiteFooter />
+          <BackToTop />
+        </MotionProvider>
       </body>
     </html>
   );

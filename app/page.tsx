@@ -1,5 +1,4 @@
 import { Reveal } from "@/components/motion/Reveal";
-import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Icon } from "@/components/ui/Icon";
@@ -9,21 +8,18 @@ import { company, hero, services } from "@/lib/content";
 /*
  * Temporary Phase 1 foundation preview.
  * Exercises tokens, typography and base components in both themes.
- * Replaced by the real page sections from Phase 2 onward.
+ * Replaced by the real page sections from Phase 3 onward.
  */
 export default function Home() {
   return (
     <main id="main" className="py-section">
       <Container className="flex flex-col gap-16">
-        <div className="flex items-start justify-between gap-6">
-          <SectionHeading
-            as="h1"
-            eyebrow="Foundation preview"
-            title={company.name}
-            description={company.tagline}
-          />
-          <ThemeToggle />
-        </div>
+        <SectionHeading
+          as="h1"
+          eyebrow="Foundation preview"
+          title={company.name}
+          description={company.tagline}
+        />
 
         <div className="flex flex-wrap items-center gap-4">
           <Button href={hero.primaryCta.href}>{hero.primaryCta.label}</Button>

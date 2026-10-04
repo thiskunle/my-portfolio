@@ -223,6 +223,14 @@
     animation-play-state: paused;
   }
 
+  /* Blueprint grid on the dark service-cube faces: eight cells per face edge. */
+  .gb-face-grid {
+    background-image:
+      linear-gradient(var(--color-face-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-face-line) 1px, transparent 1px);
+    background-size: calc(var(--cube) / 8) calc(var(--cube) / 8);
+  }
+
   /* Fine technical grid used inside panels (e.g. the founder monogram). */
   .gb-grid-paper {
     background-image:

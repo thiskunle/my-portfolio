@@ -1,4 +1,5 @@
 import { Hero } from "@/components/hero/Hero";
+import { ServicesSection } from "@/components/services/ServicesSection";
 import { Container } from "@/components/ui/Container";
 
 /*
@@ -6,7 +7,6 @@ import { Container } from "@/components/ui/Container";
  * sections are built. Each one is replaced in its own phase. Not a design.
  */
 const temporaryAnchors = [
-  { id: "features", label: "What We Do", note: "Services — Phase 4" },
   { id: "portfolio", label: "Recent Projects", note: "Projects — Phase 5" },
   { id: "pricing", label: "Pricing", note: "Pending verified pricing" },
   { id: "contacts", label: "Contact", note: "Contact — Phase 7" },
@@ -16,6 +16,7 @@ export default function Home() {
   return (
     <main id="main">
       <Hero />
+      <ServicesSection />
 
       {temporaryAnchors.map((anchor) => (
         <section

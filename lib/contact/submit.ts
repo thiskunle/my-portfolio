@@ -1,5 +1,3 @@
-"use server";
-
 import { contact } from "@/lib/content";
 import { deliverContactMessage } from "@/lib/contact/delivery";
 import {
@@ -11,10 +9,9 @@ import {
 } from "@/lib/contact/validation";
 
 /**
- * Contact form server action. Re-validates everything on the server, then hands off to the
- * delivery adapter. Spam submissions (honeypot filled) get a silent success.
- *
- * Before production: add rate limiting (per IP) alongside connecting a delivery provider.
+ * Contact form action (client-side; the site is a static export with no server). Re-validates,
+ * then hands off to the delivery adapter. Spam submissions (honeypot filled) get a silent success.
+ * Rate limiting and server-side validation belong to whichever endpoint is connected later.
  */
 export async function submitContact(
   _previous: ContactFormState,

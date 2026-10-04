@@ -44,6 +44,15 @@ export const siteMetadata = {
     "GramByte Technologies Inc. helps businesses grow through web development, cybersecurity, cloud solutions, automation, branding, and digital transformation.",
 } as const;
 
+/** Social share card, rendered at build time by app/og-image.png/route.tsx. */
+export const ogImage = {
+  url: "/og-image.png",
+  width: 1200,
+  height: 630,
+  type: "image/png",
+  alt: `${company.name} — ${company.tagline}`,
+} as const;
+
 /* ── Navigation ──────────────────────────────────────── */
 
 export type NavItem = {

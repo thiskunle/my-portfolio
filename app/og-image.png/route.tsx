@@ -1,6 +1,10 @@
 import { ImageResponse } from "next/og";
-import { company, services } from "@/lib/content";
+import { company, ogImage, services } from "@/lib/content";
 import { themeColors } from "@/lib/theme";
+
+// Rendered once at build time to out/og-image.png. A route (not the opengraph-image file convention)
+// so the exported file keeps a .png extension and GitHub Pages serves it as image/png.
+export const dynamic = "force-static";
 
 /*
  * Typographic share card, generated at build time. Text only: no logo or photo is drawn.
@@ -12,11 +16,7 @@ const ink2 = "#505c56";
 const forest = "#2e6a4f";
 const line = "rgba(24, 33, 29, 0.10)";
 
-export const alt = `${company.name} — ${company.tagline}`;
-export const size = { width: 1200, height: 630 };
-export const contentType = "image/png";
-
-export default function OpengraphImage() {
+export function GET() {
   return new ImageResponse(
     (
       <div
@@ -45,6 +45,6 @@ export default function OpengraphImage() {
         </div>
       </div>
     ),
-    size,
+    ogImage,
   );
 }

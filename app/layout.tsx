@@ -5,7 +5,7 @@ import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SkipLink } from "@/components/layout/SkipLink";
 import { MotionProvider } from "@/components/motion/MotionProvider";
-import { company, siteMetadata } from "@/lib/content";
+import { company, ogImage, siteMetadata } from "@/lib/content";
 import { themeColors, themeInitScript } from "@/lib/theme";
 import "./globals.css";
 
@@ -42,12 +42,13 @@ export const metadata: Metadata = {
     siteName: company.name,
     title: siteMetadata.title,
     description: siteMetadata.description,
-    // Image: app/opengraph-image.tsx (file convention, attached automatically).
+    images: [ogImage],
   },
   twitter: {
     card: "summary_large_image",
     title: siteMetadata.title,
     description: siteMetadata.description,
+    images: [ogImage],
   },
   robots: {
     index: true,

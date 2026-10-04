@@ -1,17 +1,27 @@
-import "server-only";
 import type { ContactValues } from "@/lib/contact/validation";
 
 export type DeliveryResult = { ok: true } | { ok: false; reason: "not-configured" | "failed" };
 
 /**
- * Sends a validated contact message. Server-only: never import this from client code.
- *
- * No provider is connected yet, so this reports "not-configured" and the form tells the visitor
- * to use email or phone instead. To go live, implement the provider call here (e.g. an email
- * API or SMTP relay) using credentials from server-side environment variables, and return
- * { ok: true } on success. The form and server action need no changes.
+ * Public URL of an external form/email endpoint that accepts a JSON POST of ContactValues.
+ * The site is a static export (GitHub Pages), so delivery happens from the browser: never put
+ * credentials here. Leave null until an endpoint is chosen; the form then tells visitors to use
+ * email or phone instead.
  */
+const CONTACT_ENDPOINT: string | null = null;
+
+/** Sends a validated contact message to CONTACT_ENDPOINT. Runs in the browser. */
 export async function deliverContactMessage(message: ContactValues): Promise<DeliveryResult> {
-  void message;
-  return { ok: false, reason: "not-configured" };
+  if (!CONTACT_ENDPOINT) return { ok: false, reason: "not-configured" };
+
+  try {
+    const response = await fetch(CONTACT_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify(message),
+    });
+    return response.ok ? { ok: true } : { ok: false, reason: "failed" };
+  } catch {
+    return { ok: false, reason: "failed" };
+  }
 }

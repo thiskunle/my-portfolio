@@ -1,10 +1,10 @@
 "use client";
 
 import { useActionState, useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
-import { submitContact } from "@/app/actions/contact";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import { CONTACT_FIELD_IDS, subscribeContactPrefill } from "@/lib/contact/prefill";
+import { submitContact } from "@/lib/contact/submit";
 import {
   contactFields,
   contactLimits,
@@ -69,8 +69,8 @@ function Field({ field, label, required, error, className, children }: FieldProp
 }
 
 /**
- * Contact form. Validates in the browser for instant, accessible feedback, then submits to the
- * submitContact server action, which re-validates and hands off to the delivery adapter.
+ * Contact form. Validates in the browser for instant, accessible feedback, then runs the
+ * submitContact action, which re-validates and hands off to the delivery adapter.
  * Subject can be pre-filled from project and pricing CTAs.
  */
 export function ContactForm() {
@@ -79,7 +79,7 @@ export function ContactForm() {
   const [subject, setSubject] = useState("");
   const statusRef = useRef<HTMLDivElement>(null);
 
-  // Adopt each new server result: its errors replace ours, and a success clears the subject.
+  // Adopt each new action result: its errors replace ours, and a success clears the subject.
   const [handledState, setHandledState] = useState(state);
   if (state !== handledState) {
     setHandledState(state);

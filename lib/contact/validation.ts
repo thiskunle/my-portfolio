@@ -1,4 +1,4 @@
-/** Contact form shape and validation, shared by the browser (instant feedback) and the server action (authoritative). */
+/** Contact form shape and validation, shared by the field-level checks (instant feedback) and the submit action. */
 
 export const contactFields = ["name", "phone", "email", "subject", "message"] as const;
 export type ContactField = (typeof contactFields)[number];

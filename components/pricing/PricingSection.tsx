@@ -7,17 +7,24 @@ import { pricingSection, pricingTiers } from "@/lib/content";
 import { cn } from "@/lib/cn";
 
 /**
- * Pricing (#pricing). Three tiers in one ruled panel rather than floating cards; the recommended
- * tier is marked with a forest rule, a raised surface and a text badge (not colour alone).
+ * Pricing (#pricing). Three tiers in one ruled panel rather than floating cards; no public prices,
+ * every tier asks for a quote. The recommended tier is marked with a forest rule, a raised surface
+ * and a text badge (not colour alone).
  * Server-rendered; only the CTAs are client islands (they pre-fill the contact subject).
  */
 export function PricingSection() {
   return (
     <section id="pricing" aria-labelledby="pricing-title" className="border-t border-line py-section">
       <Container>
-        <SectionHeading id="pricing-title" title={pricingSection.title} description={pricingSection.intro} />
+        <SectionHeading
+          id="pricing-title"
+          title={pricingSection.title}
+          description={pricingSection.intro}
+          align="center"
+          className="[&>p]:mt-5 [&>p]:max-w-[44ch] [&>p]:text-balance sm:[&>p]:mt-6"
+        />
 
-        <ul className="mt-14 grid overflow-hidden rounded-panel border border-line lg:grid-cols-3">
+        <ul className="mt-12 grid sm:mt-16 overflow-hidden rounded-panel border border-line lg:grid-cols-3">
           {pricingTiers.map((tier) => {
             const recommended = Boolean(tier.badge);
             return (
@@ -26,6 +33,8 @@ export function PricingSection() {
                 aria-labelledby={`tier-${tier.id}-title`}
                 className={cn(
                   "relative flex flex-col gap-6 border-line p-7 sm:p-10",
+                  // Desktop: share row tracks across tiers so titles, copy, features and CTAs line up.
+                  "lg:row-span-5 lg:grid lg:grid-rows-subgrid",
                   "not-first:border-t lg:not-first:border-t-0 lg:not-first:border-l",
                   recommended && "bg-card",
                 )}
@@ -44,11 +53,6 @@ export function PricingSection() {
                 <h3 id={`tier-${tier.id}-title`} className="text-h3">
                   {tier.title}
                 </h3>
-
-                <p>
-                  <span className="block text-sm text-ink-2">{tier.pricePrefix}</span>
-                  <span className="mt-1.5 block font-display text-price font-bold">{tier.price}</span>
-                </p>
 
                 <p className="text-ink-2">{tier.description}</p>
 
@@ -70,7 +74,7 @@ export function PricingSection() {
                       className: "w-full",
                     })}
                   >
-                    {tier.cta}
+                    {pricingSection.cta}
                     <span className="sr-only">: {tier.title}</span>
                   </ContactLink>
                 </div>

@@ -292,18 +292,17 @@ export type PricingTier = {
   id: string;
   name: string;
   title: string;
-  pricePrefix: string;
-  /** Exactly as shown on the reference site. Currency is not specified there. */
-  price: string;
   description: string;
   features: readonly string[];
-  cta: string;
   badge?: string;
 };
 
 export const pricingSection = {
-  title: "Pricing",
-  intro: "Three ways to work together, from a single page to fully custom systems.",
+  title: "Ways to Work Together",
+  intro:
+    "Flexible solutions for every stage of your business, from a focused web presence to custom systems and automation.",
+  /** Shared by every tier; the contact subject below still identifies the package. */
+  cta: "Request a Quote",
   /** Contact subject used by tier CTAs (original site wording). */
   contactSubject: (tier: Pick<PricingTier, "name" | "title">) => `${tier.name} plan: ${tier.title}`,
 } as const;
@@ -313,8 +312,6 @@ export const pricingTiers: readonly PricingTier[] = [
     id: "starter",
     name: "Starter",
     title: "Basic Website Package",
-    pricePrefix: "Starting at",
-    price: "$499",
     description:
       "A clean one-page website for startups, personal brands, and small businesses that need a professional online presence.",
     features: [
@@ -324,14 +321,11 @@ export const pricingTiers: readonly PricingTier[] = [
       "Content upload",
       "2 plugins or extensions",
     ],
-    cta: "Order now",
   },
   {
     id: "business",
     name: "Business",
     title: "Business Website + Email Setup",
-    pricePrefix: "Starting at",
-    price: "$1,200",
     description:
       "A complete business website package with branded email setup, contact form, responsive pages, SEO basics, and Google Workspace support.",
     features: [
@@ -341,15 +335,12 @@ export const pricingTiers: readonly PricingTier[] = [
       "SEO basics",
       "Google Workspace support",
     ],
-    cta: "Order now",
     badge: "Recommended",
   },
   {
     id: "premium",
     name: "Premium",
     title: "Custom Development & Automation",
-    pricePrefix: "Tailored to you",
-    price: "Custom quote",
     description:
       "Custom web development, business automation, cloud setup, cybersecurity support, and workflow tools tailored to your business needs.",
     features: [
@@ -359,7 +350,6 @@ export const pricingTiers: readonly PricingTier[] = [
       "Cybersecurity support",
       "Workflow tools for your team",
     ],
-    cta: "Request a quote",
   },
 ];
 

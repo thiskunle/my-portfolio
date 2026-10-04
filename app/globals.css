@@ -26,6 +26,8 @@
   --gb-moss: #d5e2d4;
   --gb-line: rgb(24 33 29 / 0.12);
   --gb-focus: var(--gb-forest-2);
+  /* Form error state only. Warm brick that sits with the palette; ≥5.5:1 on paper and card. */
+  --gb-danger: #a83a2b;
 
   /* Dark "machined" surfaces: service cube faces, technical panels */
   --gb-face: #18211d;
@@ -53,6 +55,7 @@
   --gb-on-forest: #111613;
   --gb-moss: #1f3329;
   --gb-line: rgb(233 238 232 / 0.12);
+  --gb-danger: #f0907f;
   --gb-face: #22302a;
   --gb-shadow-lift: 0 40px 80px -40px rgb(0 0 0 / 0.8);
   color-scheme: dark;
@@ -71,6 +74,7 @@
     --gb-on-forest: #111613;
     --gb-moss: #1f3329;
     --gb-line: rgb(233 238 232 / 0.12);
+    --gb-danger: #f0907f;
     --gb-face: #22302a;
     --gb-shadow-lift: 0 40px 80px -40px rgb(0 0 0 / 0.8);
     color-scheme: dark;
@@ -103,6 +107,7 @@
   --color-moss: var(--gb-moss);
   --color-line: var(--gb-line);
   --color-focus: var(--gb-focus);
+  --color-danger: var(--gb-danger);
   --color-face: var(--gb-face);
   --color-face-ink: var(--gb-face-ink);
   --color-face-ink-2: var(--gb-face-ink-2);
@@ -137,6 +142,8 @@
   --text-control--line-height: 1;
   --text-role: clamp(1.125rem, 0.5rem + 3vw, 2.625rem);
   --text-role--line-height: 1.2;
+  --text-price: clamp(2rem, 1.7rem + 0.9vw, 2.5rem);
+  --text-price--line-height: 1;
   --text-eyebrow: 0.875rem;
   --text-eyebrow--line-height: 1.4;
   --text-eyebrow--letter-spacing: 0.2em;
@@ -158,6 +165,14 @@
   --animate-caret: caret-blink 0.9s steps(1) infinite;
   --animate-floor-drift: floor-drift 24s linear infinite;
   --animate-rise: rise 0.6s var(--ease-out-expo) both;
+  --animate-dialog-in: dialog-in 0.45s var(--ease-out-expo);
+
+  @keyframes dialog-in {
+    from {
+      opacity: 0;
+      transform: perspective(1000px) rotateX(8deg) translateY(24px) scale(0.97);
+    }
+  }
 
   @keyframes caret-blink {
     50% {
@@ -276,6 +291,11 @@
   :focus-visible {
     outline: 2px solid var(--color-focus);
     outline-offset: 3px;
+  }
+
+  /* Lock page scroll behind an open modal dialog. */
+  html:has(dialog[open]:modal) {
+    overflow: hidden;
   }
 
   ::selection {

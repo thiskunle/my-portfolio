@@ -6,7 +6,8 @@
  *   - .claude/skills/frontend-design/SKILL.md (canonical service descriptions, CTA labels)
  *
  * Do not add claims, clients, metrics or outcomes here without confirmation.
- * Pricing is intentionally absent until it has been verified.
+ * Pricing is copied verbatim from the reference site; no currency code is stated there,
+ * so none is added here.
  */
 
 import type { IconName } from "@/components/ui/Icon";
@@ -253,7 +254,86 @@ export const projects: readonly Project[] = [
 export const projectsSection = {
   title: "Recent projects",
   projectCta: "Start a similar project",
+  /** Contact subject used by "Start a similar project" (original site wording). */
+  contactSubject: (project: Pick<Project, "title">) => `Project like: ${project.title}`,
 } as const;
+
+/* ── Pricing ─────────────────────────────────────────── */
+
+export type PricingTier = {
+  id: string;
+  name: string;
+  title: string;
+  pricePrefix: string;
+  /** Exactly as shown on the reference site. Currency is not specified there. */
+  price: string;
+  description: string;
+  features: readonly string[];
+  cta: string;
+  badge?: string;
+};
+
+export const pricingSection = {
+  title: "Pricing",
+  intro: "Three ways to work together, from a single page to fully custom systems.",
+  /** Contact subject used by tier CTAs (original site wording). */
+  contactSubject: (tier: Pick<PricingTier, "name" | "title">) => `${tier.name} plan: ${tier.title}`,
+} as const;
+
+export const pricingTiers: readonly PricingTier[] = [
+  {
+    id: "starter",
+    name: "Starter",
+    title: "Basic Website Package",
+    pricePrefix: "Starting at",
+    price: "$499",
+    description:
+      "A clean one-page website for startups, personal brands, and small businesses that need a professional online presence.",
+    features: [
+      "One page built with Elementor",
+      "Design customization",
+      "Responsive design",
+      "Content upload",
+      "2 plugins or extensions",
+    ],
+    cta: "Order now",
+  },
+  {
+    id: "business",
+    name: "Business",
+    title: "Business Website + Email Setup",
+    pricePrefix: "Starting at",
+    price: "$1,200",
+    description:
+      "A complete business website package with branded email setup, contact form, responsive pages, SEO basics, and Google Workspace support.",
+    features: [
+      "Responsive multi-page website",
+      "Branded email setup",
+      "Contact form",
+      "SEO basics",
+      "Google Workspace support",
+    ],
+    cta: "Order now",
+    badge: "Recommended",
+  },
+  {
+    id: "premium",
+    name: "Premium",
+    title: "Custom Development & Automation",
+    pricePrefix: "Tailored to you",
+    price: "Custom quote",
+    description:
+      "Custom web development, business automation, cloud setup, cybersecurity support, and workflow tools tailored to your business needs.",
+    features: [
+      "Custom web development",
+      "Business automation",
+      "Cloud setup",
+      "Cybersecurity support",
+      "Workflow tools for your team",
+    ],
+    cta: "Request a quote",
+  },
+];
 
 /* ── Contact ─────────────────────────────────────────── */
 

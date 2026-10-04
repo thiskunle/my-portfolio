@@ -1,26 +1,197 @@
 @import "tailwindcss";
 
+/*
+ * GramByte design tokens
+ *
+ * 1. Raw brand values live in --gb-* custom properties and are swapped per theme.
+ * 2. @theme inline maps them to Tailwind utilities (bg-paper, text-ink, ring-line…),
+ *    so components never reference hex values directly.
+ *
+ * Theme resolution:
+ *   - No data-theme attribute  → follow the system (prefers-color-scheme).
+ *   - data-theme="light|dark"  → explicit choice from the theme toggle.
+ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --gb-paper: #f2f0ea;
+  --gb-paper-2: #e8e5dc;
+  --gb-card: #fbfaf6;
+  --gb-ink: #18211d;
+  --gb-ink-2: #505c56;
+  --gb-forest: #2e6a4f;
+  --gb-forest-2: #3f8a67;
+  --gb-forest-deep: #1d4433;
+  --gb-forest-hover: var(--gb-forest-deep);
+  --gb-on-forest: #ffffff;
+  --gb-moss: #d5e2d4;
+  --gb-line: rgb(24 33 29 / 0.12);
+  --gb-focus: var(--gb-forest-2);
+
+  /* Dark "machined" surfaces: service cube faces, technical panels */
+  --gb-face: #18211d;
+  --gb-face-ink: #eef2ec;
+  --gb-face-ink-2: rgb(238 242 236 / 0.7);
+  --gb-face-line: rgb(238 242 236 / 0.08);
+  --gb-face-accent: #8fd0ae;
+
+  --gb-scrim: rgb(17 22 19 / 0.55);
+  --gb-shadow-lift: 0 40px 80px -40px rgb(24 33 29 / 0.45);
+
+  --header-h: 72px;
+  color-scheme: light;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+:root[data-theme="dark"] {
+  --gb-paper: #111613;
+  --gb-paper-2: #18201c;
+  --gb-card: #1a221e;
+  --gb-ink: #e9eee8;
+  --gb-ink-2: #a2afa8;
+  --gb-forest: #5fb38a;
+  --gb-forest-2: #7fcba3;
+  --gb-forest-hover: var(--gb-forest-2);
+  --gb-on-forest: #111613;
+  --gb-moss: #1f3329;
+  --gb-line: rgb(233 238 232 / 0.12);
+  --gb-face: #22302a;
+  --gb-shadow-lift: 0 40px 80px -40px rgb(0 0 0 / 0.8);
+  color-scheme: dark;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  :root:not([data-theme="light"]) {
+    --gb-paper: #111613;
+    --gb-paper-2: #18201c;
+    --gb-card: #1a221e;
+    --gb-ink: #e9eee8;
+    --gb-ink-2: #a2afa8;
+    --gb-forest: #5fb38a;
+    --gb-forest-2: #7fcba3;
+    --gb-forest-hover: var(--gb-forest-2);
+    --gb-on-forest: #111613;
+    --gb-moss: #1f3329;
+    --gb-line: rgb(233 238 232 / 0.12);
+    --gb-face: #22302a;
+    --gb-shadow-lift: 0 40px 80px -40px rgb(0 0 0 / 0.8);
+    color-scheme: dark;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* `dark:` matches an explicit dark choice, or the system preference when no choice is stored. */
+@custom-variant dark {
+  &:where([data-theme="dark"], [data-theme="dark"] *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    &:where(:root:not([data-theme="light"]), :root:not([data-theme="light"]) *) {
+      @slot;
+    }
+  }
+}
+
+@theme inline {
+  --color-paper: var(--gb-paper);
+  --color-paper-2: var(--gb-paper-2);
+  --color-card: var(--gb-card);
+  --color-ink: var(--gb-ink);
+  --color-ink-2: var(--gb-ink-2);
+  --color-forest: var(--gb-forest);
+  --color-forest-2: var(--gb-forest-2);
+  --color-forest-deep: var(--gb-forest-deep);
+  --color-forest-hover: var(--gb-forest-hover);
+  --color-on-forest: var(--gb-on-forest);
+  --color-moss: var(--gb-moss);
+  --color-line: var(--gb-line);
+  --color-focus: var(--gb-focus);
+  --color-face: var(--gb-face);
+  --color-face-ink: var(--gb-face-ink);
+  --color-face-ink-2: var(--gb-face-ink-2);
+  --color-face-line: var(--gb-face-line);
+  --color-face-accent: var(--gb-face-accent);
+  --color-scrim: var(--gb-scrim);
+
+  --shadow-lift: var(--gb-shadow-lift);
+
+  --font-display: var(--font-montserrat), "Segoe UI", system-ui, sans-serif;
+  --font-body: var(--font-poppins), "Segoe UI", system-ui, sans-serif;
+}
+
+@theme {
+  /* Type scale: 375px minimum → 1440px maximum */
+  --text-display: clamp(2.75rem, 1.5rem + 4.5vw, 5.5rem);
+  --text-display--line-height: 1.04;
+  --text-display--letter-spacing: -0.02em;
+  --text-h1: clamp(2.5rem, 1.4rem + 3.8vw, 4.75rem);
+  --text-h1--line-height: 1.08;
+  --text-h1--letter-spacing: -0.015em;
+  --text-h2: clamp(2rem, 1.25rem + 2.6vw, 3.75rem);
+  --text-h2--line-height: 1.12;
+  --text-h2--letter-spacing: -0.01em;
+  --text-h3: clamp(1.375rem, 1.1rem + 0.9vw, 2rem);
+  --text-h3--line-height: 1.2;
+  --text-lead: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+  --text-lead--line-height: 1.65;
+  --text-body: 1.0625rem;
+  --text-body--line-height: 1.6;
+  --text-control: 0.9375rem;
+  --text-control--line-height: 1;
+  --text-eyebrow: 0.875rem;
+  --text-eyebrow--line-height: 1.4;
+  --text-eyebrow--letter-spacing: 0.2em;
+
+  /* Layout */
+  --container-site: 82rem;
+  --spacing-section: clamp(5rem, 3.5rem + 5vw, 8rem);
+  --spacing-header: var(--header-h);
+
+  /* Shape */
+  --radius-field: 0.75rem;
+  --radius-card: 1.5rem;
+  --radius-panel: 1.75rem;
+
+  /* Motion (mirrored in lib/motion.ts for Motion for React) */
+  --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    scroll-padding-top: var(--header-h);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 1.12;
+    text-wrap: balance;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background-color: var(--color-moss);
+    color: var(--color-ink);
+  }
 }

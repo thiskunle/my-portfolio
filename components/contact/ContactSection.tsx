@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { CONTACT_SECTION_ID } from "@/lib/contact/prefill";
 import { Container } from "@/components/ui/Container";
@@ -27,6 +28,15 @@ export function ContactSection() {
           <div className="relative mt-10 overflow-hidden rounded-panel bg-face p-7 text-face-ink sm:p-10">
             <div aria-hidden className="gb-face-grid absolute inset-0 [--cube:12rem]" />
             <div className="relative">
+              <div className="relative mb-8 aspect-[16/10] overflow-hidden rounded-card ring-1 ring-face-line ring-inset">
+                <Image
+                  src={contact.portrait.src}
+                  alt={contact.portrait.alt}
+                  fill
+                  sizes="(min-width: 1024px) 28rem, (min-width: 640px) 36rem, 90vw"
+                  className="object-cover object-[50%_22%]"
+                />
+              </div>
               <h3 className="text-h3 text-face-ink">{company.founder.name}</h3>
               <p className="mt-1 font-medium text-face-accent">{company.founder.role}</p>
               <p className="mt-6 text-face-ink-2">{contact.intro}</p>

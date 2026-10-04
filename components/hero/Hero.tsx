@@ -1,4 +1,5 @@
 import { FounderVisual } from "@/components/hero/FounderVisual";
+import { HeroVideo } from "@/components/hero/HeroVideo";
 import { PerspectiveFloor } from "@/components/hero/PerspectiveFloor";
 import { RoleRotator } from "@/components/hero/RoleRotator";
 import { Button } from "@/components/ui/Button";
@@ -8,7 +9,8 @@ import { hero, socialLinks } from "@/lib/content";
 
 /**
  * Founder-led hero. Server-rendered; the only client islands are the role rotator
- * and the portrait tilt stage.
+ * and the portrait tilt stage. The decorative video sits behind the copy column only;
+ * the founder visual on the right stays independent.
  */
 export function Hero() {
   const hasSocial = socialLinks.some((link) => link.href !== null);
@@ -22,7 +24,9 @@ export function Hero() {
       <PerspectiveFloor />
 
       <Container className="grid items-center gap-14 py-12 sm:py-16 lg:grid-cols-12 lg:gap-10 lg:py-20">
-        <div className="lg:col-span-7">
+        {/* Copy column: relative (not isolated) so the video layers blend with the hero behind them. */}
+        <div className="relative lg:col-span-7">
+          <HeroVideo />
           <p className="mb-5 font-display text-eyebrow font-medium text-forest uppercase">
             {hero.eyebrow}
           </p>

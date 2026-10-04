@@ -24,7 +24,8 @@ type RoleRotatorProps = {
  * - Every role is laid out invisibly in the same cell, so the line reserves the width and
  *   height of the longest role and nothing around it shifts.
  * - Runs only while on screen and the tab is visible. The pause control satisfies WCAG 2.2.2
- *   and also pauses the hero floor (via :has([data-motion-paused]) in globals.css).
+ *   and also pauses the hero floor (via :has([data-motion-paused]) in globals.css) and the
+ *   decorative hero video.
  * - Reduced motion: no rotation; the roles are shown as a static list (CSS motion-reduce).
  */
 export function RoleRotator({ prefix, roles }: RoleRotatorProps) {
@@ -116,7 +117,18 @@ export function RoleRotator({ prefix, roles }: RoleRotatorProps) {
 
       <button
         type="button"
-        onClick={() => setPaused((value) => !value)}
+        onClick={() => {
+          const next = !paused;
+          setPaused(next);
+          // The same control pauses the hero's decorative video (the floor pauses via CSS :has()).
+          ref.current
+            ?.closest("section")
+            ?.querySelectorAll("video")
+            .forEach((video) => {
+              if (next) video.pause();
+              else video.play().catch(() => {});
+            });
+        }}
         data-motion-paused={paused ? "" : undefined}
         aria-label={paused ? "Play hero animation" : "Pause hero animation"}
         className="grid size-9 shrink-0 place-items-center rounded-full text-sm text-ink-2 ring-1 ring-line ring-inset transition-colors duration-200 hover:text-ink hover:ring-ink motion-reduce:hidden"

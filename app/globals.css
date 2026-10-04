@@ -37,6 +37,8 @@
   --gb-face-accent: #8fd0ae;
 
   --gb-scrim: rgb(17 22 19 / 0.55);
+  /* Background of the genuine GramByte logo artwork; used to plate the logo images seamlessly. */
+  --gb-logo-plate: #30363f;
   --gb-shadow-lift: 0 40px 80px -40px rgb(24 33 29 / 0.45);
 
   --header-h: 72px;
@@ -114,6 +116,7 @@
   --color-face-line: var(--gb-face-line);
   --color-face-accent: var(--gb-face-accent);
   --color-scrim: var(--gb-scrim);
+  --color-logo-plate: var(--gb-logo-plate);
 
   --shadow-lift: var(--gb-shadow-lift);
 
@@ -166,6 +169,13 @@
   --animate-floor-drift: floor-drift 24s linear infinite;
   --animate-rise: rise 0.6s var(--ease-out-expo) both;
   --animate-dialog-in: dialog-in 0.45s var(--ease-out-expo);
+  --animate-fade-in: fade-in 1.2s ease-out 0.3s both;
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+  }
 
   @keyframes dialog-in {
     from {
@@ -231,6 +241,13 @@
       4rem 4rem,
       4rem 4rem;
     background-position: 50% 0;
+  }
+
+  /* Decorative hero video: never show the browser's tap-to-play overlay (e.g. iOS Low Power Mode). */
+  .gb-hero-video::-webkit-media-controls,
+  .gb-hero-video::-webkit-media-controls-start-playback-button {
+    display: none !important;
+    -webkit-appearance: none;
   }
 
   /* The hero's pause control also stops the floor drift. */

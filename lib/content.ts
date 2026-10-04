@@ -26,6 +26,18 @@ export const company = {
   },
 } as const;
 
+/**
+ * Genuine brand artwork from the previous GramByte site. The original files contain no
+ * standalone logo, so these are lossless pixel crops of the logo on the old vertical brand card
+ * (assets/images/logo/logo-vertical.png), on its original #30363f background.
+ */
+export const brandAssets = {
+  /** Hand-and-sprout mark only. 232 × 191. */
+  mark: { src: "/images/brand/grambyte-mark.png", width: 232, height: 191 },
+  /** Mark + "GramByte Technologies Inc." wordmark. 692 × 309. */
+  logo: { src: "/images/brand/grambyte-logo.png", width: 692, height: 309 },
+} as const;
+
 export const siteMetadata = {
   title: `${company.name} — ${company.founder.name}`,
   description:
@@ -76,8 +88,11 @@ export const hero = {
   primaryCta: { label: "Start a Project", href: "#contacts" },
   secondaryCta: { label: "View Recent Projects", href: "#portfolio" },
   socialLabel: "Find us",
-  /** null until the real founder photo is supplied; the monogram treatment is shown instead. */
-  portrait: null as PortraitImage | null,
+  /** Genuine founder photo (previous site's hero image). Set to null to fall back to the monogram. */
+  portrait: {
+    src: "/images/founder/ade-akeju-hero.png",
+    alt: "Ade Akeju, founder of GramByte Technologies Inc.",
+  } as PortraitImage | null,
   /** Services shown as floating indicators around the founder portrait. */
   featuredServiceIds: [
     "web-development",
@@ -185,6 +200,11 @@ export type Project = {
   problem?: string;
   outcome?: string;
   technologies?: readonly string[];
+  /**
+   * Genuine project artwork from the previous site, in its original order. alt is empty because
+   * the project title is always shown beside it, and descriptions must not infer client names
+   * or technologies from what appears in the artwork.
+   */
   image?: ProjectImage;
 };
 
@@ -198,6 +218,7 @@ export const projects: readonly Project[] = [
       "A responsive business website built to improve online presence, lead generation, and customer trust.",
     scope:
       "Includes branded email setup, contact form, mobile design, SEO structure, and secure website configuration.",
+    image: { src: "/images/projects/business-website-email.png", alt: "", width: 800, height: 600 },
   },
   {
     id: "custom-business-platform",
@@ -208,6 +229,7 @@ export const projects: readonly Project[] = [
       "A tailored business platform built to streamline internal operations, client management, and team collaboration.",
     scope:
       "Includes custom dashboards, user role management, data reporting tools, API integrations, and scalable cloud hosting.",
+    image: { src: "/images/projects/custom-business-platform.jpg", alt: "", width: 800, height: 600 },
   },
   {
     id: "cybersecurity-audit",
@@ -218,6 +240,7 @@ export const projects: readonly Project[] = [
       "A full cybersecurity assessment performed for a mid-sized business to identify vulnerabilities and strengthen their digital defenses.",
     scope:
       "Includes network vulnerability scan, firewall review, staff phishing awareness training, security policy setup, and incident response plan.",
+    image: { src: "/images/projects/cybersecurity-audit.jpg", alt: "", width: 800, height: 600 },
   },
   {
     id: "workflow-automation",
@@ -228,6 +251,7 @@ export const projects: readonly Project[] = [
       "An end-to-end automation solution built for a service business to eliminate manual tasks and reduce operational overhead.",
     scope:
       "Includes CRM integration, automated email sequences, invoice generation, appointment booking, and real-time performance tracking.",
+    image: { src: "/images/projects/workflow-automation.jpg", alt: "", width: 800, height: 600 },
   },
   {
     id: "google-workspace-deployment",
@@ -238,6 +262,7 @@ export const projects: readonly Project[] = [
       "A complete Google Workspace setup and migration for a growing business transitioning from outdated email and file systems.",
     scope:
       "Includes domain verification, Gmail business setup, Google Drive migration, team calendar configuration, and admin console management.",
+    image: { src: "/images/projects/google-workspace-deployment.jpg", alt: "", width: 800, height: 600 },
   },
   {
     id: "digital-branding",
@@ -248,6 +273,9 @@ export const projects: readonly Project[] = [
       "A complete digital branding package created for a new business launching across web and social media channels.",
     scope:
       "Includes logo design, brand color guide, email signature, business card, social media kit, and branded document templates.",
+    // Lossless crop of the product photo inside the old site's popup screenshot (portfolio-06.png),
+    // so no old interface is shown inside the new project dialog.
+    image: { src: "/images/projects/digital-branding.png", alt: "", width: 326, height: 359 },
   },
 ];
 
@@ -346,6 +374,8 @@ export const contact = {
   },
   intro:
     "Contact GramByte Technologies Inc. for websites, cybersecurity support and awareness training, cloud setup, branding, and business technology services.",
+  /** Genuine founder portrait (previous site's contact image). Decorative beside the founder's name. */
+  portrait: { src: "/images/contact/ade-akeju-portrait.jpg", alt: "" } as PortraitImage,
 } as const;
 
 /* ── Social ──────────────────────────────────────────── */

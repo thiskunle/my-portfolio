@@ -50,6 +50,7 @@ export function FounderVisual() {
                 alt={portrait.alt}
                 fill
                 sizes="(min-width: 1024px) 25rem, (min-width: 768px) 24rem, 17rem"
+                loading="eager"
                 fetchPriority="high"
                 className="object-cover object-top"
               />

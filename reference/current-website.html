@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Grambyte Technologies Inc. — Ade Akeju</title>
+<meta name="description" content="Grambyte Technologies Inc. helps businesses grow through web development, cybersecurity, cloud solutions, automation, branding, and digital transformation.">
+<link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #F2F0EA;
+  --paper-2: #E8E5DC;
+  --card: #FBFAF6;
+  --ink: #18211D;
+  --ink-2: #505C56;
+  --forest: #2E6A4F;
+  --forest-2: #3F8A67;
+  --moss: #D5E2D4;
+  --line: rgba(24, 33, 29, .12);
+  --face: #18211D;
+  --face-ink: #EEF2EC;
+  --face-line: rgba(238, 242, 236, .08);
+  --shadow: 0 40px 80px -40px rgba(24, 33, 29, .45);
+  --display: 'Montserrat', 'Segoe UI', system-ui, sans-serif;
+  --body: 'Poppins', 'Segoe UI', system-ui, sans-serif;
+  --header: 72px;
+  color-scheme: light;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #111613; --paper-2: #18201C; --card: #1A221E; --ink: #E9EEE8; --ink-2: #A2AFA8;
+    --forest: #5FB38A; --forest-2: #7FCBA3; --moss: #1F3329; --line: rgba(233, 238, 232, .12);
+    --face: #22302A; --face-ink: #EEF2EC; --shadow: 0 40px 80px -40px rgba(0, 0, 0, .8); color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #111613; --paper-2: #18201C; --card: #1A221E; --ink: #E9EEE8; --ink-2: #A2AFA8;
+  --forest: #5FB38A; --forest-2: #7FCBA3; --moss: #1F3329; --line: rgba(233, 238, 232, .12);
+  --face: #22302A; --face-ink: #EEF2EC; --shadow: 0 40px 80px -40px rgba(0, 0, 0, .8); color-scheme: dark;
+}
+*, *::before, *::after { box-sizing: inherit; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header) + env(safe-area-inset-top, 0px)); }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 400 17px/1.6 var(--body); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+h1, h2, h3, h4 { font-family: var(--display); font-weight: 700; line-height: 1.12; margin: 0; letter-spacing: 0; }
+p { margin: 0; }
+.wrap { width: min(1200px, 100% - 48px); margin-inline: auto; }
+.icon { width: 1em; height: 1em; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+:focus-visible { outline: 2px solid var(--forest-2); outline-offset: 3px; border-radius: 6px; }
+.btn { display: inline-flex; align-items: center; gap: .6em; padding: .85em 1.4em; border-radius: 999px; border: 0; font: 600 15px/1 var(--body); text-decoration: none; cursor: pointer; transition: transform .2s, background .2s, color .2s; }
+.btn-primary { background: var(--forest); color: #fff; }
+.btn-primary:hover { background: var(--forest-2); transform: translateY(-2px); }
+.btn-ghost { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--line); }
+.btn-ghost:hover { box-shadow: inset 0 0 0 1.5px var(--ink); }
+.section-head { margin-bottom: 48px; }
+.section-head h2 { font-size: clamp(36px, 5vw, 60px); }
+.section-head p { color: var(--ink-2); margin-top: 14px; max-width: 56ch; }
+
+/* ── Header ── */
+header.site { position: fixed; inset: 0 0 auto; z-index: 50; padding-top: env(safe-area-inset-top, 0px); background: color-mix(in srgb, var(--paper) 82%, transparent); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+header.site .wrap { height: var(--header); display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font: 700 20px var(--display); }
+.brand img { height: 38px; width: auto; }
+.brand .mark { width: 30px; height: 30px; transform: rotateX(-25deg) rotateY(35deg); transform-style: preserve-3d; position: relative; }
+.brand .mark i { position: absolute; inset: 0; background: var(--forest); border: 1px solid color-mix(in srgb, var(--paper) 40%, transparent); }
+.brand .mark i:nth-child(1) { transform: translateZ(15px); }
+.brand .mark i:nth-child(2) { transform: rotateY(90deg) translateZ(15px); background: var(--forest-2); }
+.brand .mark i:nth-child(3) { transform: rotateX(90deg) translateZ(15px); background: var(--moss); }
+nav.primary ul { list-style: none; display: flex; gap: 4px; margin: 0; padding: 0; }
+nav.primary a { display: block; padding: 8px 14px; border-radius: 999px; text-decoration: none; font-size: 15px; color: var(--ink-2); transition: color .2s, background .2s; }
+nav.primary a:hover, nav.primary a.active { color: var(--ink); background: var(--paper-2); }
+.menu-btn { display: none; background: none; border: 0; color: var(--ink); font-size: 26px; padding: 8px; cursor: pointer; }
+@media (max-width: 900px) {
+  .menu-btn { display: block; }
+  nav.primary { position: fixed; inset: calc(var(--header) + env(safe-area-inset-top, 0px)) 0 auto; background: var(--paper); border-bottom: 1px solid var(--line); padding: 12px 24px 24px; transform: translateY(-8px); opacity: 0; pointer-events: none; transition: .25s; }
+  nav.primary.open { transform: none; opacity: 1; pointer-events: auto; }
+  nav.primary ul { flex-direction: column; }
+  nav.primary a { font-size: 20px; padding: 12px 0; background: none !important; }
+}
+
+/* ── Hero ── */
+.hero { position: relative; min-height: 100vh; padding: calc(var(--header) + 48px) 0 80px; display: flex; align-items: center; overflow: hidden; }
+.floor { position: absolute; left: -50%; right: -50%; bottom: -10%; height: 70%; pointer-events: none;
+  background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 64px 64px; transform: perspective(700px) rotateX(64deg); transform-origin: 50% 100%;
+  -webkit-mask-image: linear-gradient(to top, #000 10%, transparent 85%); mask-image: linear-gradient(to top, #000 10%, transparent 85%);
+  animation: floor 6s linear infinite; }
+@keyframes floor { to { background-position: 0 64px; } }
+.hero .wrap { position: relative; display: grid; grid-template-columns: 1.15fr .85fr; gap: 56px; align-items: center; }
+.eyebrow { color: var(--forest); font: 500 14px/1.4 var(--display); text-transform: uppercase; letter-spacing: .2em; margin-bottom: 20px; display: block; }
+.hero h1 { font-size: clamp(40px, 5.6vw, 72px); }
+.hero h1 .name { color: var(--forest); }
+.role-line { display: flex; align-items: baseline; gap: .3em; font: 700 clamp(21px, 3.4vw, 42px)/1.2 var(--display); margin-top: 12px; letter-spacing: 0; }
+.clip { display: inline-block; vertical-align: bottom; white-space: nowrap; overflow: hidden; width: 0; height: 1.2em; color: var(--ink); }
+.role-word { white-space: nowrap; }
+.clip-cursor { display: inline-block; vertical-align: bottom; width: 3px; height: 1.05em; margin-bottom: .08em; margin-left: 2px; background: var(--forest); }
+.clip-cursor.blink { animation: blink .9s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.hero .description { color: var(--ink-2); max-width: 58ch; margin: 28px 0 36px; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 14px; }
+.find { display: flex; align-items: center; gap: 14px; margin-top: 40px; color: var(--ink-2); font-size: 14px; }
+.social { display: flex; gap: 10px; }
+.social a { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 12px; background: var(--card); box-shadow: inset 0 0 0 1px var(--line); font-size: 18px; transition: transform .2s, color .2s; }
+.social a:hover { transform: translateY(-3px); color: var(--forest); }
+
+.portrait-stage { perspective: 1100px; display: grid; place-items: center; }
+.portrait { position: relative; width: min(400px, 100%); aspect-ratio: 4 / 5; transform-style: preserve-3d; transition: transform .4s ease-out; animation: float 7s ease-in-out infinite; }
+@keyframes float { 50% { translate: 0 -10px; } }
+.portrait .plate { position: absolute; inset: 0; border-radius: 28px; background: linear-gradient(160deg, var(--forest-2), var(--forest) 60%, #1d4433); transform: translateZ(-50px) translate(18px, 18px); box-shadow: var(--shadow); }
+.portrait .photo { position: absolute; inset: 0; border-radius: 28px; overflow: hidden; background: var(--card); box-shadow: inset 0 0 0 1px var(--line); display: grid; place-items: center; }
+.portrait .photo img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.portrait .monogram { font: 700 120px/1 var(--display); color: var(--forest); letter-spacing: -0.04em; opacity: .9; }
+.chip { position: absolute; display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: 14px; background: var(--card); box-shadow: var(--shadow), inset 0 0 0 1px var(--line); font-size: 14px; font-weight: 600; white-space: nowrap; }
+.chip .icon { color: var(--forest); font-size: 18px; }
+.chip.c1 { top: 10%; left: -14%; transform: translateZ(90px); }
+.chip.c2 { top: 46%; right: -12%; transform: translateZ(130px); }
+.chip.c3 { bottom: 8%; left: -6%; transform: translateZ(70px); }
+@media (max-width: 900px) {
+  .hero .wrap { grid-template-columns: 1fr; }
+  .portrait-stage { order: -1; }
+  .portrait { width: min(260px, 70vw); }
+  .chip.c1 { left: -18%; } .chip.c2 { right: -18%; }
+}
+
+/* ── Services cube ── */
+.services { position: relative; border-top: 1px solid var(--line); }
+.services-stage { position: sticky; top: calc(var(--header) + env(safe-area-inset-top, 0px)); height: calc(100vh - var(--header) - env(safe-area-inset-top, 0px)); display: flex; align-items: center; overflow: hidden; }
+.services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+.cube-view { --s: min(340px, 34vw); height: calc(var(--s) * 1.6); display: grid; place-items: center; perspective: 1400px; }
+.cube-tilt { transform-style: preserve-3d; transform: rotateX(-12deg) rotateY(-18deg); }
+.cube { position: relative; width: var(--s); height: var(--s); transform-style: preserve-3d; will-change: transform; }
+.face { position: absolute; inset: 0; background: var(--face); color: var(--face-ink); border-radius: 18px; padding: calc(var(--s) * .1); display: flex; flex-direction: column; justify-content: flex-end; gap: 10px; backface-visibility: hidden;
+  background-image: linear-gradient(var(--face-line) 1px, transparent 1px), linear-gradient(90deg, var(--face-line) 1px, transparent 1px); background-size: 24px 24px;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.08); }
+.face .icon { font-size: calc(var(--s) * .16); color: #8FD0AE; margin-bottom: auto; stroke-width: 1.5; }
+.face h3 { font-size: calc(var(--s) * .085); }
+.face p { font-size: calc(var(--s) * .042); color: rgba(238,242,236,.7); line-height: 1.45; }
+.f0 { transform: translateZ(calc(var(--s) / 2)); }
+.f1 { transform: rotateY(90deg) translateZ(calc(var(--s) / 2)); }
+.f2 { transform: rotateY(180deg) translateZ(calc(var(--s) / 2)); }
+.f3 { transform: rotateY(-90deg) translateZ(calc(var(--s) / 2)); }
+.f4 { transform: rotateX(90deg) translateZ(calc(var(--s) / 2)); }
+.f5 { transform: rotateX(-90deg) translateZ(calc(var(--s) / 2)); }
+.cube-shadow { position: absolute; width: calc(var(--s) * 1.1); height: calc(var(--s) * .2); border-radius: 50%; background: radial-gradient(rgba(24,33,29,.28), transparent 70%); transform: translateY(calc(var(--s) * .95)) rotateX(80deg); filter: blur(4px); }
+.svc-list { list-style: none; margin: 28px 0 0; padding: 0; border-top: 1px solid var(--line); }
+.svc-list button { width: 100%; text-align: left; background: none; border: 0; border-bottom: 1px solid var(--line); padding: 16px 0; color: var(--ink-2); font: 600 20px var(--display); cursor: pointer; display: grid; grid-template-columns: 28px 1fr; gap: 12px; align-items: start; transition: color .3s; }
+.svc-list button .icon { font-size: 22px; margin-top: 3px; }
+.svc-list button small { display: block; font: 400 15px/1.5 var(--body); max-height: 0; overflow: hidden; opacity: 0; transition: max-height .4s, opacity .4s, margin .4s; }
+.svc-list button.active { color: var(--ink); }
+.svc-list button.active .icon { color: var(--forest); }
+.svc-list button.active small { max-height: 90px; opacity: 1; margin-top: 6px; color: var(--ink-2); }
+@media (max-width: 900px) {
+  .services-grid { grid-template-columns: 1fr; gap: 8px; }
+  .cube-view { --s: min(200px, 52vw); height: calc(var(--s) * 1.55); }
+  .face p { display: none; }
+  .face h3 { font-size: calc(var(--s) * .11); }
+  .services .section-head { margin-bottom: 0; }
+  .services .section-head h2 { font-size: 32px; }
+  .services .section-head p { display: none; }
+  .svc-list { margin-top: 12px; }
+  .svc-list button { font-size: 17px; padding: 10px 0; }
+  .svc-list button .icon { font-size: 18px; }
+}
+.reduced .services-stage { position: static; height: auto; padding: 96px 0; }
+
+/* ── Projects ring ── */
+.projects { padding: 120px 0; border-top: 1px solid var(--line); overflow: hidden; }
+.projects .section-head { text-align: center; }
+.projects .section-head p { margin-inline: auto; }
+.ring-stage { --w: 300px; --r: 330px; position: relative; height: calc(var(--w) * 1.45); perspective: 1500px; touch-action: pan-y; cursor: grab; user-select: none; }
+.ring-stage.dragging { cursor: grabbing; }
+.ring { position: absolute; left: 50%; top: 0; width: 0; height: 100%; transform-style: preserve-3d; transition: transform .7s cubic-bezier(.22,1,.36,1); }
+.ring-stage.dragging .ring { transition: none; }
+.proj { position: absolute; width: var(--w); left: calc(var(--w) / -2); top: 0; background: var(--card); border-radius: 22px; box-shadow: var(--shadow), inset 0 0 0 1px var(--line); overflow: hidden; border: 0; padding: 0; text-align: left; color: var(--ink); font: inherit; cursor: pointer; transition: opacity .5s; }
+.proj .thumb { aspect-ratio: 4 / 3; background: linear-gradient(140deg, var(--moss), var(--paper-2)); display: grid; place-items: center; overflow: hidden; }
+.proj .thumb img { width: 100%; height: 100%; object-fit: cover; }
+.proj .thumb .icon { font-size: 54px; color: var(--forest); stroke-width: 1.4; }
+.proj .body { padding: 18px 20px 22px; }
+.proj .cat { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--forest); font-weight: 600; }
+.proj h3 { font-size: 21px; margin-top: 8px; }
+.ring-controls { display: flex; justify-content: center; align-items: center; gap: 16px; margin-top: 28px; }
+.round { width: 52px; height: 52px; border-radius: 50%; border: 0; background: var(--card); box-shadow: inset 0 0 0 1px var(--line); color: var(--ink); font-size: 20px; display: grid; place-items: center; cursor: pointer; transition: transform .2s; }
+.round:hover { transform: scale(1.06); }
+.ring-hint { color: var(--ink-2); font-size: 14px; min-width: 18ch; text-align: center; }
+@media (max-width: 700px) { .ring-stage { --w: 230px; --r: 250px; } }
+
+dialog.proj-modal { border: 0; padding: 0; border-radius: 24px; width: min(860px, 100% - 32px); background: var(--card); color: var(--ink); box-shadow: var(--shadow); }
+dialog.proj-modal::backdrop { background: rgba(17, 22, 19, .55); backdrop-filter: blur(4px); }
+dialog.proj-modal[open] { animation: pop .45s cubic-bezier(.22,1,.36,1); }
+@keyframes pop { from { opacity: 0; transform: perspective(1000px) rotateX(14deg) translateY(30px) scale(.96); } }
+.modal-grid { display: grid; grid-template-columns: 1fr 1fr; }
+.modal-grid .thumb { min-height: 280px; background: linear-gradient(140deg, var(--moss), var(--paper-2)); display: grid; place-items: center; }
+.modal-grid .thumb img { width: 100%; height: 100%; object-fit: cover; }
+.modal-grid .thumb .icon { font-size: 80px; color: var(--forest); stroke-width: 1.3; }
+.modal-text { padding: 40px 36px; display: flex; flex-direction: column; gap: 16px; }
+.modal-text h3 { font-size: 30px; }
+.modal-text p { color: var(--ink-2); }
+.modal-close { position: absolute; top: 14px; right: 14px; width: 40px; height: 40px; }
+@media (max-width: 700px) { .modal-grid { grid-template-columns: 1fr; } .modal-grid .thumb { min-height: 180px; } .modal-text { padding: 28px 24px; } }
+
+/* ── Pricing ── */
+.pricing { padding: 120px 0; border-top: 1px solid var(--line); }
+.tiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; perspective: 1600px; align-items: stretch; }
+.tier { position: relative; background: var(--card); border-radius: 24px; padding: 34px 30px; box-shadow: inset 0 0 0 1px var(--line); display: flex; flex-direction: column; gap: 18px; cursor: pointer; transition: transform .6s cubic-bezier(.22,1,.36,1), box-shadow .4s; transform-origin: 50% 100%; }
+.tier.sel { box-shadow: var(--shadow), inset 0 0 0 2px var(--forest); }
+.tier .badge { position: absolute; top: -13px; left: 30px; background: var(--forest); color: #fff; font-size: 13px; font-weight: 600; padding: 5px 12px; border-radius: 999px; }
+.tier .tname { color: var(--forest); font-weight: 600; font-size: 15px; }
+.tier h3 { font-size: 24px; }
+.tier .price { font: 700 40px/1 var(--display); }
+.tier .price small { display: block; font: 400 14px var(--body); color: var(--ink-2); letter-spacing: 0; margin-bottom: 6px; }
+.tier > p { color: var(--ink-2); font-size: 15px; }
+.tier ul { list-style: none; padding: 0; margin: 0 0 auto; display: grid; gap: 10px; font-size: 15px; }
+.tier li { display: flex; gap: 10px; align-items: flex-start; }
+.tier li .icon { color: var(--forest); margin-top: 4px; }
+.tier .btn { justify-content: center; }
+@media (max-width: 900px) { .tiers { grid-template-columns: 1fr; gap: 32px; } .tier { transform: none !important; } }
+
+/* ── Contact ── */
+.contact { padding: 120px 0; border-top: 1px solid var(--line); }
+.contact-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 40px; perspective: 1600px; }
+.about-card, .form-card { background: var(--card); border-radius: 24px; padding: 36px; box-shadow: inset 0 0 0 1px var(--line); transform-style: preserve-3d; transition: transform .35s ease-out; }
+.about-card .thumb { border-radius: 16px; overflow: hidden; background: linear-gradient(140deg, var(--moss), var(--paper-2)); aspect-ratio: 16 / 10; display: grid; place-items: center; margin-bottom: 24px; }
+.about-card .thumb img { width: 100%; height: 100%; object-fit: cover; }
+.about-card h3 { font-size: 30px; }
+.about-card .role { color: var(--forest); font-weight: 600; margin: 4px 0 16px; }
+.about-card p { color: var(--ink-2); }
+.contact-lines { display: grid; gap: 10px; margin: 24px 0; }
+.contact-lines a { display: flex; align-items: center; gap: 12px; text-decoration: none; font-weight: 500; }
+.contact-lines .icon { color: var(--forest); font-size: 18px; }
+.form-card form { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.field { display: grid; gap: 8px; }
+.field.full { grid-column: 1 / -1; }
+.field label { font-size: 14px; font-weight: 600; }
+.field input, .field textarea { width: 100%; font: 400 16px var(--body); color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; transition: border-color .2s, box-shadow .2s; }
+.field textarea { min-height: 160px; resize: vertical; }
+.field input:focus, .field textarea:focus { outline: none; border-color: var(--forest); box-shadow: 0 0 0 3px color-mix(in srgb, var(--forest) 20%, transparent); }
+@media (max-width: 900px) { .contact-grid { grid-template-columns: 1fr; } .form-card form { grid-template-columns: 1fr; } .about-card, .form-card { padding: 26px; transform: none !important; } }
+
+footer.site { border-top: 1px solid var(--line); padding: 56px 0; text-align: center; color: var(--ink-2); font-size: 14px; }
+footer.site img { height: 64px; width: auto; margin: 0 auto 18px; }
+footer.site .tag { font: 600 18px var(--display); color: var(--ink); margin-bottom: 6px; }
+.to-top { position: fixed; right: 20px; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); z-index: 40; opacity: 0; pointer-events: none; transition: opacity .3s; }
+.to-top.show { opacity: 1; pointer-events: auto; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></symbol>
+  <symbol id="i-cpu" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/></symbol>
+  <symbol id="i-pen" viewBox="0 0 24 24"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></symbol>
+  <symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M16.24 7.76l-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></symbol>
+  <symbol id="i-briefcase" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 12h18M3 6h18M3 18h18"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></symbol>
+  <symbol id="i-facebook" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></symbol>
+  <symbol id="i-instagram" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37zM17.5 6.5h.01"/></symbol>
+  <symbol id="i-linkedin" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></symbol>
+</svg>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="#home" aria-label="Grambyte Technologies, back to top">
+      <img src="assets/images/logo/logo.png" alt="Grambyte Technologies Inc." data-fallback="brand">
+    </a>
+    <nav class="primary" id="nav" aria-label="Main">
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#features">What we do</a></li>
+        <li><a href="#portfolio">Recent projects</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#contacts">Contact</a></li>
+      </ul>
+    </nav>
+    <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="nav"><svg class="icon"><use href="#i-menu"/></svg></button>
+  </div>
+</header>
+
+<main>
+  <!-- Hero -->
+  <section class="hero" id="home">
+    <div class="floor" aria-hidden="true"></div>
+    <div class="wrap">
+      <div>
+        <span class="eyebrow">Welcome to Grambyte Technologies Inc.</span>
+        <h1>Hi, I’m <span class="name">Ade Akeju</span></h1>
+        <p class="role-line">
+          <span>a</span>
+          <span class="role-word"><span class="clip" id="roleClip">Software Developer.</span><span class="clip-cursor" id="roleCursor"></span></span>
+        </p>
+        <p class="description">Grambyte Technologies Inc. helps businesses grow through web development, cybersecurity, cloud solutions, automation, branding, and digital transformation. We build modern, responsive, and secure digital systems that improve business operations, strengthen customer experience, and support long-term growth. We also use clean design, animation, and interactive web features to make business websites more engaging and professional.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#contacts">Start a project</a>
+          <a class="btn btn-ghost" href="#portfolio">See recent projects</a>
+        </div>
+        <div class="find">
+          <span>Find us</span>
+          <div class="social">
+            <a href="#" aria-label="Facebook"><svg class="icon"><use href="#i-facebook"/></svg></a>
+            <a href="#" aria-label="Instagram"><svg class="icon"><use href="#i-instagram"/></svg></a>
+            <a href="#" aria-label="LinkedIn"><svg class="icon"><use href="#i-linkedin"/></svg></a>
+          </div>
+        </div>
+      </div>
+      <div class="portrait-stage">
+        <div class="portrait" id="portrait">
+          <div class="plate"></div>
+          <div class="photo">
+            <img src="assets/images/slider/banner-01.png" alt="Ade Akeju" data-fallback="monogram">
+          </div>
+          <div class="chip c1"><svg class="icon"><use href="#i-code"/></svg>Web development</div>
+          <div class="chip c2"><svg class="icon"><use href="#i-shield"/></svg>Cybersecurity</div>
+          <div class="chip c3"><svg class="icon"><use href="#i-cloud"/></svg>Cloud solutions</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What we do: a six-sided cube, one service per face -->
+  <section class="services" id="features">
+    <div class="services-stage">
+      <div class="wrap services-grid">
+        <div class="cube-view" aria-hidden="true">
+          <div class="cube-tilt">
+            <div class="cube" id="cube"></div>
+          </div>
+          <div class="cube-shadow"></div>
+        </div>
+        <div>
+          <div class="section-head">
+            <h2>What we do</h2>
+            <p>Six services, one partner. Scroll to turn the cube, or pick a service.</p>
+          </div>
+          <ul class="svc-list" id="svcList"></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects ring -->
+  <section class="projects" id="portfolio">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Recent projects</h2>
+        <p>Drag or use the arrows to turn the ring. Open the front project for details.</p>
+      </div>
+    </div>
+    <div class="ring-stage" id="ringStage">
+      <div class="ring" id="ring"></div>
+    </div>
+    <div class="ring-controls">
+      <button class="round" id="prevProj" aria-label="Previous project"><svg class="icon"><use href="#i-left"/></svg></button>
+      <span class="ring-hint" id="ringHint"></span>
+      <button class="round" id="nextProj" aria-label="Next project"><svg class="icon"><use href="#i-right"/></svg></button>
+    </div>
+  </section>
+
+  <dialog class="proj-modal" id="projModal" aria-labelledby="modalTitle">
+    <div class="modal-grid">
+      <div class="thumb" id="modalThumb"></div>
+      <div class="modal-text">
+        <span class="eyebrow" id="modalCat" style="margin:0"></span>
+        <h3 id="modalTitle"></h3>
+        <p id="modalP1"></p>
+        <p id="modalP2"></p>
+        <div><a class="btn btn-primary" href="#contacts" id="modalCta">Start a similar project</a></div>
+      </div>
+    </div>
+    <button class="round modal-close" id="modalClose" aria-label="Close"><svg class="icon"><use href="#i-x"/></svg></button>
+  </dialog>
+
+  <!-- Pricing -->
+  <section class="pricing" id="pricing">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Pricing</h2>
+        <p>Three ways to work together, from a single page to fully custom systems.</p>
+      </div>
+      <div class="tiers" id="tiers"></div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="contact" id="contacts">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Contact me</h2>
+      </div>
+      <div class="contact-grid">
+        <div class="about-card tilt">
+          <div class="thumb"><img src="assets/images/contact/contact1.png" alt="" data-fallback="hide"></div>
+          <h3>Ade Akeju</h3>
+          <div class="role">Founder</div>
+          <p>Contact Grambyte Technologies Inc. for websites, cybersecurity support and awareness training, cloud setup, branding, and business technology services.</p>
+          <div class="contact-lines">
+            <a href="tel:+14168286764"><svg class="icon"><use href="#i-phone"/></svg>416-828-6764</a>
+            <a href="mailto:info@grambyte.ca"><svg class="icon"><use href="#i-mail"/></svg>info@grambyte.ca</a>
+          </div>
+          <div class="social">
+            <a href="#" aria-label="Facebook"><svg class="icon"><use href="#i-facebook"/></svg></a>
+            <a href="#" aria-label="LinkedIn"><svg class="icon"><use href="#i-linkedin"/></svg></a>
+            <a href="#" aria-label="Instagram"><svg class="icon"><use href="#i-instagram"/></svg></a>
+          </div>
+        </div>
+        <div class="form-card tilt">
+          <form id="contact-form" method="POST" action="mail.php">
+            <div class="field"><label for="contact-name">Your name</label><input id="contact-name" name="contact-name" type="text" autocomplete="name" required></div>
+            <div class="field"><label for="contact-phone">Phone number</label><input id="contact-phone" name="contact-phone" type="tel" autocomplete="tel"></div>
+            <div class="field full"><label for="contact-email">Email</label><input id="contact-email" name="contact-email" type="email" autocomplete="email" required></div>
+            <div class="field full"><label for="subject">Subject</label><input id="subject" name="subject" type="text"></div>
+            <div class="field full"><label for="contact-message">Your message</label><textarea id="contact-message" name="contact-message" required></textarea></div>
+            <div class="field full"><button class="btn btn-primary" type="submit" name="submit">Send message</button></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <img src="assets/images/logo/logo-vertical.png" alt="Grambyte Technologies Inc." data-fallback="hide">
+  <div class="tag">Pure. Authentic. Original.</div>
+  <p>© 2026. All rights reserved by Grambyte Technologies Inc.</p>
+</footer>
+
+<a class="round to-top" id="toTop" href="#home" aria-label="Back to top"><svg class="icon"><use href="#i-up"/></svg></a>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const finePointer = matchMedia('(pointer: fine)').matches;
+  const $ = (s, r = document) => r.querySelector(s);
+  const icon = (id) => `<svg class="icon"><use href="#i-${id}"/></svg>`;
+  if (reduce) document.documentElement.classList.add('reduced');
+
+  /* Missing local images degrade gracefully */
+  document.querySelectorAll('img[data-fallback]').forEach((img) => {
+    const fail = () => {
+      const mode = img.dataset.fallback;
+      if (mode === 'brand') img.outerHTML = '<span class="mark" aria-hidden="true"><i></i><i></i><i></i></span><span>Grambyte</span>';
+      else if (mode === 'monogram') img.outerHTML = '<span class="monogram" aria-hidden="true">AA</span>';
+      else img.closest('.thumb') ? img.closest('.thumb').remove() : img.remove();
+    };
+    if (img.complete && img.naturalWidth === 0) fail(); else img.addEventListener('error', fail, { once: true });
+  });
+
+  /* Mobile menu */
+  const nav = $('#nav'), menuBtn = $('#menuBtn');
+  menuBtn.addEventListener('click', () => {
+    const open = nav.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', open);
+    menuBtn.innerHTML = icon(open ? 'x' : 'menu');
+  });
+  nav.addEventListener('click', (e) => { if (e.target.closest('a')) { nav.classList.remove('open'); menuBtn.setAttribute('aria-expanded', false); menuBtn.innerHTML = icon('menu'); } });
+
+  /* Active nav link */
+  const links = [...nav.querySelectorAll('a')];
+  const spy = new IntersectionObserver((es) => es.forEach((e) => {
+    if (e.isIntersecting) links.forEach((a) => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+  }), { rootMargin: '-45% 0px -50% 0px' });
+  document.querySelectorAll('main section[id]').forEach((s) => spy.observe(s));
+
+  /* Rotating role: clip reveal behind a cursor, looping forever */
+  const roles = ['Software Developer.', 'Professional Coder.', 'Cybersecurity Analyst.', 'Business Analyst.'];
+  const clip = $('#roleClip'), cursor = $('#roleCursor');
+  const roleLine = clip.closest('.role-line');
+  roleLine.setAttribute('aria-label', 'a ' + roles.join(', '));
+  [...roleLine.children].forEach((c) => c.setAttribute('aria-hidden', 'true'));
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+  const fullWidth = () => { const w = clip.style.width; clip.style.width = 'auto'; const v = clip.scrollWidth; clip.style.width = w; return v; };
+  const wipe = (from, to, ms) => new Promise((done) => {
+    if (reduce) { clip.style.width = to + 'px'; return done(); }
+    const a = clip.animate([{ width: from + 'px' }, { width: to + 'px' }], { duration: ms, easing: 'cubic-bezier(.45,0,.25,1)', fill: 'forwards' });
+    a.onfinish = () => { clip.style.width = to + 'px'; a.cancel(); done(); };
+  });
+  (async () => {
+    await document.fonts.ready;
+    for (let i = 0; ; i = (i + 1) % roles.length) {
+      clip.textContent = roles[i];
+      const w = fullWidth();
+      cursor.classList.remove('blink');
+      await wipe(0, w, 600);          // reveal left to right
+      cursor.classList.add('blink');
+      await sleep(2500);              // hold with blinking cursor
+      cursor.classList.remove('blink');
+      await wipe(w, 0, 500);          // clip back to the cursor
+      await sleep(250);
+    }
+  })();
+  addEventListener('resize', () => { if (clip.style.width !== '0px') clip.style.width = fullWidth() + 'px'; });
+
+  /* Portrait tilt */
+  const portrait = $('#portrait');
+  if (!reduce && finePointer) {
+    $('.hero').addEventListener('pointermove', (e) => {
+      const x = e.clientX / innerWidth - 0.5, y = e.clientY / innerHeight - 0.5;
+      portrait.style.transform = `rotateY(${x * 18}deg) rotateX(${-y * 14}deg)`;
+    });
+    $('.hero').addEventListener('pointerleave', () => { portrait.style.transform = ''; });
+  } else {
+    portrait.style.transform = 'rotateY(-12deg) rotateX(6deg)';
+  }
+
+  /* Services cube */
+  const services = [
+    { name: 'Web Development', icon: 'code', desc: 'Professional business websites, landing pages, e-commerce platforms, and custom web applications built for speed, security, and user experience.' },
+    { name: 'Cybersecurity', icon: 'shield', desc: 'Security assessments, vulnerability testing, monitoring, and protection for modern businesses.' },
+    { name: 'Cloud Solutions', icon: 'cloud', desc: 'Google Workspace setup, cloud migration, email systems, and remote collaboration tools.' },
+    { name: 'Business Automation', icon: 'cpu', desc: 'Workflow automation, AI integration, CRM systems, and operational improvements.' },
+    { name: 'Brand Identity', icon: 'pen', desc: 'Business cards, logos, email signatures, digital branding, and marketing assets.' },
+    { name: 'IT Consulting', icon: 'compass', desc: 'Technology guidance for startups and growing businesses across multiple industries.' },
+  ];
+  // Cube rotation [x, y] that brings each face to the front
+  const poses = [[0, 0], [0, -90], [0, -180], [0, -270], [-90, -360], [90, -360]];
+  const cube = $('#cube'), list = $('#svcList'), svcSection = $('#features');
+  cube.innerHTML = services.map((s, i) => `<div class="face f${i}">${icon(s.icon)}<h3>${s.name}</h3><p>${s.desc}</p></div>`).join('');
+  list.innerHTML = services.map((s, i) => `<li><button type="button" data-i="${i}">${icon(s.icon)}<span>${s.name}<small>${s.desc}</small></span></button></li>`).join('');
+  const buttons = [...list.querySelectorAll('button')];
+  let activeSvc = -1;
+  const setActive = (i) => {
+    if (i === activeSvc) return;
+    activeSvc = i;
+    buttons.forEach((b, j) => { b.classList.toggle('active', j === i); b.setAttribute('aria-pressed', j === i); });
+  };
+  const ease = (t) => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  const STEP_VH = 60;
+  const sizeServices = () => { svcSection.style.height = reduce ? '' : `calc(100vh + ${(services.length - 1) * STEP_VH}vh)`; };
+  sizeServices();
+  const poseCube = (f) => {
+    const i = Math.min(Math.floor(f), services.length - 2);
+    const raw = f - i;
+    const t = ease(Math.min(1, Math.max(0, (raw - .2) / .6))); // hold on each face, then turn
+    const [ax, ay] = poses[i], [bx, by] = poses[i + 1];
+    cube.style.transform = `rotateX(${ax + (bx - ax) * t}deg) rotateY(${ay + (by - ay) * t}deg)`;
+    setActive(Math.round(i + t));
+  };
+  const onScroll = () => {
+    const r = svcSection.getBoundingClientRect();
+    const span = svcSection.offsetHeight - innerHeight;
+    const p = Math.min(1, Math.max(0, -r.top / span));
+    poseCube(p * (services.length - 1));
+  };
+  if (reduce) {
+    const show = (i) => { const [x, y] = poses[i]; cube.style.transform = `rotateX(${x}deg) rotateY(${y}deg)`; setActive(i); };
+    buttons.forEach((b) => b.addEventListener('click', () => show(+b.dataset.i)));
+    show(0);
+  } else {
+    let ticking = false;
+    addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(() => { onScroll(); ticking = false; }); } }, { passive: true });
+    buttons.forEach((b) => b.addEventListener('click', () => {
+      const i = +b.dataset.i;
+      const span = svcSection.offsetHeight - innerHeight;
+      scrollTo({ top: svcSection.offsetTop + span * (i / (services.length - 1)), behavior: 'smooth' });
+    }));
+    onScroll();
+  }
+
+  /* Projects ring */
+  const projects = [
+    { cat: 'Web development', icon: 'monitor', img: 'portfolio-01.jpg', title: 'Business Website & Email Infrastructure',
+      p1: 'A responsive business website built to improve online presence, lead generation, and customer trust.',
+      p2: 'Includes branded email setup, contact form, mobile design, SEO structure, and secure website configuration.' },
+    { cat: 'Business systems', icon: 'layers', img: 'portfolio-02.jpg', title: 'Custom Business Platform Development',
+      p1: 'A tailored business platform built to streamline internal operations, client management, and team collaboration.',
+      p2: 'Includes custom dashboards, user role management, data reporting tools, API integrations, and scalable cloud hosting.' },
+    { cat: 'Cybersecurity', icon: 'shield', img: 'portfolio-03.jpg', title: 'Cybersecurity Audit & Protection',
+      p1: 'A full cybersecurity assessment performed for a mid-sized business to identify vulnerabilities and strengthen their digital defenses.',
+      p2: 'Includes network vulnerability scan, firewall review, staff phishing awareness training, security policy setup, and incident response plan.' },
+    { cat: 'Automation', icon: 'settings', img: 'portfolio-04.jpg', title: 'Business Workflow Automation',
+      p1: 'An end-to-end automation solution built for a service business to eliminate manual tasks and reduce operational overhead.',
+      p2: 'Includes CRM integration, automated email sequences, invoice generation, appointment booking, and real-time performance tracking.' },
+    { cat: 'Cloud', icon: 'cloud', img: 'portfolio-05.jpg', title: 'Google Workspace Deployment',
+      p1: 'A complete Google Workspace setup and migration for a growing business transitioning from outdated email and file systems.',
+      p2: 'Includes domain verification, Gmail business setup, Google Drive migration, team calendar configuration, and admin console management.' },
+    { cat: 'Digital branding', icon: 'briefcase', img: 'portfolio-06.jpg', title: 'Digital Branding & Business Identity',
+      p1: 'A complete digital branding package created for a new business launching across web and social media channels.',
+      p2: 'Includes logo design, brand color guide, email signature, business card, social media kit, and branded document templates.' },
+  ];
+  const ring = $('#ring'), stage = $('#ringStage'), hint = $('#ringHint');
+  const STEP = 360 / projects.length;
+  const thumbHTML = (p) => `${icon(p.icon)}<img src="assets/images/portfolio/${p.img}" alt="" onerror="this.remove()" onload="this.previousElementSibling&&this.previousElementSibling.remove()">`;
+  ring.innerHTML = projects.map((p, i) => `
+    <button class="proj" data-i="${i}" style="transform: rotateY(${i * STEP}deg) translateZ(var(--r))" aria-label="${p.title}">
+      <div class="thumb">${thumbHTML(p)}</div>
+      <div class="body"><div class="cat">${icon(p.icon)}${p.cat}</div><h3>${p.title}</h3></div>
+    </button>`).join('');
+  const cards = [...ring.children];
+  let angle = 0;
+  const frontIndex = () => ((Math.round(-angle / STEP) % projects.length) + projects.length) % projects.length;
+  const renderRing = () => {
+    ring.style.transform = `translateZ(calc(var(--r) * -1)) rotateY(${angle}deg)`;
+    cards.forEach((c, i) => {
+      const facing = Math.cos((i * STEP + angle) * Math.PI / 180);
+      c.style.opacity = (0.25 + 0.75 * Math.max(0, facing)).toFixed(2);
+      c.style.pointerEvents = facing > 0.3 ? '' : 'none'; // cards turned away can't steal clicks
+      c.tabIndex = i === frontIndex() ? 0 : -1;
+    });
+    hint.textContent = `${frontIndex() + 1} of ${projects.length}`;
+  };
+  const turnTo = (i) => {
+    const target = -i * STEP;
+    let d = ((target - angle) % 360 + 540) % 360 - 180;
+    angle += d;
+    renderRing();
+  };
+  $('#prevProj').addEventListener('click', () => turnTo(frontIndex() - 1));
+  $('#nextProj').addEventListener('click', () => turnTo(frontIndex() + 1));
+  stage.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') { turnTo(frontIndex() - 1); cards[frontIndex()].focus({ preventScroll: true }); }
+    if (e.key === 'ArrowRight') { turnTo(frontIndex() + 1); cards[frontIndex()].focus({ preventScroll: true }); }
+  });
+
+  let drag = null;
+  stage.addEventListener('pointerdown', (e) => { drag = { x: e.clientX, a: angle, moved: false, id: e.pointerId }; });
+  addEventListener('pointermove', (e) => {
+    if (!drag || e.pointerId !== drag.id) return;
+    const dx = e.clientX - drag.x;
+    if (!drag.moved && Math.abs(dx) > 6) { drag.moved = true; stage.classList.add('dragging'); }
+    if (drag.moved) { angle = drag.a + dx * 0.35; renderRing(); }
+  });
+  addEventListener('pointerup', () => {
+    if (!drag) return;
+    if (drag.moved) { stage.classList.remove('dragging'); angle = Math.round(angle / STEP) * STEP; renderRing(); stage.dataset.justDragged = '1'; setTimeout(() => delete stage.dataset.justDragged, 50); }
+    drag = null;
+  });
+
+  const modal = $('#projModal');
+  const openProject = (i) => {
+    const p = projects[i];
+    $('#modalCat').textContent = p.cat;
+    $('#modalTitle').textContent = p.title;
+    $('#modalP1').textContent = p.p1;
+    $('#modalP2').textContent = p.p2;
+    $('#modalThumb').innerHTML = thumbHTML(p);
+    $('#modalCta').dataset.subject = `Project like: ${p.title}`;
+    modal.showModal();
+  };
+  ring.addEventListener('click', (e) => {
+    const card = e.target.closest('.proj');
+    if (!card || stage.dataset.justDragged) return;
+    const i = +card.dataset.i;
+    if (i === frontIndex()) openProject(i); else turnTo(i);
+  });
+  $('#modalClose').addEventListener('click', () => modal.close());
+  modal.addEventListener('click', (e) => { if (e.target === modal) modal.close(); });
+  $('#modalCta').addEventListener('click', (e) => { $('#subject').value = e.currentTarget.dataset.subject; modal.close(); });
+  renderRing();
+
+  /* Pricing tiers */
+  const tiers = [
+    { tname: 'Starter', title: 'Basic Website Package', pre: 'Starting at', price: '$499', cta: 'Order now',
+      desc: 'A clean one-page website for startups, personal brands, and small businesses that need a professional online presence.',
+      feats: ['One page built with Elementor', 'Design customization', 'Responsive design', 'Content upload', '2 plugins or extensions'] },
+    { tname: 'Business', title: 'Business Website + Email Setup', pre: 'Starting at', price: '$1,200', cta: 'Order now', rec: true,
+      desc: 'A complete business website package with branded email setup, contact form, responsive pages, SEO basics, and Google Workspace support.',
+      feats: ['Responsive multi-page website', 'Branded email setup', 'Contact form', 'SEO basics', 'Google Workspace support'] },
+    { tname: 'Premium', title: 'Custom Development & Automation', pre: 'Tailored to you', price: 'Custom quote', cta: 'Request a quote',
+      desc: 'Custom web development, business automation, cloud setup, cybersecurity support, and workflow tools tailored to your business needs.',
+      feats: ['Custom web development', 'Business automation', 'Cloud setup', 'Cybersecurity support', 'Workflow tools for your team'] },
+  ];
+  const tiersEl = $('#tiers');
+  tiersEl.innerHTML = tiers.map((t, i) => `
+    <article class="tier" data-i="${i}" tabindex="0" aria-label="${t.tname} plan">
+      ${t.rec ? '<span class="badge">Recommended</span>' : ''}
+      <div class="tname">${t.tname}</div>
+      <h3>${t.title}</h3>
+      <div class="price"><small>${t.pre}</small>${t.price}</div>
+      <p>${t.desc}</p>
+      <ul>${t.feats.map((f) => `<li>${icon('check')}<span>${f}</span></li>`).join('')}</ul>
+      <a class="btn ${t.rec ? 'btn-primary' : 'btn-ghost'}" href="#contacts" data-subject="${t.tname} plan: ${t.title}">${t.cta}</a>
+    </article>`).join('');
+  const tierEls = [...tiersEl.children];
+  const selectTier = (s) => tierEls.forEach((el, i) => {
+    const off = i - s;
+    el.classList.toggle('sel', off === 0);
+    el.style.transform = off === 0 ? 'translateZ(60px) translateY(-8px)' : `rotateY(${-off * 16}deg) translateZ(-40px) scale(.97)`;
+  });
+  tierEls.forEach((el, i) => {
+    el.addEventListener('pointerenter', () => selectTier(i));
+    el.addEventListener('focus', () => selectTier(i));
+    el.addEventListener('click', () => selectTier(i));
+  });
+  tiersEl.addEventListener('pointerleave', () => selectTier(1));
+  tiersEl.addEventListener('click', (e) => { const a = e.target.closest('a[data-subject]'); if (a) $('#subject').value = a.dataset.subject; });
+  selectTier(1);
+
+  /* Contact cards tilt */
+  if (!reduce && finePointer) document.querySelectorAll('.tilt').forEach((el) => {
+    el.addEventListener('pointermove', (e) => {
+      const r = el.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+      el.style.transform = `rotateY(${x * 6}deg) rotateX(${-y * 6}deg)`;
+    });
+    el.addEventListener('pointerleave', () => { el.style.transform = ''; });
+  });
+
+  /* Back to top */
+  const toTop = $('#toTop');
+  addEventListener('scroll', () => toTop.classList.toggle('show', scrollY > innerHeight), { passive: true });
+  addEventListener('resize', () => { if (!reduce) onScroll(); });
+})();
+</script>
+</body>
+</html>

@@ -16,10 +16,15 @@ export function ProjectsSection() {
     <section
       id="portfolio"
       aria-labelledby="projects-title"
-      className="overflow-x-clip border-t border-line py-section"
+      className="overflow-x-clip py-section"
     >
       <Container>
-        <SectionHeading id="projects-title" title={projectsSection.title} align="center" />
+        <SectionHeading
+          id="projects-title"
+          eyebrow={projectsSection.eyebrow}
+          title={projectsSection.title}
+          align="center"
+        />
 
         <div className="mt-14 hidden lg:block">
           <ProjectRing projects={projects} />

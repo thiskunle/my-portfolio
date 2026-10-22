@@ -18,8 +18,8 @@ import {
 import { cn } from "@/lib/cn";
 
 const inputStyles =
-  "w-full rounded-field border border-line bg-paper px-4 py-3.5 text-base text-ink transition-[border-color,box-shadow] duration-200 " +
-  "focus:border-forest focus:ring-3 focus:ring-forest/20 focus:outline-none motion-reduce:transition-none " +
+  "w-full rounded-field border border-ink/30 bg-field px-4 py-3.5 text-base text-ink transition-[border-color,box-shadow] duration-200 " +
+  "hover:border-ink/50 focus:border-ink focus:ring-3 focus:ring-ink/25 focus:outline-none motion-reduce:transition-none " +
   "aria-invalid:border-danger aria-invalid:focus:ring-danger/20";
 
 function focusFirstInvalid(found: ContactErrors) {

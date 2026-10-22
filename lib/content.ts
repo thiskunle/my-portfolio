@@ -110,6 +110,16 @@ export const hero = {
   ] as const satisfies readonly ServiceId[],
 } as const;
 
+/** Copy for the cursor-tracking homepage hero. */
+export const cursorHero = {
+  eyebrow: company.name,
+  title: "Building Technology for Businesses Ready to Grow.",
+  description:
+    "Web development, cybersecurity, cloud solutions, automation and digital products built for real business needs.",
+  primaryCta: { label: "View Our Work", href: "#portfolio" },
+  secondaryCta: hero.primaryCta,
+} as const;
+
 /* ── Services ────────────────────────────────────────── */
 
 export type ServiceId =
@@ -172,7 +182,8 @@ export const services: readonly Service[] = [
 ];
 
 export const servicesSection = {
-  title: "What we do",
+  eyebrow: "Services",
+  title: "What We Do",
   intro: "Six services, one partner.",
 } as const;
 
@@ -289,7 +300,8 @@ export const projects: readonly Project[] = [
 ];
 
 export const projectsSection = {
-  title: "Recent projects",
+  eyebrow: "Portfolio",
+  title: "Recent Projects",
   projectCta: "Start a similar project",
   /** Contact subject used by "Start a similar project" (original site wording). */
   contactSubject: (project: Pick<Project, "title">) => `Project like: ${project.title}`,
@@ -307,6 +319,7 @@ export type PricingTier = {
 };
 
 export const pricingSection = {
+  eyebrow: "Packages",
   title: "Ways to Work Together",
   intro:
     "Flexible solutions for every stage of your business, from a focused web presence to custom systems and automation.",
@@ -365,7 +378,8 @@ export const pricingTiers: readonly PricingTier[] = [
 /* ── Contact ─────────────────────────────────────────── */
 
 export const contact = {
-  title: "Contact me",
+  eyebrow: "Contact",
+  title: "Let’s Talk About Your Project",
   email: "info@grambyte.ca",
   phone: {
     display: "416-828-6764",
@@ -374,7 +388,8 @@ export const contact = {
   intro:
     "Contact GramByte Technologies Inc. for websites, cybersecurity support and awareness training, cloud setup, branding, and business technology services.",
   /** Genuine founder portrait (previous site's contact image). Decorative beside the founder's name. */
-  portrait: { src: "/images/contact/ade-akeju-portrait.jpg", alt: "" } as PortraitImage,
+  /* Backdrop recoloured to the site red with recolor_backdrop() in build_direction_frames.py. */
+  portrait: { src: "/images/contact/ade-akeju-portrait-red.jpg", alt: "" } as PortraitImage,
 } as const;
 
 /* ── Social ──────────────────────────────────────────── */

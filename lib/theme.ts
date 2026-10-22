@@ -4,8 +4,8 @@ export const THEME_STORAGE_KEY = "gb-theme";
 
 /** Browser UI colors. Mirrors --gb-paper for each theme in app/globals.css. */
 export const themeColors: Record<Theme, string> = {
-  light: "#f2f0ea",
-  dark: "#111613",
+  light: "#c8102e",
+  dark: "#c8102e",
 };
 
 /**

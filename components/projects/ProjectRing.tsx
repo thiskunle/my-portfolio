@@ -49,7 +49,7 @@ function RingCard({ project, index, step, angle, isFront, onActivate, onKeyDown,
       aria-controls={isFront ? projectDialogId(project.id) : undefined}
       onClick={() => onActivate(index)}
       onKeyDown={onKeyDown}
-      className="absolute top-0 left-[calc(var(--w)/-2)] w-[var(--w)] overflow-hidden rounded-card bg-card text-left shadow-lift ring-1 ring-line ring-inset backface-hidden"
+      className="absolute top-0 left-[calc(var(--w)/-2)] w-[var(--w)] overflow-hidden rounded-card bg-face text-left shadow-lift ring-1 ring-line ring-inset backface-hidden"
       style={{ transform: `rotateY(${index * step}deg) translateZ(var(--r))`, opacity, pointerEvents }}
     >
       <span className="relative block aspect-[4/3]">

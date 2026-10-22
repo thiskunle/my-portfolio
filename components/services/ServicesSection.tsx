@@ -12,7 +12,7 @@ export function ServicesSection() {
     <section
       id="features"
       aria-labelledby="services-title"
-      className="overflow-x-clip border-t border-line py-section"
+      className="overflow-x-clip py-section"
     >
       <Container>
         <ServicesExplorer
@@ -20,6 +20,7 @@ export function ServicesSection() {
           heading={
             <SectionHeading
               id="services-title"
+              eyebrow={servicesSection.eyebrow}
               title={servicesSection.title}
               description={servicesSection.intro}
             />

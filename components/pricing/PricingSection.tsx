@@ -14,10 +14,11 @@ import { cn } from "@/lib/cn";
  */
 export function PricingSection() {
   return (
-    <section id="pricing" aria-labelledby="pricing-title" className="border-t border-line py-section">
+    <section id="pricing" aria-labelledby="pricing-title" className="py-section">
       <Container>
         <SectionHeading
           id="pricing-title"
+          eyebrow={pricingSection.eyebrow}
           title={pricingSection.title}
           description={pricingSection.intro}
           align="center"

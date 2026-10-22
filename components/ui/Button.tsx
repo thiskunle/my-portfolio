@@ -11,8 +11,9 @@ const base =
 
 const variants: Record<ButtonVariant, string> = {
   primary:
-    "bg-forest text-on-forest hover:bg-forest-hover hover:-translate-y-0.5 active:translate-y-0 motion-reduce:hover:translate-y-0",
-  secondary: "text-ink ring-[1.5px] ring-line ring-inset hover:ring-ink active:bg-paper-2",
+    "bg-forest text-on-forest hover:bg-forest-hover hover:text-white hover:-translate-y-0.5 active:translate-y-0 motion-reduce:hover:translate-y-0",
+  secondary:
+    "text-ink ring-1 ring-white/50 ring-inset hover:bg-forest-hover hover:text-white hover:ring-transparent active:bg-paper-2",
   ghost: "text-ink-2 hover:bg-paper-2 hover:text-ink active:bg-moss",
   icon: "bg-card text-ink ring-1 ring-line ring-inset hover:text-forest hover:ring-ink active:bg-paper-2",
 };

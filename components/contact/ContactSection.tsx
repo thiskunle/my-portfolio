@@ -19,11 +19,11 @@ export function ContactSection() {
     <section
       id={CONTACT_SECTION_ID}
       aria-labelledby="contact-title"
-      className="border-t border-line py-section"
+      className="py-section"
     >
       <Container className="grid gap-10 lg:grid-cols-12 lg:gap-12">
         <div className="lg:col-span-5">
-          <SectionHeading id="contact-title" title={contact.title} />
+          <SectionHeading id="contact-title" eyebrow={contact.eyebrow} title={contact.title} />
 
           <div className="relative mt-10 overflow-hidden rounded-panel bg-face p-7 text-face-ink sm:p-10">
             <div aria-hidden className="gb-face-grid absolute inset-0 [--cube:12rem]" />

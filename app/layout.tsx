@@ -78,7 +78,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <style>{`[data-reveal]{opacity:1!important;transform:none!important}`}</style>
         </noscript>
       </head>
-      <body className="flex min-h-dvh flex-col bg-paper font-body text-ink antialiased">
+      <body className="gb-page flex min-h-dvh flex-col font-body text-ink antialiased">
         {/* Target for the brand and back-to-top links. */}
         <div id="top" />
         <SkipLink />

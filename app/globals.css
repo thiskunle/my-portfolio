@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
 /*
- * GramByte design tokens
+ * GramByte design tokens — red palette matching the hero photo backdrop (#d22428).
+ * White takes the accent role green had (green text on red fails contrast).
  *
  * 1. Raw brand values live in --gb-* custom properties and are swapped per theme.
  * 2. @theme inline maps them to Tailwind utilities (bg-paper, text-ink, ring-line…),
@@ -13,74 +14,77 @@
  */
 
 :root {
-  --gb-paper: #f2f0ea;
-  --gb-paper-2: #e8e5dc;
-  --gb-card: #fbfaf6;
-  --gb-ink: #18211d;
-  --gb-ink-2: #505c56;
-  --gb-forest: #2e6a4f;
-  --gb-forest-2: #3f8a67;
-  --gb-forest-deep: #1d4433;
-  --gb-forest-hover: var(--gb-forest-deep);
-  --gb-on-forest: #ffffff;
-  --gb-moss: #d5e2d4;
-  --gb-line: rgb(24 33 29 / 0.12);
-  --gb-focus: var(--gb-forest-2);
-  /* Form error state only. Warm brick that sits with the palette; ≥5.5:1 on paper and card. */
-  --gb-danger: #a83a2b;
+  /* GramByte red family. Everything below is built from these; green appears only in the
+     logo artwork and the character's cap and sweater. */
+  --gb-red: #c8102e;
+  --gb-red-2: #b20e29;
+  --gb-red-3: #9a0d24;
+  --gb-red-dark: #8e0d24;
+  --gb-red-deep: #660a1a;
+  --gb-red-soft: #e42b45;
+  --gb-snow: #fff7f7;
+  --gb-blush: #f3c9cf;
 
-  /* Dark "machined" surfaces: service cube faces, technical panels */
-  --gb-face: #18211d;
-  --gb-face-ink: #eef2ec;
-  --gb-face-ink-2: rgb(238 242 236 / 0.7);
-  --gb-face-line: rgb(238 242 236 / 0.08);
-  --gb-face-accent: #8fd0ae;
+  --gb-paper: var(--gb-red);
+  --gb-paper-2: var(--gb-red-2);
+  /* Translucent deep-red panels: the page red shows through, so cards never read as a new colour. */
+  --gb-card: rgb(102 10 26 / 0.65);
+  --gb-field: rgb(102 10 26 / 0.5);
+  --gb-nav: rgb(102 10 26 / 0.85);
+  --gb-ink: var(--gb-snow);
+  --gb-ink-2: var(--gb-blush);
+  /* "forest" is the accent role (the original brand green); on red it is snow-white. */
+  --gb-forest: var(--gb-snow);
+  --gb-forest-2: var(--gb-blush);
+  --gb-forest-deep: var(--gb-red-deep);
+  --gb-forest-hover: var(--gb-red-soft);
+  --gb-on-forest: var(--gb-red-dark);
+  --gb-moss: rgb(255 255 255 / 0.12);
+  --gb-line: rgb(255 255 255 / 0.12);
+  --gb-focus: var(--gb-snow);
+  /* Form error state only. Pale amber, readable on the reds; errors also carry an icon and text. */
+  --gb-danger: #ffe08a;
 
-  --gb-scrim: rgb(17 22 19 / 0.55);
+  /* Solid deep-red surfaces: service cube faces, founder panel, 3D project cards */
+  --gb-face: var(--gb-red-deep);
+  --gb-face-ink: var(--gb-snow);
+  --gb-face-ink-2: rgb(255 247 247 / 0.72);
+  --gb-face-line: rgb(255 255 255 / 0.1);
+  --gb-face-accent: var(--gb-blush);
+
+  --gb-scrim: rgb(40 4 10 / 0.6);
   /* Background of the genuine GramByte logo artwork; used to plate the logo images seamlessly. */
   --gb-logo-plate: #30363f;
-  --gb-shadow-lift: 0 40px 80px -40px rgb(24 33 29 / 0.45);
+  --gb-shadow-lift: 0 40px 80px -40px rgb(40 0 8 / 0.6);
 
   --header-h: 72px;
   color-scheme: light;
 }
 
+/* One palette in both themes: the red system is the brand, so dark mode only switches native
+   controls (scrollbars, form widgets) to their dark variants. */
 :root[data-theme="dark"] {
-  --gb-paper: #111613;
-  --gb-paper-2: #18201c;
-  --gb-card: #1a221e;
-  --gb-ink: #e9eee8;
-  --gb-ink-2: #a2afa8;
-  --gb-forest: #5fb38a;
-  --gb-forest-2: #7fcba3;
-  --gb-forest-hover: var(--gb-forest-2);
-  --gb-on-forest: #111613;
-  --gb-moss: #1f3329;
-  --gb-line: rgb(233 238 232 / 0.12);
-  --gb-danger: #f0907f;
-  --gb-face: #22302a;
-  --gb-shadow-lift: 0 40px 80px -40px rgb(0 0 0 / 0.8);
   color-scheme: dark;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --gb-paper: #111613;
-    --gb-paper-2: #18201c;
-    --gb-card: #1a221e;
-    --gb-ink: #e9eee8;
-    --gb-ink-2: #a2afa8;
-    --gb-forest: #5fb38a;
-    --gb-forest-2: #7fcba3;
-    --gb-forest-hover: var(--gb-forest-2);
-    --gb-on-forest: #111613;
-    --gb-moss: #1f3329;
-    --gb-line: rgb(233 238 232 / 0.12);
-    --gb-danger: #f0907f;
-    --gb-face: #22302a;
-    --gb-shadow-lift: 0 40px 80px -40px rgb(0 0 0 / 0.8);
     color-scheme: dark;
   }
+}
+
+/* Page background: flat main red through the hero (matching the character frames' backdrop),
+   then easing down through the red family to the deep red footer, so scrolling never jumps. */
+.gb-page {
+  background: linear-gradient(
+    to bottom,
+    var(--gb-red) 0,
+    var(--gb-red) 100svh,
+    var(--gb-red-2) 30%,
+    var(--gb-red-3) 55%,
+    var(--gb-red-dark) 80%,
+    var(--gb-red-deep) 100%
+  );
 }
 
 /* `dark:` matches an explicit dark choice, or the system preference when no choice is stored. */
@@ -98,6 +102,8 @@
 @theme inline {
   --color-paper: var(--gb-paper);
   --color-paper-2: var(--gb-paper-2);
+  --color-field: var(--gb-field);
+  --color-nav: var(--gb-nav);
   --color-card: var(--gb-card);
   --color-ink: var(--gb-ink);
   --color-ink-2: var(--gb-ink-2);

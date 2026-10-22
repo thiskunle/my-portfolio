@@ -13,7 +13,7 @@ export function ProjectRail({ projects }: { projects: readonly Project[] }) {
     <div>
       <ul
         aria-label="Recent projects"
-        className="-mx-6 flex snap-x snap-mandatory scroll-px-6 gap-4 overflow-x-auto px-6 pb-4 sm:-mx-8 sm:scroll-px-8 sm:px-8"
+        className="relative -mx-6 flex snap-x snap-mandatory scroll-px-6 gap-4 overflow-x-auto px-6 pb-4 sm:-mx-8 sm:scroll-px-8 sm:px-8"
       >
         {projects.map((project, i) => (
           <li key={project.id} className="w-[82%] max-w-sm shrink-0 snap-start sm:w-[46%]">

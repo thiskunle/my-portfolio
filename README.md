@@ -32,7 +32,7 @@ The homepage (`app/page.tsx`) is built from the sections in `components/sections
 
 ### Adding real project details
 
-Each entry in `workSection.projects` accepts optional `category`, `summary`, `url` and `image` fields. Cards show "Details coming soon" and an initials placeholder until those are filled in.
+Each entry in `workSection.projects` accepts optional `category`, `services`, `summary`, `url` and `image` fields. A project without an image shows an illustrated storefront preview (`components/peach/PreviewMockup.tsx`) tagged "Preview" until real artwork is added.
 
 ## Restoring the previous design
 

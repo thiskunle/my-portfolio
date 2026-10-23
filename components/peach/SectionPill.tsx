@@ -1,0 +1,17 @@
+import type { ReactNode } from "react";
+import { cn } from "@/lib/cn";
+
+/** Rounded label that introduces each showcase section. */
+export function SectionPill({ children, className }: { children: ReactNode; className?: string }) {
+  return (
+    <span
+      className={cn(
+        "inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 font-display text-sm font-semibold text-ink ring-1 ring-white/25 backdrop-blur-sm",
+        className,
+      )}
+    >
+      <span aria-hidden className="size-1.5 rounded-full bg-ink" />
+      {children}
+    </span>
+  );
+}

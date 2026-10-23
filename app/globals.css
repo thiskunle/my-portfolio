@@ -29,6 +29,8 @@
   --gb-paper-2: var(--gb-red-2);
   /* Translucent deep-red panels: the page red shows through, so cards never read as a new colour. */
   --gb-card: rgb(102 10 26 / 0.65);
+  /* Alternate showcase-section band (and its curved top edge) over the page gradient. */
+  --gb-tint: rgb(102 10 26 / 0.32);
   --gb-field: rgb(102 10 26 / 0.5);
   --gb-nav: rgb(102 10 26 / 0.85);
   --gb-ink: var(--gb-snow);
@@ -105,6 +107,7 @@
   --color-field: var(--gb-field);
   --color-nav: var(--gb-nav);
   --color-card: var(--gb-card);
+  --color-tint: var(--gb-tint);
   --color-ink: var(--gb-ink);
   --color-ink-2: var(--gb-ink-2);
   --color-forest: var(--gb-forest);
@@ -135,6 +138,13 @@
   --text-display: clamp(2.75rem, 1.5rem + 4.5vw, 5.5rem);
   --text-display--line-height: 1.04;
   --text-display--letter-spacing: -0.02em;
+  /* Showcase (Peach-style) sections: oversized uppercase display type. */
+  --text-hero: clamp(2.75rem, 1rem + 5vw, 5.75rem);
+  --text-hero--line-height: 0.95;
+  --text-hero--letter-spacing: -0.03em;
+  --text-showcase: clamp(2.25rem, 1.2rem + 3.2vw, 4.25rem);
+  --text-showcase--line-height: 0.98;
+  --text-showcase--letter-spacing: -0.035em;
   --text-h1: clamp(2.5rem, 1.4rem + 3.8vw, 4.75rem);
   --text-h1--line-height: 1.08;
   --text-h1--letter-spacing: -0.015em;
@@ -265,6 +275,54 @@
       linear-gradient(var(--color-face-line) 1px, transparent 1px),
       linear-gradient(90deg, var(--color-face-line) 1px, transparent 1px);
     background-size: calc(var(--cube) / 8) calc(var(--cube) / 8);
+  }
+
+  /* Blueprint grid on deep-red showcase cards (e.g. the About market stack). */
+  .gb-grid-face {
+    background-image:
+      linear-gradient(var(--color-face-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-face-line) 1px, transparent 1px);
+    background-size: 2rem 2rem;
+  }
+
+  /* Hand-drawn underline from components/peach/Scribble.tsx; drawn in by GSAP. */
+  .gb-scribble {
+    position: absolute;
+    left: -2%;
+    bottom: -0.14em;
+    width: 104%;
+    height: 0.24em;
+    overflow: visible;
+    pointer-events: none;
+  }
+
+  .gb-scribble path {
+    fill: none;
+    stroke: var(--color-ink);
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-dasharray: 1;
+    /* No vector-effect: non-scaling strokes break pathLength-based dashes in Chromium. */
+    stroke-dashoffset: 1;
+  }
+
+  /* GSAP start states, set in CSS so nothing flashes before hydration. Reduced motion skips
+     the animations and keeps the final state; the <noscript> rule in app/layout.tsx does too. */
+  @media (prefers-reduced-motion: no-preference) {
+    [data-hero-line] {
+      transform: translateY(110%);
+    }
+
+    [data-hero-fade] {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gb-scribble path {
+      stroke-dashoffset: 0;
+    }
   }
 
   /* Fine technical grid used inside panels (e.g. the founder monogram). */

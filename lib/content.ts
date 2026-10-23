@@ -433,10 +433,14 @@ export const peachNavigation: readonly { label: string; href: `#${SectionId}` }[
 export const peachHero = {
   /** Each entry renders on its own line. */
   headline: ["We build", "digital experiences", "that work."],
+  /** Ending of the last headline line that gets the hand-drawn underline. */
+  accent: "work.",
   description:
     "Web development, cybersecurity, cloud solutions, automation and digital solutions for modern businesses.",
   primaryCta: { label: "Start a Project", href: "#contact" },
   secondaryCta: { label: "Explore Our Work", href: "#work" },
+  /** Note beside the cursor-tracking character; touch screens get their own wording. */
+  pointerNote: { mouse: "Move your cursor. We’re paying attention.", touch: "Touch and drag. We’re paying attention." },
 } as const;
 
 export type Location = {
@@ -445,18 +449,24 @@ export type Location = {
   name: string;
   /** Country, shown under a city name. Omitted when the name is already a country. */
   region?: string;
+  /** IANA time zone for the live local-time readout. */
+  timeZone: string;
   /** Optional verified detail (e.g. office type). Render nothing when missing. */
   note?: string;
 };
 
 export const aboutSection = {
   eyebrow: "About GramByte",
-  title: "One team, three markets",
+  title: "One team,",
+  /** Highlighted continuation of the title. */
+  accent: "three markets",
   intro: siteMetadata.description,
+  stackHint: "Click the cards to flip through our markets",
+  localTimeLabel: "Local time",
   locations: [
-    { id: "toronto", name: "Toronto", region: "Canada" },
-    { id: "manchester", name: "Manchester", region: "United Kingdom" },
-    { id: "nigeria", name: "Nigeria" },
+    { id: "toronto", name: "Toronto", region: "Canada", timeZone: "America/Toronto" },
+    { id: "manchester", name: "Manchester", region: "United Kingdom", timeZone: "Europe/London" },
+    { id: "nigeria", name: "Nigeria", timeZone: "Africa/Lagos" },
   ] as readonly Location[],
 } as const;
 
@@ -477,7 +487,8 @@ export const serviceCards: readonly Service[] = services.map((s) => ({
 
 export const servicesShowcase = {
   eyebrow: "Services",
-  title: "What we do",
+  title: "What we",
+  accent: "do",
   note: "Scroll to bring them into line",
 } as const;
 
@@ -496,7 +507,8 @@ export type WorkProject = {
 
 export const workSection = {
   eyebrow: "Selected Work",
-  title: "Projects we’ve built",
+  title: "Projects we’ve",
+  accent: "built",
   pendingLabel: "Details coming soon",
   projects: [
     { id: "grambyte-green", name: "GramByte Green" },
@@ -510,7 +522,8 @@ export const workSection = {
 
 export const storySection = {
   eyebrow: "Our Story",
-  title: "How we got here",
+  title: "How we",
+  accent: "got here",
   milestones: [
     { id: "founded", date: "January 2026", title: "GramByte founded" },
     { id: "incorporated", date: "May 2026", title: "GramByte Technologies Inc. incorporated" },
@@ -522,7 +535,8 @@ export const storySection = {
 
 export const stackSection = {
   eyebrow: "Technology Stack",
-  title: "Tools we work with",
+  title: "Tools we",
+  accent: "work with",
   note: "Drag the tags around",
   shuffleLabel: "Shuffle",
   tags: [

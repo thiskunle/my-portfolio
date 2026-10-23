@@ -76,7 +76,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <noscript>
-          <style>{`[data-reveal]{opacity:1!important;transform:none!important}`}</style>
+          <style>{`[data-reveal],[data-hero-line],[data-hero-fade]{opacity:1!important;visibility:visible!important;transform:none!important}.gb-scribble path{stroke-dashoffset:0!important}`}</style>
         </noscript>
       </head>
       <body className="gb-page flex min-h-dvh flex-col font-body text-ink antialiased">

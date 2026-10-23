@@ -4,6 +4,8 @@ import { OrganizationJsonLd } from "@/components/seo/OrganizationJsonLd";
 import { AboutSection } from "@/components/sections/AboutSection";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { ServicesShowcase } from "@/components/sections/ServicesShowcase";
+import { StackSection } from "@/components/sections/StackSection";
+import { StorySection } from "@/components/sections/StorySection";
 import { WorkSection } from "@/components/sections/WorkSection";
 
 export default function Home() {
@@ -14,6 +16,8 @@ export default function Home() {
       <AboutSection />
       <ServicesShowcase />
       <WorkSection />
+      <StorySection />
+      <StackSection />
       <PricingSection />
       <ContactSection />
     </main>

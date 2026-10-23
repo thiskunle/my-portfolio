@@ -37,9 +37,9 @@ export function AboutSection() {
       ref={root}
       id="about"
       aria-labelledby="about-title"
-      className="relative bg-tint py-section text-ink"
+      className="gb-section gb-section-burgundy relative py-section text-ink"
     >
-      <CurvedEdge className="text-tint" />
+      <CurvedEdge />
       <Container className="grid items-center gap-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:gap-16 xl:gap-24">
         <div data-about-stack className="order-last lg:order-first">
           <LocationStack
@@ -54,6 +54,7 @@ export function AboutSection() {
             eyebrow={aboutSection.eyebrow}
             title={aboutSection.title}
             accent={aboutSection.accent}
+            caps
           />
           <p className="mt-7 max-w-[46ch] text-lead text-ink-2">{aboutSection.intro}</p>
         </div>

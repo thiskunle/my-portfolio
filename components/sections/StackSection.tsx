@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { cardTones, type CardTone } from "@/components/peach/cardTones";
+import { CurvedEdge } from "@/components/peach/CurvedEdge";
 import { ShowcaseHeading } from "@/components/peach/ShowcaseHeading";
 import { Container } from "@/components/ui/Container";
 import { drawScribbles } from "@/lib/animations";
@@ -116,7 +117,8 @@ export function StackSection() {
   );
 
   return (
-    <section ref={root} id="stack" aria-labelledby="stack-title" className="relative overflow-clip py-section text-ink">
+    <section ref={root} id="stack" aria-labelledby="stack-title" className="gb-section gb-section-cream relative py-section">
+      <CurvedEdge flip />
       <Container>
         <div className="flex flex-wrap items-end justify-between gap-6">
           <ShowcaseHeading
@@ -129,7 +131,7 @@ export function StackSection() {
           <button
             type="button"
             onClick={() => shuffleRef.current()}
-            className="min-h-13 rounded-full border-2 border-white/60 px-7 font-semibold text-ink transition-colors duration-200 hover:border-transparent hover:bg-forest hover:text-on-forest"
+            className="min-h-13 rounded-full border-2 border-ink/40 px-7 font-semibold text-ink transition-colors duration-200 hover:border-transparent hover:bg-forest hover:text-on-forest"
           >
             {stackSection.shuffleLabel} ✦
           </button>

@@ -19,7 +19,7 @@ export function Brand({ variant = "compact", className }: BrandProps) {
       href="#top"
       aria-label={`${company.name}, back to top`}
       className={cn(
-        "inline-flex min-h-11 items-center gap-2.5 rounded-md font-display text-xl font-bold text-ink",
+        "inline-flex min-h-11 items-center gap-3 rounded-md font-display text-[1.375rem] font-bold text-ink",
         className,
       )}
     >
@@ -35,8 +35,8 @@ export function Brand({ variant = "compact", className }: BrandProps) {
         </span>
       ) : (
         <>
-          <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-logo-plate p-1">
-            <Image src={brandAssets.mark.src} alt="" width={28} height={23} className="h-auto w-7" />
+          <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-logo-plate p-1">
+            <Image src={brandAssets.mark.src} alt="" width={32} height={26} className="h-auto w-8" />
           </span>
           {company.shortName}
         </>

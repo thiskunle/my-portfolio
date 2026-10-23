@@ -106,8 +106,8 @@ export function StorySection() {
   );
 
   return (
-    <section ref={root} id="story" aria-labelledby="story-title" className="relative bg-tint py-section text-ink">
-      <CurvedEdge className="text-tint" />
+    <section ref={root} id="story" aria-labelledby="story-title" className="gb-section gb-section-burgundy relative py-section text-ink">
+      <CurvedEdge />
       <Container>
         <ShowcaseHeading
           id="story-title"

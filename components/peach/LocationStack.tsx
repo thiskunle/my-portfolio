@@ -133,7 +133,7 @@ export function LocationStack({ locations, localTimeLabel, hint }: LocationStack
             type="button"
             aria-pressed={order[0] === location.id}
             onClick={() => show(location.id)}
-            className="min-h-11 rounded-full px-5 text-control font-semibold text-ink ring-1 ring-white/40 transition-colors duration-200 ring-inset hover:bg-white/10 aria-pressed:bg-forest aria-pressed:text-on-forest aria-pressed:ring-transparent"
+            className="min-h-11 rounded-full px-5 text-control font-semibold text-ink ring-1 ring-ink/40 transition-colors duration-200 ring-inset hover:bg-ink/10 aria-pressed:bg-forest aria-pressed:text-on-forest aria-pressed:ring-transparent"
           >
             {location.name}
           </button>

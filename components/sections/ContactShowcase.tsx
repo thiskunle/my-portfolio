@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { ContactForm } from "@/components/contact/ContactForm";
+import { CurvedEdge } from "@/components/peach/CurvedEdge";
 import { Container } from "@/components/ui/Container";
 import { Icon } from "@/components/ui/Icon";
 import { contact, contactShowcase } from "@/lib/content";
@@ -42,7 +43,8 @@ export function ContactShowcase() {
   }
 
   return (
-    <section ref={root} id="contact" aria-labelledby="contact-title" className="relative py-section text-ink">
+    <section ref={root} id="contact" aria-labelledby="contact-title" className="gb-section gb-section-cream relative py-section">
+      <CurvedEdge flip />
       <Container>
         <div
           data-contact-card

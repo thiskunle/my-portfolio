@@ -64,8 +64,8 @@ export function WorkSection() {
   );
 
   return (
-    <section ref={root} id="work" aria-labelledby="work-title" className="relative bg-tint py-section text-ink">
-      <CurvedEdge flip className="text-tint" />
+    <section ref={root} id="work" aria-labelledby="work-title" className="gb-section gb-section-red relative py-section text-ink">
+      <CurvedEdge flip />
       <Container>
         <ShowcaseHeading
           id="work-title"

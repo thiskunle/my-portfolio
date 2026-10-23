@@ -14,8 +14,8 @@ const FACE_X = 0.53;
 const FACE_Y = 0.37;
 /** On wide screens the frame is drawn this many times the hero height (cropping the empty
  * backdrop above the head), with the face centred at WIDE_ANCHOR_X / WIDE_FACE_AT. */
-const WIDE_ZOOM = 1.3;
-const WIDE_ANCHOR_X = 0.66;
+const WIDE_ZOOM = 1.12;
+const WIDE_ANCHOR_X = 0.71;
 const WIDE_FACE_AT = 0.45;
 const WIDE_MIN_WIDTH = 1024;
 /** On narrow screens the face sits at this fraction of the canvas height. */

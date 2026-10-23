@@ -24,13 +24,16 @@
   --gb-red-soft: #e42b45;
   --gb-snow: #fff7f7;
   --gb-blush: #f3c9cf;
+  /* Warm cream for the light showcase sections, and the dark wine text that sits on it. */
+  --gb-cream: #fbf1e8;
+  --gb-wine-ink: #3f0812;
 
   --gb-paper: var(--gb-red);
   --gb-paper-2: var(--gb-red-2);
   /* Translucent deep-red panels: the page red shows through, so cards never read as a new colour. */
   --gb-card: rgb(102 10 26 / 0.65);
-  /* Alternate showcase-section band (and its curved top edge) over the page gradient. */
-  --gb-tint: rgb(102 10 26 / 0.32);
+  /* Highlighted words (Scribble). Blush on the reds; red on cream (see .gb-section-cream). */
+  --gb-accent: var(--gb-blush);
   --gb-field: rgb(102 10 26 / 0.5);
   --gb-nav: rgb(102 10 26 / 0.85);
   --gb-ink: var(--gb-snow);
@@ -89,6 +92,43 @@
   );
 }
 
+/*
+ * Showcase section colours. Each section sets --section-bg (also used by CurvedEdge so the
+ * wave matches). The cream scope re-points the semantic tokens, so every utility inside it
+ * (text-ink, bg-field, ring-line, buttons, the contact form…) switches to dark-on-light.
+ */
+.gb-section {
+  background-color: var(--section-bg);
+}
+
+.gb-section-red {
+  --section-bg: var(--gb-red);
+}
+
+.gb-section-burgundy {
+  --section-bg: var(--gb-red-deep);
+}
+
+.gb-section-cream,
+.gb-light {
+  --section-bg: var(--gb-cream);
+  --gb-ink: var(--gb-wine-ink);
+  --gb-ink-2: rgb(63 8 18 / 0.74);
+  --gb-accent: var(--gb-red);
+  --gb-forest: var(--gb-red);
+  --gb-forest-2: var(--gb-red-2);
+  --gb-forest-hover: var(--gb-red-dark);
+  --gb-on-forest: var(--gb-snow);
+  --gb-moss: rgb(200 16 46 / 0.08);
+  --gb-line: rgb(102 10 26 / 0.14);
+  --gb-card: #ffffff;
+  --gb-field: #ffffff;
+  --gb-focus: var(--gb-red);
+  --gb-danger: #a8071a;
+  color: var(--gb-ink);
+  color-scheme: light;
+}
+
 /* `dark:` matches an explicit dark choice, or the system preference when no choice is stored. */
 @custom-variant dark {
   &:where([data-theme="dark"], [data-theme="dark"] *) {
@@ -107,7 +147,7 @@
   --color-field: var(--gb-field);
   --color-nav: var(--gb-nav);
   --color-card: var(--gb-card);
-  --color-tint: var(--gb-tint);
+  --color-accent: var(--gb-accent);
   /* Raw brand tones for the alternating showcase cards (snow and blush carry wine text). */
   --color-snow: var(--gb-snow);
   --color-blush: var(--gb-blush);
@@ -143,12 +183,15 @@
   --text-display--line-height: 1.04;
   --text-display--letter-spacing: -0.02em;
   /* Showcase (Peach-style) sections: oversized uppercase display type. */
-  --text-hero: clamp(2.75rem, 1rem + 5vw, 5.75rem);
+  --text-hero: clamp(2.75rem, 0.9rem + 5.4vw, 6.25rem);
   --text-hero--line-height: 0.95;
   --text-hero--letter-spacing: -0.03em;
   --text-showcase: clamp(2.25rem, 1.2rem + 3.2vw, 4.25rem);
   --text-showcase--line-height: 0.98;
   --text-showcase--letter-spacing: -0.035em;
+  --text-editorial: clamp(2.5rem, 1.3rem + 4vw, 5rem);
+  --text-editorial--line-height: 1;
+  --text-editorial--letter-spacing: -0.04em;
   --text-h1: clamp(2.5rem, 1.4rem + 3.8vw, 4.75rem);
   --text-h1--line-height: 1.08;
   --text-h1--letter-spacing: -0.015em;
@@ -309,7 +352,8 @@
 
   .gb-scribble path {
     fill: none;
-    stroke: var(--color-ink);
+    /* --gb-ink, not --color-ink: the latter resolves at :root, so it ignores section scopes. */
+    stroke: var(--gb-ink);
     stroke-width: 4;
     stroke-linecap: round;
     stroke-dasharray: 1;

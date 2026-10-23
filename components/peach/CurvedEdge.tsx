@@ -1,9 +1,9 @@
 import { cn } from "@/lib/cn";
 
 /**
- * Soft wave along a section's top edge. Place it first inside a `relative` section that has a
- * background: it sits just above the section and takes the same fill (via `currentColor`),
- * so the boundary reads as a curve instead of a straight line.
+ * Soft wave along a section's top edge. Place it first inside a `relative` .gb-section: it
+ * sits just above the section and is filled with the section's --section-bg, so the boundary
+ * reads as a curve instead of a straight line.
  */
 export function CurvedEdge({ flip = false, className }: { flip?: boolean; className?: string }) {
   return (
@@ -19,7 +19,7 @@ export function CurvedEdge({ flip = false, className }: { flip?: boolean; classN
       )}
     >
       <path
-        fill="currentColor"
+        fill="var(--section-bg)"
         d="M0 96 V58 C 160 18, 330 8, 520 34 S 880 92, 1100 62 S 1360 12, 1440 30 V96 Z"
       />
     </svg>

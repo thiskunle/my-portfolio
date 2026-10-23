@@ -66,7 +66,6 @@ export const navigation: readonly NavItem[] = [
   { label: "Services", href: "#services" },
   { label: "Work", href: "#work" },
   { label: "Story", href: "#story" },
-  { label: "Stack", href: "#stack" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -429,8 +428,8 @@ export const peachHero = {
     "Web development, cybersecurity, cloud solutions, automation and digital solutions for modern businesses.",
   primaryCta: { label: "Start a Project", href: "#contact" },
   secondaryCta: { label: "Explore Our Work", href: "#work" },
-  /** Note beside the cursor-tracking character; touch screens get their own wording. */
-  pointerNote: { mouse: "Move your cursor. We’re paying attention.", touch: "Touch and drag. We’re paying attention." },
+  /** Markets line above the headline. */
+  markets: ["Toronto", "Manchester", "Nigeria"],
 } as const;
 
 export type Location = {

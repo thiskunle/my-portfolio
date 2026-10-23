@@ -10,8 +10,8 @@ import { peachHero } from "@/lib/content";
 import { gsap, prefersReducedMotion, useGSAP } from "@/lib/gsap";
 
 const ctaBase =
-  "inline-flex min-h-14 items-center justify-center gap-2.5 rounded-full px-7 text-base leading-none font-semibold whitespace-nowrap " +
-  "transition-[background-color,color,border-color,translate] duration-200 ease-out-expo hover:-translate-y-0.5 hover:border-transparent hover:bg-forest-hover hover:text-white " +
+  "inline-flex items-center justify-center gap-2.5 rounded-full leading-none font-semibold whitespace-nowrap " +
+  "transition-[background-color,color,translate] duration-200 ease-out-expo hover:-translate-y-0.5 hover:bg-forest-hover hover:text-white " +
   "motion-reduce:transition-none motion-reduce:hover:translate-y-0";
 
 /** Renders the last headline line with its accent ending underlined. */
@@ -75,32 +75,21 @@ export function HeroSection() {
           aria-hidden="true"
           className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-linear-to-t from-paper to-transparent lg:hidden"
         />
-        <p
-          data-hero-fade
-          className="absolute top-[24%] left-[76%] hidden max-w-[13rem] font-display text-sm font-semibold text-ink-2 lg:block"
-        >
-          <span className="hidden pointer-fine:inline">{peachHero.pointerNote.mouse}</span>
-          <span className="pointer-fine:hidden">{peachHero.pointerNote.touch}</span>
-          <svg
-            aria-hidden
-            focusable="false"
-            viewBox="0 0 80 60"
-            className="mt-2 h-10 w-14 -scale-x-100 text-ink-2"
-          >
-            <path
-              d="M70 6 C 52 10, 30 22, 18 46 M18 46 L 14 32 M18 46 L 31 40"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="3"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </p>
       </div>
 
       <Container className="relative pb-16 lg:pt-header lg:pb-0">
-        <div className="lg:max-w-[min(44rem,54%)]">
+        <div className="lg:max-w-[min(50rem,60%)]">
+          <p
+            data-hero-fade
+            className="mb-6 flex flex-wrap items-center gap-x-3 font-display text-sm font-bold tracking-[0.22em] text-ink-2 uppercase"
+          >
+            {peachHero.markets.map((market, i) => (
+              <span key={market} className="flex items-center gap-3">
+                {i > 0 ? <span aria-hidden className="size-1.5 rounded-full bg-accent" /> : null}
+                {market}
+              </span>
+            ))}
+          </p>
           <h1
             id="hero-title"
             className="font-display text-hero font-extrabold uppercase [text-shadow:0_2px_24px_rgb(0_0_0/0.18)]"
@@ -115,23 +104,25 @@ export function HeroSection() {
             ))}
           </h1>
 
-          <p data-hero-fade className="mt-7 max-w-[40ch] text-lead text-ink-2">
+          <p data-hero-fade className="mt-7 max-w-[44ch] text-lead text-ink-2">
             {peachHero.description}
           </p>
 
-          <div data-hero-fade className="mt-9 flex flex-wrap gap-3">
+          <div data-hero-fade className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
             <a
               href={peachHero.primaryCta.href}
-              className={`${ctaBase} w-full border border-transparent bg-forest text-on-forest shadow-[0_18px_40px_-14px_rgb(40_0_8/0.55)] sm:w-auto`}
+              className={`${ctaBase} w-full min-h-16 bg-forest px-9 text-lg text-on-forest shadow-[0_22px_48px_-16px_rgb(40_0_8/0.7)] sm:w-auto`}
             >
               {peachHero.primaryCta.label}
               <Icon name="arrow-right" />
             </a>
+            {/* Secondary action as a quieter text link, so Start a Project leads. */}
             <a
               href={peachHero.secondaryCta.href}
-              className={`${ctaBase} w-full border-2 border-white/60 bg-transparent text-ink sm:w-auto`}
+              className="group inline-flex min-h-11 items-center gap-2 font-semibold text-ink underline decoration-white/40 decoration-2 underline-offset-8 transition-colors hover:decoration-white"
             >
               {peachHero.secondaryCta.label}
+              <Icon name="arrow-right" className="transition-transform group-hover:translate-x-1 motion-reduce:transition-none" />
             </a>
           </div>
         </div>

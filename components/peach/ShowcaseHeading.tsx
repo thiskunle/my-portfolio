@@ -12,6 +12,11 @@ type ShowcaseHeadingProps = {
   id: string;
   /** Small aside under the title, e.g. an interaction hint. */
   note?: ReactNode;
+  /**
+   * Uppercase display treatment, kept for major statements. Default is large sentence-case
+   * editorial type, which gives the page more hierarchy against the uppercase hero.
+   */
+  caps?: boolean;
   align?: "start" | "center";
   className?: string;
 };
@@ -23,13 +28,20 @@ export function ShowcaseHeading({
   accent,
   id,
   note,
+  caps = false,
   align = "start",
   className,
 }: ShowcaseHeadingProps) {
   return (
     <div className={cn("max-w-4xl", align === "center" && "mx-auto text-center", className)}>
       <SectionPill>{eyebrow}</SectionPill>
-      <h2 id={id} className="mt-5 font-display text-showcase font-extrabold uppercase">
+      <h2
+        id={id}
+        className={cn(
+          "mt-5 font-display",
+          caps ? "text-showcase font-extrabold uppercase" : "text-editorial font-bold",
+        )}
+      >
         {title}
         {accent ? (
           <>

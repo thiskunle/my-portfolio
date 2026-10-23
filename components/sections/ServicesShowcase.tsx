@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import type { CardTone } from "@/components/peach/cardTones";
+import { CurvedEdge } from "@/components/peach/CurvedEdge";
 import { ServiceCard } from "@/components/peach/ServiceCard";
 import { ShowcaseHeading } from "@/components/peach/ShowcaseHeading";
 import { Container } from "@/components/ui/Container";
@@ -75,8 +76,9 @@ export function ServicesShowcase() {
       ref={root}
       id="services"
       aria-labelledby="services-title"
-      className="relative overflow-clip py-section text-ink"
+      className="gb-section gb-section-cream relative py-section"
     >
+      <CurvedEdge flip />
       <Container>
         <ShowcaseHeading
           id="services-title"

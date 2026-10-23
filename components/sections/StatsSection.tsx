@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import { CurvedEdge } from "@/components/peach/CurvedEdge";
 import { Odometer } from "@/components/peach/Odometer";
 import { ShowcaseHeading } from "@/components/peach/ShowcaseHeading";
 import { Container } from "@/components/ui/Container";
@@ -34,7 +35,8 @@ export function StatsSection() {
   );
 
   return (
-    <section ref={root} id="stats" aria-labelledby="stats-title" className="relative py-section text-ink">
+    <section ref={root} id="stats" aria-labelledby="stats-title" className="gb-section gb-section-red relative py-section text-ink">
+      <CurvedEdge />
       <Container>
         <ShowcaseHeading
           id="stats-title"

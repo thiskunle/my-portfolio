@@ -11,7 +11,7 @@ export function Scribble({
   className,
 }: {
   children: ReactNode;
-  /** "accent" tints the text; "inherit" keeps the surrounding colour. */
+  /** "accent" tints the text (blush on red, red on cream); "inherit" keeps the surrounding colour. */
   tone?: "accent" | "inherit";
   className?: string;
 }) {
@@ -19,7 +19,7 @@ export function Scribble({
     <span
       className={cn(
         "relative inline-block",
-        tone === "accent" && "text-ink-2",
+        tone === "accent" && "text-accent",
         className,
       )}
     >

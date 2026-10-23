@@ -1,6 +1,5 @@
 "use client";
 
-import { AnimatePresence, motion } from "motion/react";
 import { useCallback, useEffect, useRef, useState, type FocusEvent } from "react";
 import { Brand } from "@/components/layout/Brand";
 import { useActiveSection } from "@/components/layout/useActiveSection";
@@ -10,7 +9,6 @@ import { Container } from "@/components/ui/Container";
 import { Icon } from "@/components/ui/Icon";
 import { navigation, peachHero } from "@/lib/content";
 import { cn } from "@/lib/cn";
-import { durations } from "@/lib/motion";
 
 const sectionIds = navigation.map((item) => item.href.slice(1));
 const DESKTOP_QUERY = "(min-width: 64rem)"; // Tailwind lg
@@ -69,16 +67,8 @@ export function SiteHeader() {
                     <a
                       href={item.href}
                       aria-current={isActive ? "true" : undefined}
-                      className="relative isolate block rounded-full px-4 py-2.5 text-control font-medium text-ink-2 transition-colors duration-200 hover:text-ink aria-[current]:text-ink"
+                      className="block rounded-full px-4 py-2.5 text-control font-medium text-ink-2 transition-colors duration-200 hover:text-ink aria-[current]:bg-white/12 aria-[current]:text-ink"
                     >
-                      {isActive ? (
-                        <motion.span
-                          layoutId="nav-active-pill"
-                          aria-hidden
-                          className="absolute inset-0 -z-10 rounded-full bg-white/12"
-                          transition={{ duration: durations.base }}
-                        />
-                      ) : null}
                       {item.label}
                     </a>
                   </li>
@@ -107,29 +97,19 @@ export function SiteHeader() {
         </div>
       </Container>
 
-      <AnimatePresence>
-        {menuOpen ? (
-          <motion.div
-            key="scrim"
+      {menuOpen ? (
+        <>
+          <div
             aria-hidden
-            className="fixed inset-x-0 top-header bottom-0 -z-20 bg-scrim lg:hidden"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: durations.fast }}
+            className="fixed inset-x-0 top-header bottom-0 -z-20 bg-scrim motion-safe:animate-[fade-in_200ms_ease-out] lg:hidden"
             onClick={() => closeMenu()}
           />
-        ) : null}
-        {menuOpen ? (
-          <motion.nav
-            key="panel"
+          <nav
             id="mobile-nav"
             aria-label="Primary"
-            className="absolute inset-x-3 top-full max-h-[calc(100dvh-var(--header-h)-1rem)] overflow-y-auto rounded-panel bg-paper shadow-lift ring-1 ring-line lg:hidden"
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.25 }}
+            // data-lenis-prevent: let the panel scroll natively instead of the page.
+            data-lenis-prevent
+            className="absolute inset-x-3 top-full max-h-[calc(100dvh-var(--header-h)-1rem)] overflow-y-auto rounded-panel bg-paper shadow-lift ring-1 ring-line motion-safe:animate-[menu-in_250ms_var(--ease-out-expo)] lg:hidden"
           >
             <Container className="pt-2 pb-8">
               <ul className="divide-y divide-line">
@@ -159,9 +139,9 @@ export function SiteHeader() {
                 {peachHero.primaryCta.label}
               </Button>
             </Container>
-          </motion.nav>
-        ) : null}
-      </AnimatePresence>
+          </nav>
+        </>
+      ) : null}
     </header>
   );
 }

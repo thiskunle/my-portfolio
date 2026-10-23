@@ -4,7 +4,6 @@ import { BackToTop } from "@/components/layout/BackToTop";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SkipLink } from "@/components/layout/SkipLink";
-import { MotionProvider } from "@/components/motion/MotionProvider";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { company, ogImage, siteMetadata } from "@/lib/content";
 import { themeColors, themeInitScript } from "@/lib/theme";
@@ -84,12 +83,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <div id="top" />
         <SkipLink />
         <SmoothScroll />
-        <MotionProvider>
-          <SiteHeader />
-          <div className="flex-1">{children}</div>
-          <SiteFooter />
-          <BackToTop />
-        </MotionProvider>
+        <SiteHeader />
+        <div className="flex-1">{children}</div>
+        <SiteFooter />
+        <BackToTop />
       </body>
     </html>
   );

@@ -1,41 +1,49 @@
 "use client";
 
-import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { buttonStyles } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
-import { durations } from "@/lib/motion";
+import { cn } from "@/lib/cn";
 
-/** Appears after one viewport of scrolling. Links to #top so focus returns to the start of the page. */
+/**
+ * Appears after one viewport of scrolling. Links to #top so focus returns to the start of the
+ * page. Always rendered; hidden with CSS (and removed from the tab order) until needed.
+ */
 export function BackToTop() {
   const [visible, setVisible] = useState(false);
-  const { scrollY } = useScroll();
 
-  useMotionValueEvent(scrollY, "change", (y) => {
-    setVisible(y > window.innerHeight);
-  });
+  useEffect(() => {
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      setVisible(window.scrollY > window.innerHeight);
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(frame);
+    };
+  }, []);
 
   return (
-    <AnimatePresence>
-      {visible ? (
-        <motion.a
-          key="back-to-top"
-          href="#top"
-          aria-label="Back to top"
-          className={buttonStyles({
-            variant: "icon",
-            size: "lg",
-            className:
-              "fixed right-5 bottom-[max(1.25rem,env(safe-area-inset-bottom))] z-40 shadow-lift",
-          })}
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.9 }}
-          transition={{ duration: durations.fast }}
-        >
-          <Icon name="arrow-up" />
-        </motion.a>
-      ) : null}
-    </AnimatePresence>
+    <a
+      href="#top"
+      aria-label="Back to top"
+      aria-hidden={visible ? undefined : true}
+      tabIndex={visible ? undefined : -1}
+      className={buttonStyles({
+        variant: "icon",
+        size: "lg",
+        className: cn(
+          "fixed right-5 bottom-[max(1.25rem,env(safe-area-inset-bottom))] z-40 shadow-lift transition-[opacity,scale] duration-200 motion-reduce:transition-none",
+          !visible && "pointer-events-none scale-90 opacity-0",
+        ),
+      })}
+    >
+      <Icon name="arrow-up" />
+    </a>
   );
 }

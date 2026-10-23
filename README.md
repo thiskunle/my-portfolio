@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# GramByte Technologies Inc. website
 
-## Getting Started
-
-First, run the development server:
+Next.js (App Router, static export for GitHub Pages), TypeScript, Tailwind CSS, GSAP and Lenis.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run dev     # http://localhost:3000
+npm run build   # static site in out/
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Homepage structure
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The homepage (`app/page.tsx`) is built from the sections in `components/sections/`:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Section | Component | Interaction |
+|---|---|---|
+| Hero | `HeroSection` | Cursor-tracking character, headline rises in line by line |
+| About | `AboutSection` | Clickable stack of market cards with live local times |
+| Services | `ServicesShowcase` | Cards start scattered and sort into a grid on scroll |
+| Selected Work | `WorkSection` | Cards dealt from a pile into the grid; hover tilt |
+| Our Story | `StorySection` | Road draws itself through the milestones on scroll |
+| Technology Stack | `StackSection` | Draggable tags with a Shuffle button |
+| Stats | `StatsSection` | Odometer numbers |
+| Contact | `ContactShowcase` | Contact card, copy-email button, contact form |
 
-## Learn More
+- **Content** lives in `lib/content.ts`. Edit text, projects, milestones, tags and stats there.
+- **Shared pieces** (cards, the hand-drawn underline, curved section edges, the odometer, the tilt hook) live in `components/peach/`.
+- **GSAP** is imported only from `lib/gsap.ts`, which registers the plugins. Shared scroll animations are in `lib/animations.ts`.
+- **Smooth scrolling** comes from `components/motion/SmoothScroll.tsx` (Lenis, driven by the GSAP ticker).
+- **Reduced motion:** every animation is skipped and the final layout shown. Start states set in CSS are in the "GSAP start states" block of `app/globals.css`.
 
-To learn more about Next.js, take a look at the following resources:
+### Adding real project details
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Each entry in `workSection.projects` accepts optional `category`, `summary`, `url` and `image` fields. Cards show "Details coming soon" and an initials placeholder until those are filled in.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Restoring the previous design
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The previous homepage is tagged `pre-peach-redesign`. Its components (`components/hero`, `services`, `projects`, `pricing`, `contact/ContactSection`) are still in the repo, unused, and the Motion library remains installed for them.

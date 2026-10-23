@@ -15,7 +15,9 @@ import { WorkSection } from "@/components/sections/WorkSection";
  */
 export default function Home() {
   return (
-    <main id="main">
+    // overflow-x-clip: cards start off to the side before animating in; clip (unlike hidden)
+    // creates no scroll container, so the curved section edges and ScrollTrigger are unaffected.
+    <main id="main" className="overflow-x-clip">
       <OrganizationJsonLd />
       <HeroSection />
       <AboutSection />

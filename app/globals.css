@@ -195,6 +195,13 @@
     }
   }
 
+  @keyframes menu-in {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+  }
+
   @keyframes dialog-in {
     from {
       opacity: 0;

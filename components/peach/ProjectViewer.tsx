@@ -11,7 +11,6 @@ type ProjectViewerProps = {
   project: WorkProject | null;
   labels: {
     pendingLabel: string;
-    caseStudyNote: string;
     similarCta: string;
     previewNote: string;
   };
@@ -65,10 +64,8 @@ export function ProjectViewer({ project, labels, onClose }: ProjectViewerProps) 
                 {project.name}
               </h3>
               <p className="mt-2 text-lead text-wine/75">{project.services ?? labels.pendingLabel}</p>
-              {project.summary ? <p className="mt-4 text-wine/75">{project.summary}</p> : null}
-              <p className="mt-4 text-sm text-wine/60">
-                {project.image ? labels.caseStudyNote : labels.previewNote}
-              </p>
+              {project.description ? <p className="mt-4 max-w-[60ch] text-wine/75">{project.description}</p> : null}
+              {project.image ? null : <p className="mt-4 text-sm text-wine/60">{labels.previewNote}</p>}
             </div>
             <div className="flex flex-wrap gap-3">
               {project.url ? (

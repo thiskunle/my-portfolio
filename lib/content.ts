@@ -574,6 +574,9 @@ export const servicesShowcase = {
   note: "Keep scrolling. They’ll sort themselves out.",
 } as const;
 
+/** A project viewer description, reusing the summary the site already gives that artwork. */
+const projectDescription = (id: string) => projects.find((p) => p.id === id)?.summary;
+
 export type WorkProject = {
   id: string;
   name: string;
@@ -585,6 +588,8 @@ export type WorkProject = {
   /** Service types shown under the name, e.g. "Cloud · Google Workspace deployment". */
   services?: string;
   summary?: string;
+  /** Longer description shown in the project viewer only. */
+  description?: string;
   url?: string;
   image?: ProjectImage;
 };
@@ -597,7 +602,6 @@ export const workSection = {
   /** Tag on cards that show the illustrated preview instead of artwork. */
   previewTag: "Preview",
   viewLabel: "View project",
-  caseStudyNote: "A full case study is on the way.",
   similarCta: "Start a similar project",
   previewNote: "Illustrative preview. Project visuals coming soon.",
   projects: [
@@ -611,6 +615,7 @@ export const workSection = {
       name: "GramByte Green",
       category: "Cloud",
       services: "Cloud · Google Workspace deployment",
+      description: projectDescription("google-workspace-deployment"),
       image: { src: "/images/projects/google-workspace-deployment.webp", alt: "", width: 1280, height: 714 },
     },
     {
@@ -618,6 +623,7 @@ export const workSection = {
       name: "Crown & Root",
       category: "Digital Branding",
       services: "Digital branding · Business identity",
+      description: projectDescription("digital-branding"),
       image: { src: "/images/projects/digital-branding.webp", alt: "", width: 1280, height: 714 },
     },
     {
@@ -625,6 +631,7 @@ export const workSection = {
       name: "NursePro Canada Inc.",
       category: "Business Systems",
       services: "Web development · Business platform",
+      description: projectDescription("custom-business-platform"),
       image: { src: "/images/projects/custom-business-platform.webp", alt: "", width: 1280, height: 714 },
     },
     {
@@ -632,6 +639,7 @@ export const workSection = {
       name: "Lagos.ca",
       category: "Automation",
       services: "Automation · Business workflows",
+      description: projectDescription("workflow-automation"),
       image: { src: "/images/projects/workflow-automation.webp", alt: "", width: 1280, height: 714 },
     },
     { id: "tiana-lux-hair", name: "Tiana Lux Hair" },
@@ -640,6 +648,7 @@ export const workSection = {
       name: "Gibbs Africa Peace Corps",
       category: "Cybersecurity",
       services: "Cybersecurity · Audit & protection",
+      description: projectDescription("cybersecurity-audit"),
       image: { src: "/images/projects/cybersecurity-audit.webp", alt: "", width: 1280, height: 714 },
     },
   ] as readonly WorkProject[],

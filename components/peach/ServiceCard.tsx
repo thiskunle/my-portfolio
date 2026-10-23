@@ -1,18 +1,18 @@
 "use client";
 
 import { cardTones, type CardTone } from "@/components/peach/cardTones";
+import { ServiceArt } from "@/components/peach/ServiceArt";
 import { useTilt } from "@/components/peach/useTilt";
-import { Icon } from "@/components/ui/Icon";
-import type { Service } from "@/lib/content";
+import type { ServiceCardData } from "@/lib/content";
 import { cn } from "@/lib/cn";
 
 type ServiceCardProps = {
-  service: Service;
+  service: ServiceCardData;
   index: number;
   tone: CardTone;
 };
 
-/** One service: number, icon, name and canonical description. Tilts toward the pointer. */
+/** One service: illustration, number, name and a one-line summary. Tilts toward the pointer. */
 export function ServiceCard({ service, index, tone }: ServiceCardProps) {
   const tilt = useTilt<HTMLDivElement>();
   const t = cardTones[tone];
@@ -21,26 +21,19 @@ export function ServiceCard({ service, index, tone }: ServiceCardProps) {
     <div
       ref={tilt}
       className={cn(
-        "flex h-full min-h-72 flex-col rounded-card p-7 shadow-lift will-change-transform sm:p-8",
+        "flex h-full min-h-64 flex-col rounded-card p-7 shadow-lift will-change-transform",
         t.surface,
         t.ink,
       )}
     >
-      <div className="flex items-center justify-between">
+      <div className="flex items-start justify-between gap-4">
+        <ServiceArt id={service.id} />
         <span className={cn("font-display text-sm font-semibold", t.muted)}>
           {String(index + 1).padStart(2, "0")}
         </span>
-        <span
-          className={cn(
-            "grid size-12 place-items-center rounded-full border text-xl",
-            t.line,
-          )}
-        >
-          <Icon name={service.icon} />
-        </span>
       </div>
-      <h3 className="mt-auto pt-10 font-display text-h3 font-extrabold uppercase">{service.name}</h3>
-      <p className={cn("mt-3", t.muted)}>{service.description}</p>
+      <h3 className="mt-auto pt-8 font-display text-2xl font-extrabold tracking-tight">{service.name}</h3>
+      <p className={cn("mt-2", t.muted)}>{service.summary}</p>
     </div>
   );
 }

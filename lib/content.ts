@@ -482,26 +482,49 @@ export const aboutSection = {
   ] as readonly Location[],
 } as const;
 
-const serviceCardNames: Record<ServiceId, string> = {
-  "web-development": "Web Development",
-  cybersecurity: "Cybersecurity",
-  "cloud-solutions": "Cloud Solutions",
-  "business-automation": "Automation",
-  "brand-identity": "Branding",
-  "it-consulting": "Business IT Solutions",
+/*
+ * The six services under the redesign's card names, with short card copy. Each summary is
+ * trimmed from the canonical description above (no new claims); the full text stays on Service.
+ */
+const serviceCardCopy: Record<ServiceId, { name: string; summary: string }> = {
+  "web-development": {
+    name: "Web Development",
+    summary: "Business websites, e-commerce and custom web applications.",
+  },
+  cybersecurity: {
+    name: "Cybersecurity",
+    summary: "Security assessments, vulnerability testing, monitoring and awareness.",
+  },
+  "cloud-solutions": {
+    name: "Cloud Solutions",
+    summary: "Cloud setup, Google Workspace, migration and business email.",
+  },
+  "business-automation": {
+    name: "Automation",
+    summary: "Workflow automation, AI-assisted systems and integrations.",
+  },
+  "brand-identity": {
+    name: "Branding",
+    summary: "Logos, business cards, digital assets and visual systems.",
+  },
+  "it-consulting": {
+    name: "Business IT Solutions",
+    summary: "Technology planning and technical support.",
+  },
 };
 
-/** The six services under the redesign's card names; descriptions stay canonical. */
-export const serviceCards: readonly Service[] = services.map((s) => ({
+export type ServiceCardData = Service & { summary: string };
+
+export const serviceCards: readonly ServiceCardData[] = services.map((s) => ({
   ...s,
-  name: serviceCardNames[s.id],
+  ...serviceCardCopy[s.id],
 }));
 
 export const servicesShowcase = {
   eyebrow: "Services",
   title: "What we",
   accent: "do",
-  note: "Scroll to bring them into line",
+  note: "Keep scrolling. They’ll sort themselves out.",
 } as const;
 
 export type WorkProject = {

@@ -414,3 +414,145 @@ export const footer = {
   tagline: company.tagline,
   rightsHolder: company.name,
 } as const;
+
+/* ══ Peach-style homepage (peach-redesign) ══════════════
+ * Content for the GSAP-driven sections in components/sections. Copy comes from the
+ * redesign brief; service descriptions reuse the canonical ones above.
+ */
+
+export type SectionId = "home" | "about" | "services" | "work" | "story" | "stack" | "contact";
+
+export const peachNavigation: readonly { label: string; href: `#${SectionId}` }[] = [
+  { label: "About", href: "#about" },
+  { label: "Services", href: "#services" },
+  { label: "Work", href: "#work" },
+  { label: "Story", href: "#story" },
+  { label: "Contact", href: "#contact" },
+];
+
+export const peachHero = {
+  /** Each entry renders on its own line. */
+  headline: ["We build", "digital experiences", "that work."],
+  description:
+    "Web development, cybersecurity, cloud solutions, automation and digital solutions for modern businesses.",
+  primaryCta: { label: "Start a Project", href: "#contact" },
+  secondaryCta: { label: "Explore Our Work", href: "#work" },
+} as const;
+
+export type Location = {
+  id: string;
+  /** City or country as GramByte names the market. */
+  name: string;
+  /** Country, shown under a city name. Omitted when the name is already a country. */
+  region?: string;
+  /** Optional verified detail (e.g. office type). Render nothing when missing. */
+  note?: string;
+};
+
+export const aboutSection = {
+  eyebrow: "About GramByte",
+  title: "One team, three markets",
+  intro: siteMetadata.description,
+  locations: [
+    { id: "toronto", name: "Toronto", region: "Canada" },
+    { id: "manchester", name: "Manchester", region: "United Kingdom" },
+    { id: "nigeria", name: "Nigeria" },
+  ] as readonly Location[],
+} as const;
+
+const serviceCardNames: Record<ServiceId, string> = {
+  "web-development": "Web Development",
+  cybersecurity: "Cybersecurity",
+  "cloud-solutions": "Cloud Solutions",
+  "business-automation": "Automation",
+  "brand-identity": "Branding",
+  "it-consulting": "Business IT Solutions",
+};
+
+/** The six services under the redesign's card names; descriptions stay canonical. */
+export const serviceCards: readonly Service[] = services.map((s) => ({
+  ...s,
+  name: serviceCardNames[s.id],
+}));
+
+export const servicesShowcase = {
+  eyebrow: "Services",
+  title: "What we do",
+  note: "Scroll to bring them into line",
+} as const;
+
+export type WorkProject = {
+  id: string;
+  name: string;
+  /*
+   * Optional verified details. Leave undefined until supplied by GramByte;
+   * cards show a "Details coming soon" placeholder instead.
+   */
+  category?: string;
+  summary?: string;
+  url?: string;
+  image?: ProjectImage;
+};
+
+export const workSection = {
+  eyebrow: "Selected Work",
+  title: "Projects we’ve built",
+  pendingLabel: "Details coming soon",
+  projects: [
+    { id: "grambyte-green", name: "GramByte Green" },
+    { id: "crown-and-root", name: "Crown & Root" },
+    { id: "nursepro-canada", name: "NursePro Canada Inc." },
+    { id: "lagos-ca", name: "Lagos.ca" },
+    { id: "tiana-lux-hair", name: "Tiana Lux Hair" },
+    { id: "gibbs-africa-peace-corps", name: "Gibbs Africa Peace Corps" },
+  ] as readonly WorkProject[],
+} as const;
+
+export const storySection = {
+  eyebrow: "Our Story",
+  title: "How we got here",
+  milestones: [
+    { id: "founded", date: "January 2026", title: "GramByte founded" },
+    { id: "incorporated", date: "May 2026", title: "GramByte Technologies Inc. incorporated" },
+    { id: "first-clients", date: "2026", title: "First client projects" },
+    { id: "toronto-workspace", date: "2026", title: "Toronto workspace established" },
+    { id: "next-chapter", date: "Now", title: "Building the next chapter" },
+  ],
+} as const;
+
+export const stackSection = {
+  eyebrow: "Technology Stack",
+  title: "Tools we work with",
+  note: "Drag the tags around",
+  shuffleLabel: "Shuffle",
+  tags: [
+    "Next.js",
+    "React",
+    "TypeScript",
+    "Node.js",
+    "Python",
+    "AWS",
+    "Azure",
+    "PostgreSQL",
+    "MySQL",
+    "GSAP",
+    "Figma",
+    "AI",
+    "Cybersecurity",
+    "Automation",
+  ],
+} as const;
+
+export const stats: readonly { id: string; value: number; suffix?: string; label: string }[] = [
+  { id: "services", value: 6, label: "Core Services" },
+  { id: "markets", value: 3, label: "Markets" },
+  { id: "projects", value: 6, suffix: "+", label: "Portfolio Projects" },
+];
+
+export const contactShowcase = {
+  eyebrow: "Contact",
+  headline: ["Let’s build", "something", "useful."],
+  cta: { label: "Start a Project", href: `mailto:${contact.email}` },
+  email: contact.email,
+  locations: aboutSection.locations.map((l) => l.name).join(" · "),
+} as const;

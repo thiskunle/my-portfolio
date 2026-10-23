@@ -287,6 +287,11 @@
     html {
       scroll-behavior: smooth;
     }
+
+    /* Lenis smooths scrolling itself; native smooth scrolling would fight it. */
+    html.lenis {
+      scroll-behavior: auto;
+    }
   }
 
   body {

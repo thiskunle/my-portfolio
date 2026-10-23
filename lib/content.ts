@@ -535,6 +535,8 @@ export type WorkProject = {
    * cards show a "Details coming soon" placeholder instead.
    */
   category?: string;
+  /** Service types shown under the name, e.g. "Cloud · Google Workspace deployment". */
+  services?: string;
   summary?: string;
   url?: string;
   image?: ProjectImage;
@@ -545,34 +547,44 @@ export const workSection = {
   title: "Projects we’ve",
   accent: "built",
   pendingLabel: "Details coming soon",
+  /** Tag on cards that show the illustrated preview instead of artwork. */
+  previewTag: "Preview",
+  viewLabel: "View project",
+  caseStudyNote: "A full case study is on the way.",
+  similarCta: "Start a similar project",
+  previewNote: "Illustrative preview. Project visuals coming soon.",
   projects: [
     /*
      * Images are the grambyte.ca portfolio artwork; each one shows the project's own name.
-     * Categories come from the label the live site gives that artwork. No image of
-     * Tiana Lux Hair exists yet, so its card keeps the placeholder.
+     * Categories and service lines come from the title and label the live site gives that
+     * artwork. No image of Tiana Lux Hair exists yet, so its card shows an illustrated preview.
      */
     {
       id: "grambyte-green",
       name: "GramByte Green",
       category: "Cloud",
+      services: "Cloud · Google Workspace deployment",
       image: { src: "/images/projects/google-workspace-deployment.jpg", alt: "", width: 800, height: 600 },
     },
     {
       id: "crown-and-root",
       name: "Crown & Root",
       category: "Digital Branding",
+      services: "Digital branding · Business identity",
       image: { src: "/images/projects/digital-branding.png", alt: "", width: 326, height: 359 },
     },
     {
       id: "nursepro-canada",
       name: "NursePro Canada Inc.",
       category: "Business Systems",
+      services: "Web development · Business platform",
       image: { src: "/images/projects/custom-business-platform.jpg", alt: "", width: 800, height: 600 },
     },
     {
       id: "lagos-ca",
       name: "Lagos.ca",
       category: "Automation",
+      services: "Automation · Business workflows",
       image: { src: "/images/projects/workflow-automation.jpg", alt: "", width: 800, height: 600 },
     },
     { id: "tiana-lux-hair", name: "Tiana Lux Hair" },
@@ -580,6 +592,7 @@ export const workSection = {
       id: "gibbs-africa-peace-corps",
       name: "Gibbs Africa Peace Corps",
       category: "Cybersecurity",
+      services: "Cybersecurity · Audit & protection",
       image: { src: "/images/projects/cybersecurity-audit.jpg", alt: "", width: 800, height: 600 },
     },
   ] as readonly WorkProject[],

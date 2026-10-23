@@ -1,23 +1,25 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import type { CardTone } from "@/components/peach/cardTones";
 import { CurvedEdge } from "@/components/peach/CurvedEdge";
 import { ProjectCard } from "@/components/peach/ProjectCard";
+import { ProjectViewer } from "@/components/peach/ProjectViewer";
 import { ShowcaseHeading } from "@/components/peach/ShowcaseHeading";
 import { Container } from "@/components/ui/Container";
 import { drawScribbles } from "@/lib/animations";
-import { workSection } from "@/lib/content";
+import { workSection, type WorkProject } from "@/lib/content";
 import { gsap, prefersReducedMotion, useGSAP } from "@/lib/gsap";
 
 const tones: readonly CardTone[] = ["face", "blush", "face", "blush", "face", "blush"];
 
 /**
- * Selected work. On wide screens the cards are dealt from a single pile in the middle of the
+ * Selected work. "View project" opens a modal viewer. On wide screens the cards are dealt from a single pile in the middle of the
  * grid into their places; on smaller screens each card rises in as it arrives.
  */
 export function WorkSection() {
   const root = useRef<HTMLElement | null>(null);
+  const [viewing, setViewing] = useState<WorkProject | null>(null);
 
   useGSAP(
     () => {
@@ -81,11 +83,15 @@ export function WorkSection() {
                 index={i}
                 tone={tones[i % tones.length]}
                 pendingLabel={workSection.pendingLabel}
+                previewTag={workSection.previewTag}
+                viewLabel={workSection.viewLabel}
+                onView={setViewing}
               />
             </li>
           ))}
         </ul>
       </Container>
+      <ProjectViewer project={viewing} labels={workSection} onClose={() => setViewing(null)} />
     </section>
   );
 }

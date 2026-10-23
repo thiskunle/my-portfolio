@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { cardTones, type CardTone } from "@/components/peach/cardTones";
+import { PreviewMockup } from "@/components/peach/PreviewMockup";
 import { useTilt } from "@/components/peach/useTilt";
 import { Icon } from "@/components/ui/Icon";
 import type { WorkProject } from "@/lib/content";
@@ -12,6 +13,9 @@ type ProjectCardProps = {
   index: number;
   tone: CardTone;
   pendingLabel: string;
+  previewTag: string;
+  viewLabel: string;
+  onView: (project: WorkProject) => void;
 };
 
 const slug = (name: string) =>
@@ -21,29 +25,35 @@ const slug = (name: string) =>
     .replace(/[^a-z0-9.]+/g, "-")
     .replace(/^[-.]+|[-.]+$/g, "");
 
-const initials = (name: string) =>
-  name
-    .replace(/[^A-Za-z0-9 &]/g, " ")
-    .split(/\s+/)
-    .filter((w) => /^[A-Za-z0-9]/.test(w))
-    .slice(0, 2)
-    .map((w) => w[0].toUpperCase())
-    .join("");
+/** The project's artwork, or an illustrated storefront preview when there is none yet. */
+export function ProjectVisual({ project, sizes }: { project: WorkProject; sizes: string }) {
+  return project.image ? (
+    <Image
+      src={project.image.src}
+      // alt is empty: the project name is always shown right beside the artwork.
+      alt={project.image.alt}
+      width={project.image.width}
+      height={project.image.height}
+      sizes={sizes}
+      className="size-full object-cover"
+    />
+  ) : (
+    <PreviewMockup name={project.name} />
+  );
+}
 
 /**
- * A project shown as a browser window over a details panel. Until GramByte supplies real
- * screenshots, the window holds a placeholder: the project's initials on a blueprint grid.
- * Optional fields (category, summary, url, image) render only when present.
+ * A project shown as a browser window over a details panel. Enlarges and tilts slightly on
+ * hover; "View project" opens the project viewer. Optional fields render only when present.
  */
-export function ProjectCard({ project, index, tone, pendingLabel }: ProjectCardProps) {
-  const tilt = useTilt<HTMLElement>(6);
+export function ProjectCard({ project, index, tone, pendingLabel, previewTag, viewLabel, onView }: ProjectCardProps) {
+  const tilt = useTilt<HTMLElement>(5, 1.03);
   const t = cardTones[tone];
-  const pending = !project.summary;
 
   return (
     <article
       ref={tilt}
-      className="flex h-full flex-col overflow-clip rounded-card bg-snow text-wine shadow-lift will-change-transform"
+      className="group flex h-full flex-col overflow-clip rounded-card bg-snow text-wine shadow-lift will-change-transform"
     >
       <div className={cn("m-3 mb-0 overflow-clip rounded-[1.1rem]", t.surface)}>
         <div className={cn("flex items-center gap-1.5 border-b px-4 py-3", t.line, t.ink)}>
@@ -54,53 +64,32 @@ export function ProjectCard({ project, index, tone, pendingLabel }: ProjectCardP
             {slug(project.name)}
           </span>
         </div>
-        <div className="relative aspect-[16/10]">
-          {project.image ? (
-            <Image
-              src={project.image.src}
-              alt={project.image.alt}
-              width={project.image.width}
-              height={project.image.height}
-              sizes="(min-width: 1024px) 24rem, (min-width: 768px) 45vw, 90vw"
-              // alt is empty: the project name is the card's heading right below.
-              className="size-full object-cover"
-            />
-          ) : (
-            <div
-              aria-hidden
-              className={cn("gb-grid-face grid size-full place-items-center", t.ink)}
-            >
-              <span className="font-display text-[clamp(3rem,2rem+3vw,4.5rem)] font-extrabold tracking-tight opacity-90">
-                {initials(project.name)}
-              </span>
-            </div>
-          )}
+        <div className="@container relative aspect-[16/10] overflow-clip">
+          <div className="size-full transition-transform duration-700 ease-out-expo group-hover:scale-105 motion-reduce:transition-none">
+            <ProjectVisual project={project} sizes="(min-width: 1024px) 24rem, (min-width: 768px) 45vw, 90vw" />
+          </div>
         </div>
       </div>
 
       <div className="flex flex-1 flex-col p-6 sm:p-7">
         <div className="flex items-center justify-between gap-3 text-sm">
-          <span className="font-display font-semibold text-wine/60">
-            {String(index + 1).padStart(2, "0")}
-          </span>
+          <span className="font-display font-semibold text-wine/60">{String(index + 1).padStart(2, "0")}</span>
           <span className="rounded-full bg-wine/8 px-3 py-1 font-semibold text-wine/80">
-            {project.category ?? pendingLabel}
+            {project.category ?? previewTag}
           </span>
         </div>
-        <h3 className="mt-4 font-display text-h3 font-extrabold uppercase">{project.name}</h3>
-        {pending ? null : <p className="mt-3 text-wine/75">{project.summary}</p>}
-        {project.url ? (
-          <a
-            href={project.url}
-            target="_blank"
-            rel="noreferrer"
-            className="mt-auto inline-flex items-center gap-2 pt-6 font-semibold text-wine underline-offset-4 hover:underline"
-          >
-            View project
-            <Icon name="arrow-right" />
-            <span className="sr-only">(opens in a new tab)</span>
-          </a>
-        ) : null}
+        <h3 className="mt-4 font-display text-2xl font-extrabold tracking-tight">{project.name}</h3>
+        <p className="mt-1.5 text-wine/70">{project.services ?? pendingLabel}</p>
+        {project.summary ? <p className="mt-3 text-wine/75">{project.summary}</p> : null}
+        <button
+          type="button"
+          onClick={() => onView(project)}
+          className="mt-auto inline-flex min-h-11 items-center gap-2 self-start pt-5 font-semibold text-wine underline decoration-wine/30 decoration-2 underline-offset-6 transition-colors hover:decoration-wine"
+        >
+          {viewLabel}
+          <Icon name="arrow-right" className="transition-transform group-hover:translate-x-1 motion-reduce:transition-none" />
+          <span className="sr-only">: {project.name}</span>
+        </button>
       </div>
     </article>
   );

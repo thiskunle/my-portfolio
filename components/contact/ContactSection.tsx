@@ -30,6 +30,7 @@ export function ContactSection() {
             <div className="relative">
               <div className="relative mb-8 aspect-[16/10] overflow-hidden rounded-card ring-1 ring-face-line ring-inset">
                 <Image
+                  unoptimized
                   src={contact.portrait.src}
                   alt={contact.portrait.alt}
                   fill

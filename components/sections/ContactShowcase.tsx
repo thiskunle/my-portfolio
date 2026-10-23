@@ -111,6 +111,7 @@ export function ContactShowcase() {
                 className="absolute inset-x-8 top-10 bottom-0 overflow-clip rounded-t-[1.75rem] ring-8 ring-snow sm:inset-x-14 lg:inset-x-10 lg:top-14"
               >
                 <Image
+                  unoptimized
                   src={contact.portrait.src}
                   alt={contact.portrait.alt}
                   fill

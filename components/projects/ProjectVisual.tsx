@@ -15,6 +15,7 @@ export function ProjectVisual({ project, sizes }: ProjectVisualProps) {
   if (project.image) {
     return (
       <Image
+        unoptimized
         src={project.image.src}
         alt={project.image.alt}
         fill

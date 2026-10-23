@@ -483,37 +483,84 @@ export const aboutSection = {
 } as const;
 
 /*
- * The six services under the redesign's card names, with short card copy. Each summary is
- * trimmed from the canonical description above (no new claims); the full text stays on Service.
+ * The six services as shown on the homepage cards: redesign names, card copy and rendered
+ * artwork. Images live in public/services as <name>.webp (1280px) plus -640/-960/-1920
+ * variants, served through lib/serviceImageLoader.ts. The artwork carries its own baked-in
+ * labels, so alt text describes the scene rather than repeating them.
  */
-const serviceCardCopy: Record<ServiceId, { name: string; summary: string }> = {
+type ServiceCardCopy = {
+  name: string;
+  summary: string;
+  image: ProjectImage;
+  /** Glow under the card on hover, matched to the artwork's dominant tone (an RGB triple). */
+  glow: string;
+};
+
+const serviceArtwork = (file: string, alt: string): ProjectImage => ({
+  src: `/services/${file}.webp`,
+  alt,
+  width: 1280,
+  height: 714,
+});
+
+const serviceCardCopy: Record<ServiceId, ServiceCardCopy> = {
   "web-development": {
     name: "Web Development",
-    summary: "Business websites, e-commerce and custom web applications.",
+    summary: "Business websites, e-commerce platforms and custom web applications.",
+    image: serviceArtwork(
+      "web-development",
+      "3D isometric tile with a glowing code window and turning gears, wired to circuit lines",
+    ),
+    glow: "142 13 36",
   },
   cybersecurity: {
     name: "Cybersecurity",
-    summary: "Security assessments, vulnerability testing, monitoring and awareness.",
+    summary: "Security reviews, protection strategies and practical security solutions for modern businesses.",
+    image: serviceArtwork(
+      "cybersecurity",
+      "3D isometric red tile with a shield and padlock above a network of glowing circuit nodes",
+    ),
+    glow: "200 16 46",
   },
   "cloud-solutions": {
     name: "Cloud Solutions",
-    summary: "Cloud setup, Google Workspace, migration and business email.",
+    summary: "Cloud setup, migration, Google Workspace, business email and cloud infrastructure support.",
+    image: serviceArtwork(
+      "cloud-solutions",
+      "3D isometric pink tile with a translucent cloud linked to servers, documents and email icons",
+    ),
+    glow: "228 43 69",
   },
   "business-automation": {
     name: "Automation",
-    summary: "Workflow automation, AI-assisted systems and integrations.",
+    summary: "Workflow automation, AI-assisted systems and connected business processes.",
+    image: serviceArtwork(
+      "automation",
+      "3D isometric glass tile with a robotic arm, gears and a connected workflow diagram",
+    ),
+    glow: "228 43 69",
   },
   "brand-identity": {
     name: "Branding",
-    summary: "Logos, business cards, digital assets and visual systems.",
+    summary: "Logos, visual systems, business assets and digital brand materials.",
+    image: serviceArtwork(
+      "branding",
+      "3D isometric dark red tile with a stylus, colour blocks, a palette card and a design screen",
+    ),
+    glow: "102 10 26",
   },
   "it-consulting": {
     name: "Business IT Solutions",
-    summary: "Technology planning and technical support.",
+    summary: "Technology planning, business systems, technical support and digital infrastructure.",
+    image: serviceArtwork(
+      "business-it-solutions",
+      "3D isometric red tile with a project roadmap, server racks, a chat bubble and a network graph",
+    ),
+    glow: "154 13 36",
   },
 };
 
-export type ServiceCardData = Service & { summary: string };
+export type ServiceCardData = Service & ServiceCardCopy;
 
 export const serviceCards: readonly ServiceCardData[] = services.map((s) => ({
   ...s,

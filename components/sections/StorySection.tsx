@@ -144,7 +144,7 @@ export function StorySection() {
             aria-hidden
             className="pointer-events-none absolute top-0 left-0 z-10 -mt-6 -ml-6 grid size-12 place-items-center rounded-full bg-logo-plate p-2 shadow-lift ring-4 ring-snow"
           >
-            <Image src={brandAssets.mark.src} alt="" width={32} height={26} className="h-auto w-8" />
+            <Image unoptimized src={brandAssets.mark.src} alt="" width={32} height={26} className="h-auto w-8" />
           </span>
 
           {storySection.milestones.map((milestone, i) => (

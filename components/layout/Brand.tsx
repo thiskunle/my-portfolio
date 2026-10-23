@@ -26,6 +26,7 @@ export function Brand({ variant = "compact", className }: BrandProps) {
       {variant === "full" ? (
         <span className="block rounded-card bg-logo-plate px-5 py-4">
           <Image
+            unoptimized
             src={brandAssets.logo.src}
             alt=""
             width={240}
@@ -36,7 +37,7 @@ export function Brand({ variant = "compact", className }: BrandProps) {
       ) : (
         <>
           <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-logo-plate p-1">
-            <Image src={brandAssets.mark.src} alt="" width={32} height={26} className="h-auto w-8" />
+            <Image unoptimized src={brandAssets.mark.src} alt="" width={32} height={26} className="h-auto w-8" />
           </span>
           {company.shortName}
         </>

@@ -29,6 +29,7 @@ const slug = (name: string) =>
 export function ProjectVisual({ project, sizes }: { project: WorkProject; sizes: string }) {
   return project.image ? (
     <Image
+      unoptimized
       src={project.image.src}
       // alt is empty: the project name is always shown right beside the artwork.
       alt={project.image.alt}

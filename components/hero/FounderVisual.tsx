@@ -46,6 +46,7 @@ export function FounderVisual() {
           <figure className="relative aspect-[4/5] overflow-hidden rounded-panel border border-line bg-card">
             {portrait ? (
               <Image
+                unoptimized
                 src={portrait.src}
                 alt={portrait.alt}
                 fill

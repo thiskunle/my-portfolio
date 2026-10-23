@@ -1,39 +1,43 @@
 "use client";
 
-import { cardTones, type CardTone } from "@/components/peach/cardTones";
-import { ServiceArt } from "@/components/peach/ServiceArt";
-import { useTilt } from "@/components/peach/useTilt";
+import Image from "next/image";
+import type { CSSProperties } from "react";
 import type { ServiceCardData } from "@/lib/content";
-import { cn } from "@/lib/cn";
 
 type ServiceCardProps = {
   service: ServiceCardData;
   index: number;
-  tone: CardTone;
 };
 
-/** One service: illustration, number, name and a one-line summary. Tilts toward the pointer. */
-export function ServiceCard({ service, index, tone }: ServiceCardProps) {
-  const tilt = useTilt<HTMLDivElement>();
-  const t = cardTones[tone];
-
+/**
+ * One service: its rendered 3D artwork as the main visual (shown uncropped at its own aspect
+ * ratio), then number, name and summary. Lifts slightly on hover with a glow tinted to the
+ * artwork. Hover motion is CSS on this element, so it never fights the scroll animation on
+ * the list item around it.
+ */
+export function ServiceCard({ service, index }: ServiceCardProps) {
   return (
-    <div
-      ref={tilt}
-      className={cn(
-        "flex h-full min-h-64 flex-col rounded-card p-7 shadow-lift will-change-transform",
-        t.surface,
-        t.ink,
-      )}
+    <article
+      style={{ "--glow": service.glow } as CSSProperties}
+      className="group flex h-full flex-col overflow-clip rounded-card bg-card ring-1 ring-line shadow-[0_24px_48px_-28px_rgb(var(--glow)/0.55)] transition-[translate,scale,box-shadow] duration-500 ease-out-expo hover:-translate-y-2 hover:scale-[1.015] hover:shadow-[0_40px_80px_-28px_rgb(var(--glow)/0.7)] motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:scale-100"
     >
-      <div className="flex items-start justify-between gap-4">
-        <ServiceArt id={service.id} />
-        <span className={cn("font-display text-sm font-semibold", t.muted)}>
-          {String(index + 1).padStart(2, "0")}
-        </span>
+      <div className="overflow-clip bg-[#f6e6dc]">
+        <Image
+          src={service.image.src}
+          alt={service.image.alt}
+          width={service.image.width}
+          height={service.image.height}
+          sizes="(min-width: 80rem) 26rem, (min-width: 48rem) 46vw, 92vw"
+          className="h-auto w-full transition-transform duration-700 ease-out-expo group-hover:scale-[1.03] motion-reduce:transition-none"
+        />
       </div>
-      <h3 className="mt-auto pt-8 font-display text-2xl font-extrabold tracking-tight">{service.name}</h3>
-      <p className={cn("mt-2", t.muted)}>{service.summary}</p>
-    </div>
+      <div className="flex flex-1 flex-col p-6 sm:p-7">
+        <div className="flex items-baseline gap-3">
+          <span className="font-display text-sm font-semibold text-accent">{String(index + 1).padStart(2, "0")}</span>
+          <h3 className="font-display text-xl font-extrabold tracking-tight sm:text-2xl">{service.name}</h3>
+        </div>
+        <p className="mt-2 text-ink-2">{service.summary}</p>
+      </div>
+    </article>
   );
 }

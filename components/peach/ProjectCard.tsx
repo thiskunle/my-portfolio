@@ -61,6 +61,8 @@ export function ProjectCard({ project, index, tone, pendingLabel }: ProjectCardP
               alt={project.image.alt}
               width={project.image.width}
               height={project.image.height}
+              sizes="(min-width: 1024px) 24rem, (min-width: 768px) 45vw, 90vw"
+              // alt is empty: the project name is the card's heading right below.
               className="size-full object-cover"
             />
           ) : (

@@ -501,12 +501,42 @@ export const workSection = {
   accent: "built",
   pendingLabel: "Details coming soon",
   projects: [
-    { id: "grambyte-green", name: "GramByte Green" },
-    { id: "crown-and-root", name: "Crown & Root" },
-    { id: "nursepro-canada", name: "NursePro Canada Inc." },
-    { id: "lagos-ca", name: "Lagos.ca" },
+    /*
+     * Images are the grambyte.ca portfolio artwork; each one shows the project's own name.
+     * Categories come from the label the live site gives that artwork. No image of
+     * Tiana Lux Hair exists yet, so its card keeps the placeholder.
+     */
+    {
+      id: "grambyte-green",
+      name: "GramByte Green",
+      category: "Cloud",
+      image: { src: "/images/projects/google-workspace-deployment.jpg", alt: "", width: 800, height: 600 },
+    },
+    {
+      id: "crown-and-root",
+      name: "Crown & Root",
+      category: "Digital Branding",
+      image: { src: "/images/projects/digital-branding.png", alt: "", width: 326, height: 359 },
+    },
+    {
+      id: "nursepro-canada",
+      name: "NursePro Canada Inc.",
+      category: "Business Systems",
+      image: { src: "/images/projects/custom-business-platform.jpg", alt: "", width: 800, height: 600 },
+    },
+    {
+      id: "lagos-ca",
+      name: "Lagos.ca",
+      category: "Automation",
+      image: { src: "/images/projects/workflow-automation.jpg", alt: "", width: 800, height: 600 },
+    },
     { id: "tiana-lux-hair", name: "Tiana Lux Hair" },
-    { id: "gibbs-africa-peace-corps", name: "Gibbs Africa Peace Corps" },
+    {
+      id: "gibbs-africa-peace-corps",
+      name: "Gibbs Africa Peace Corps",
+      category: "Cybersecurity",
+      image: { src: "/images/projects/cybersecurity-audit.jpg", alt: "", width: 800, height: 600 },
+    },
   ] as readonly WorkProject[],
 } as const;
 

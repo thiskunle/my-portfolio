@@ -603,11 +603,11 @@ export const storySection = {
   title: "How we",
   accent: "got here",
   milestones: [
-    { id: "founded", date: "January 2026", title: "GramByte founded" },
+    { id: "founded", date: "Jan 2026", title: "GramByte founded" },
     { id: "incorporated", date: "May 2026", title: "GramByte Technologies Inc. incorporated" },
     { id: "first-clients", date: "2026", title: "First client projects" },
     { id: "toronto-workspace", date: "2026", title: "Toronto workspace established" },
-    { id: "next-chapter", date: "Now", title: "Building the next chapter" },
+    { id: "next-chapter", date: "Today", title: "Building the next chapter" },
   ],
 } as const;
 
@@ -615,36 +615,51 @@ export const stackSection = {
   eyebrow: "Technology Stack",
   title: "Tools we",
   accent: "work with",
-  note: "Drag the tags around",
+  note: "Grab a tag and throw it.",
   shuffleLabel: "Shuffle",
+  resetLabel: "Reset",
+  /** Tag size reflects how central the technology is to GramByte's work. */
   tags: [
-    "Next.js",
-    "React",
-    "TypeScript",
-    "Node.js",
-    "Python",
-    "AWS",
-    "Azure",
-    "PostgreSQL",
-    "MySQL",
-    "GSAP",
-    "Figma",
-    "AI",
-    "Cybersecurity",
-    "Automation",
-  ],
+    { label: "Next.js", size: "lg" },
+    { label: "React", size: "lg" },
+    { label: "TypeScript", size: "lg" },
+    { label: "Cybersecurity", size: "lg" },
+    { label: "AI", size: "lg" },
+    { label: "Node.js", size: "md" },
+    { label: "Python", size: "md" },
+    { label: "AWS", size: "md" },
+    { label: "Azure", size: "md" },
+    { label: "Automation", size: "md" },
+    { label: "PostgreSQL", size: "sm" },
+    { label: "MySQL", size: "sm" },
+    { label: "GSAP", size: "sm" },
+    { label: "Figma", size: "sm" },
+  ] as const satisfies readonly { label: string; size: "lg" | "md" | "sm" }[],
 } as const;
 
 export const statsSection = {
   eyebrow: "By the numbers",
   title: "GramByte in",
   accent: "numbers",
+  intro: "Founded in January 2026, GramByte now offers six core services across three markets, with a growing portfolio of client work.",
 } as const;
 
-export const stats: readonly { id: string; value: number; suffix?: string; label: string }[] = [
-  { id: "services", value: 6, label: "Core Services" },
-  { id: "markets", value: 3, label: "Markets" },
-  { id: "projects", value: 6, suffix: "+", label: "Portfolio Projects" },
+export const stats: readonly { id: string; value: number; suffix?: string; label: string; note: string }[] = [
+  {
+    id: "services",
+    value: 6,
+    label: "Core Services",
+    note: "Web, security, cloud, automation, branding and IT.",
+  },
+  // "Markets" per the brief; switch to "Global Locations" here if preferred.
+  { id: "markets", value: 3, label: "Markets", note: "Toronto · Manchester · Nigeria" },
+  {
+    id: "projects",
+    value: 6,
+    suffix: "+",
+    label: "Portfolio Projects",
+    note: "From brand identity to cloud and security work.",
+  },
 ];
 
 export const contactShowcase = {

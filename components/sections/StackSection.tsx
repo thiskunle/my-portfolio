@@ -1,7 +1,8 @@
 "use client";
 
 import { useRef } from "react";
-import { cardTones, type CardTone } from "@/components/peach/cardTones";
+import type { CardTone } from "@/components/peach/cardTones";
+import { cardTones } from "@/components/peach/cardTones";
 import { CurvedEdge } from "@/components/peach/CurvedEdge";
 import { ShowcaseHeading } from "@/components/peach/ShowcaseHeading";
 import { Container } from "@/components/ui/Container";
@@ -10,82 +11,92 @@ import { stackSection } from "@/lib/content";
 import { cn } from "@/lib/cn";
 import { Draggable, gsap, prefersReducedMotion, useGSAP } from "@/lib/gsap";
 
-const tones: readonly CardTone[] = ["snow", "face", "blush", "snow", "blush", "face"];
+type TagSize = (typeof stackSection.tags)[number]["size"];
 
-/** Below this board width the tags wrap in normal flow instead of being scattered. */
-const SCATTER_MIN = 640;
+const sizeClasses: Record<TagSize, string> = {
+  lg: "px-5 py-3 text-lg sm:px-8 sm:py-4 sm:text-3xl",
+  md: "px-5 py-3 text-lg sm:px-6 sm:text-xl",
+  sm: "px-4 py-2.5 text-sm sm:px-5 sm:text-base",
+};
 
-/** Small deterministic wobble, so the first layout is identical on every visit. */
+const sizeTones: Record<TagSize, readonly CardTone[]> = {
+  lg: ["red", "face"],
+  md: ["face", "blush"],
+  sm: ["snow", "blush"],
+};
+
+/** Inset from the playground edge, in px. */
+const PAD = 16;
+
+/** Small deterministic wobble, so the reset layout is identical on every visit. */
 const wobble = (k: number, spread: number) => (((k * 37) % 11) / 10 - 0.5) * spread;
 
 /**
- * Technology stack as a board of tags you can drag around, plus a Shuffle button. Wide boards
- * scatter the tags over a loose grid; narrow ones keep them in a wrapped row (still
- * draggable). Without JS the tags simply wrap.
+ * Technology stack as a playground of tags: drag and throw them (they glide with momentum and
+ * bounce off the edges), Shuffle them, or Reset to the tidy layout. Tag size reflects
+ * importance. Without JS the tags simply wrap inside the playground.
  */
 export function StackSection() {
   const root = useRef<HTMLElement | null>(null);
   const board = useRef<HTMLUListElement | null>(null);
-  const shuffleRef = useRef<() => void>(() => {});
+  const actions = useRef({ shuffle: () => {}, reset: () => {} });
 
   useGSAP(
     () => {
       const el = board.current!;
       const reduce = prefersReducedMotion();
       const tags = gsap.utils.toArray<HTMLElement>("[data-tag]", el);
+      // Spread big and small tags across the grid instead of filling rows by size.
+      const spread = tags.map((_, i) => (i * 5) % tags.length);
 
-      const layout = (shuffle: boolean) => {
-        const scatter = el.clientWidth >= SCATTER_MIN;
-        el.dataset.layout = scatter ? "scatter" : "flow";
-        const duration = shuffle && !reduce ? 1 : 0;
-        const ease = "elastic.out(1, 0.6)";
+      const layout = (mode: "reset" | "shuffle") => {
+        const W = el.clientWidth;
+        const H = el.clientHeight;
+        const cols = W < 640 ? 2 : W < 1000 ? 3 : 4;
+        const rows = Math.ceil(tags.length / cols);
+        const cellW = (W - PAD * 2) / cols;
+        const cellH = (H - PAD * 2) / rows;
+        const slots = mode === "shuffle" ? gsap.utils.shuffle([...spread]) : spread;
+        const animate = !reduce && el.dataset.ready === "true";
 
-        if (!scatter) {
-          el.style.height = "";
-          if (shuffle) gsap.utils.shuffle([...tags]).forEach((t) => el.appendChild(t));
-          tags.forEach((tag, k) =>
-            gsap.to(tag, { x: 0, y: 0, left: "auto", top: "auto", xPercent: 0, yPercent: 0, rotate: shuffle ? gsap.utils.random(-8, 8) : wobble(k, 12), duration, ease }),
-          );
-          return;
-        }
-
-        const cols = el.clientWidth < 1000 ? 4 : 5;
-        const rowH = el.clientWidth < 1000 ? 84 : 100;
-        el.style.height = `${Math.ceil(tags.length / cols) * rowH + 48}px`;
-        const order = shuffle ? gsap.utils.shuffle(tags.map((_, i) => i)) : tags.map((_, i) => i);
         tags.forEach((tag, k) => {
-          const slot = order[k];
+          const slot = slots[k];
           const col = slot % cols;
           const row = Math.floor(slot / cols);
-          // Centre a short last row.
-          const inRow = Math.min(cols, tags.length - row * cols);
-          const shift = (cols - inRow) / 2;
+          const jitter = mode === "shuffle" ? () => gsap.utils.random(-0.3, 0.3) : (n: number) => wobble(k + n, 0.4);
+          const cx = PAD + (col + 0.5 + jitter(1)) * cellW;
+          const cy = PAD + (row + 0.5 + jitter(3)) * cellH;
           gsap.to(tag, {
-            left: `${6 + ((col + 0.5 + shift) / cols) * 88 + (shuffle ? gsap.utils.random(-2, 2) : wobble(k, 3))}%`,
-            top: 24 + (row + 0.5) * rowH + (shuffle ? gsap.utils.random(-14, 14) : wobble(k + 3, 24)),
-            x: 0,
-            y: 0,
-            xPercent: -50,
-            yPercent: -50,
-            rotate: shuffle ? gsap.utils.random(-14, 14) : wobble(k + 5, 20),
-            duration,
-            ease,
-            delay: duration ? k * 0.015 : 0,
+            x: gsap.utils.clamp(PAD, W - tag.offsetWidth - PAD, cx - tag.offsetWidth / 2),
+            y: gsap.utils.clamp(PAD, H - tag.offsetHeight - PAD, cy - tag.offsetHeight / 2),
+            rotate: mode === "shuffle" ? gsap.utils.random(-16, 16) : wobble(k + 5, 18),
+            duration: animate ? 1 : 0,
+            ease: "elastic.out(1, 0.65)",
+            delay: animate ? k * 0.015 : 0,
           });
         });
+        el.dataset.ready = "true";
       };
 
-      layout(false);
-      shuffleRef.current = () => layout(true);
+      layout("reset");
+      actions.current = { shuffle: () => layout("shuffle"), reset: () => layout("reset") };
 
       const draggables = Draggable.create(tags, {
+        type: "x,y",
         bounds: el,
+        inertia: !reduce,
+        edgeResistance: 0.7,
         zIndexBoost: true,
         onPress(this: Draggable) {
           gsap.to(this.target, { scale: 1.12, rotate: 0, duration: 0.2 });
         },
         onRelease(this: Draggable) {
-          gsap.to(this.target, { scale: 1, rotate: gsap.utils.random(-12, 12), duration: reduce ? 0 : 0.6, ease: "elastic.out(1, 0.5)" });
+          gsap.to(this.target, {
+            scale: 1,
+            rotate: gsap.utils.random(-14, 14),
+            duration: reduce ? 0 : 0.8,
+            ease: "elastic.out(1, 0.5)",
+          });
         },
       });
 
@@ -93,7 +104,7 @@ export function StackSection() {
       const observer = new ResizeObserver(() => {
         if (el.clientWidth === lastWidth) return;
         lastWidth = el.clientWidth;
-        layout(false);
+        layout("reset");
       });
       observer.observe(el);
 
@@ -101,7 +112,7 @@ export function StackSection() {
         drawScribbles(root.current);
         gsap.from(tags, {
           scale: 0,
-          stagger: { each: 0.03, from: "random" },
+          stagger: { each: 0.035, from: "random" },
           duration: 0.7,
           ease: "back.out(2.6)",
           scrollTrigger: { trigger: el, start: "top 80%" },
@@ -116,6 +127,9 @@ export function StackSection() {
     { scope: root },
   );
 
+  const controlButton =
+    "min-h-12 rounded-full px-6 font-semibold transition-colors duration-200 motion-reduce:transition-none";
+
   return (
     <section ref={root} id="stack" aria-labelledby="stack-title" className="gb-section gb-section-cream relative py-section">
       <CurvedEdge flip />
@@ -128,33 +142,44 @@ export function StackSection() {
             accent={stackSection.accent}
             note={stackSection.note}
           />
-          <button
-            type="button"
-            onClick={() => shuffleRef.current()}
-            className="min-h-13 rounded-full border-2 border-ink/40 px-7 font-semibold text-ink transition-colors duration-200 hover:border-transparent hover:bg-forest hover:text-on-forest"
-          >
-            {stackSection.shuffleLabel} ✦
-          </button>
+          <div className="flex gap-3">
+            <button
+              type="button"
+              onClick={() => actions.current.shuffle()}
+              className={cn(controlButton, "bg-forest text-on-forest hover:bg-forest-hover")}
+            >
+              {stackSection.shuffleLabel} ✦
+            </button>
+            <button
+              type="button"
+              onClick={() => actions.current.reset()}
+              className={cn(controlButton, "text-ink ring-2 ring-ink/30 ring-inset hover:ring-ink")}
+            >
+              {stackSection.resetLabel}
+            </button>
+          </div>
         </div>
 
         <ul
           ref={board}
           aria-label="Technologies"
-          className="group/board relative mt-12 flex flex-wrap justify-center gap-3 sm:mt-16 data-[layout=scatter]:block"
+          className="group/board relative mt-10 flex h-[34rem] flex-wrap content-center justify-center gap-3 overflow-clip rounded-[2rem] bg-card p-4 shadow-[inset_0_0_0_1px_var(--gb-line)] [background-image:radial-gradient(var(--gb-line)_1.5px,transparent_1.5px)] [background-size:22px_22px] max-sm:h-[38rem] sm:mt-14 sm:h-[32rem] lg:h-[34rem]"
         >
           {stackSection.tags.map((tag, i) => {
-            const t = cardTones[tones[i % tones.length]];
+            const t = cardTones[sizeTones[tag.size][i % 2]];
             return (
               <li
-                key={tag}
+                key={tag.label}
                 data-tag
                 className={cn(
-                  "cursor-grab rounded-full px-6 py-3 font-display text-lg font-bold whitespace-nowrap shadow-lift select-none active:cursor-grabbing sm:px-7 sm:py-4 sm:text-2xl group-data-[layout=scatter]/board:absolute",
+                  "cursor-grab rounded-full font-display font-bold whitespace-nowrap shadow-lift select-none active:cursor-grabbing group-data-[ready=true]/board:absolute group-data-[ready=true]/board:top-0 group-data-[ready=true]/board:left-0",
+                  sizeClasses[tag.size],
                   t.surface,
                   t.ink,
+                  tag.size === "sm" && "ring-1 ring-wine/15",
                 )}
               >
-                {tag}
+                {tag.label}
               </li>
             );
           })}

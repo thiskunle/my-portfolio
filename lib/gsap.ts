@@ -8,10 +8,11 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { Draggable } from "gsap/Draggable";
+import { InertiaPlugin } from "gsap/InertiaPlugin";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger, Draggable, useGSAP);
+  gsap.registerPlugin(ScrollTrigger, Draggable, InertiaPlugin, useGSAP);
   gsap.defaults({ ease: "power4.out", duration: 1 });
 }
 

@@ -21,7 +21,7 @@ function roadThrough(list: HTMLElement) {
   });
   if (!dots.length) return null;
 
-  const swing = innerWidth < NARROW ? 14 : Math.min(220, box.width * 0.18);
+  const swing = innerWidth < NARROW ? 14 : Math.min(150, box.width * 0.12);
   const end = [dots[dots.length - 1][0], box.height];
   let prev = [dots[0][0], 0];
   let d = `M ${prev[0]} ${prev[1]}`;
@@ -89,15 +89,26 @@ export function StorySection() {
         });
 
         gsap.utils.toArray<HTMLElement>("[data-story-item]").forEach((item, i) => {
+          const dot = item.querySelector("[data-story-dot]");
           gsap
             .timeline({ scrollTrigger: { trigger: item, start: "top 78%" } })
-            .from(item.querySelector("[data-story-dot]"), { scale: 0, duration: 0.6, ease: "back.out(3)" })
+            .from(dot, { scale: 0, duration: 0.6, ease: "back.out(3)" })
             .from(
-              item.querySelector("[data-story-card]"),
-              { x: innerWidth < NARROW ? 40 : i % 2 ? -60 : 60, rotate: i % 2 ? -3 : 3, autoAlpha: 0, duration: 1 },
+              item.querySelectorAll("[data-story-card] > *"),
+              { x: innerWidth < NARROW ? 40 : i % 2 ? -60 : 60, autoAlpha: 0, stagger: 0.1, duration: 1 },
               0.1,
             );
+          // The dot lights up once the drawn road reaches it (same 65% line as the trail).
+          ScrollTrigger.create({
+            trigger: item,
+            start: "center 65%",
+            toggleClass: { targets: dot!, className: "is-reached" },
+          });
         });
+      }
+
+      if (reduce) {
+        el.list.querySelectorAll("[data-story-dot]").forEach((dot) => dot.classList.add("is-reached"));
       }
 
       return () => observer.disconnect();
@@ -119,8 +130,14 @@ export function StorySection() {
 
         <ol ref={list} className="relative mx-auto mt-16 max-w-5xl sm:mt-24">
           <svg ref={svg} aria-hidden focusable="false" className="pointer-events-none absolute inset-0 size-full overflow-visible">
-            <path ref={road} fill="none" className="stroke-white/15" strokeWidth={10} strokeLinecap="round" />
-            <path ref={trail} fill="none" className="stroke-snow" strokeWidth={4} strokeLinecap="round" />
+            <path ref={road} fill="none" className="stroke-white/12" strokeWidth={14} strokeLinecap="round" />
+            <path
+              ref={trail}
+              fill="none"
+              className="stroke-snow [filter:drop-shadow(0_0_10px_rgb(255_255_255/0.55))]"
+              strokeWidth={7}
+              strokeLinecap="round"
+            />
           </svg>
           <span
             ref={walker}
@@ -134,22 +151,27 @@ export function StorySection() {
             <li
               key={milestone.id}
               data-story-item
-              className="relative grid grid-cols-[2.5rem_minmax(0,1fr)] items-center gap-x-5 py-8 md:grid-cols-[minmax(0,1fr)_4rem_minmax(0,1fr)] md:gap-x-8 md:py-12"
+              className="relative grid grid-cols-[2.5rem_minmax(0,1fr)] items-center gap-x-5 py-10 md:grid-cols-[minmax(0,1fr)_5rem_minmax(0,1fr)] md:gap-x-10 md:py-16"
             >
               <span
                 data-story-dot
-                className="relative z-[5] col-start-1 row-start-1 mx-auto block size-5 rounded-full bg-snow ring-8 ring-white/15 md:col-start-2"
+                className="relative z-[5] col-start-1 row-start-1 mx-auto block size-6 rounded-full bg-[var(--section-bg)] ring-4 ring-white/35 transition-[background-color,box-shadow,scale] duration-500 ring-inset [&.is-reached]:scale-125 [&.is-reached]:bg-snow [&.is-reached]:shadow-[0_0_0_10px_rgb(255_255_255/0.14),0_0_24px_rgb(255_255_255/0.5)] md:col-start-2"
               />
               <div
                 data-story-card
-                className={`col-start-2 row-start-1 rounded-card bg-snow p-6 text-wine shadow-lift sm:p-7 ${
-                  i % 2 ? "md:col-start-1 md:text-right" : "md:col-start-3"
-                }`}
+                className={`col-start-2 row-start-1 ${i % 2 ? "md:col-start-1 md:text-right" : "md:col-start-3"}`}
               >
-                <p className="font-display text-sm font-bold tracking-[0.2em] text-wine/70 uppercase">
+                {/* The date is the headline; the event reads as its caption. */}
+                <p className="font-display text-[clamp(2.75rem,1.6rem+3.6vw,5rem)] leading-[0.9] font-extrabold tracking-tight text-accent uppercase">
                   {milestone.date}
                 </p>
-                <h3 className="mt-2 font-display text-h3 font-extrabold uppercase">{milestone.title}</h3>
+                <h3
+                  className={`mt-3 max-w-[20ch] font-display text-[clamp(1.375rem,1rem+1.1vw,2rem)] leading-tight font-bold ${
+                    i % 2 ? "md:ml-auto" : ""
+                  }`}
+                >
+                  {milestone.title}
+                </h3>
               </div>
             </li>
           ))}

@@ -440,8 +440,8 @@ export type Location = {
   region?: string;
   /** IANA time zone for the live local-time readout. */
   timeZone: string;
-  /** Optional verified detail (e.g. office type). Render nothing when missing. */
-  note?: string;
+  /** Supporting text shown when this market is selected. */
+  description: string;
 };
 
 export const aboutSection = {
@@ -450,12 +450,35 @@ export const aboutSection = {
   /** Highlighted continuation of the title. */
   accent: "three markets",
   intro: siteMetadata.description,
-  stackHint: "Click the cards to flip through our markets",
+  stackHint: "Choose a market",
   localTimeLabel: "Local time",
+  /*
+   * Draft market descriptions for review. They state presence only; no office types, client
+   * counts or outcomes. The Toronto workspace date comes from the Our Story timeline.
+   */
   locations: [
-    { id: "toronto", name: "Toronto", region: "Canada", timeZone: "America/Toronto" },
-    { id: "manchester", name: "Manchester", region: "United Kingdom", timeZone: "Europe/London" },
-    { id: "nigeria", name: "Nigeria", timeZone: "Africa/Lagos" },
+    {
+      id: "toronto",
+      name: "Toronto",
+      region: "Canada",
+      timeZone: "America/Toronto",
+      description:
+        "Our Toronto workspace, established in 2026, is where GramByte Technologies Inc. plans and builds client work.",
+    },
+    {
+      id: "manchester",
+      name: "Manchester",
+      region: "United Kingdom",
+      timeZone: "Europe/London",
+      description: "From Manchester, GramByte works with businesses across the United Kingdom.",
+    },
+    {
+      id: "nigeria",
+      name: "Nigeria",
+      region: "West Africa",
+      timeZone: "Africa/Lagos",
+      description: "In Nigeria, GramByte supports local businesses and organisations with their digital work.",
+    },
   ] as readonly Location[],
 } as const;
 

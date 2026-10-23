@@ -72,8 +72,14 @@ function Field({ field, label, required, error, className, children }: FieldProp
  * Contact form. Validates in the browser for instant, accessible feedback, then runs the
  * submitContact action, which re-validates and hands off to the delivery adapter.
  * Subject can be pre-filled from project and pricing CTAs.
+ *
+ * `compact` renders the short version used inside the homepage contact card: no panel or
+ * visible heading, and Name / Email / Company / Message (a pre-filled subject is still sent).
  */
-export function ContactForm() {
+export function ContactForm({
+  compact = false,
+  submitLabel = "Send message",
+}: { compact?: boolean; submitLabel?: string } = {}) {
   const [state, formAction, pending] = useActionState(submitContact, initialContactState);
   const [errors, setErrors] = useState<ContactErrors>({});
   const [subject, setSubject] = useState("");
@@ -121,8 +127,8 @@ export function ContactForm() {
   const errorCount = contactFields.filter((field) => errors[field]).length;
 
   return (
-    <div className="rounded-panel bg-card p-6 ring-1 ring-line ring-inset sm:p-10">
-      <h3 id="contact-form-title" className="text-h3">
+    <div className={compact ? undefined : "rounded-panel bg-card p-6 ring-1 ring-line ring-inset sm:p-10"}>
+      <h3 id="contact-form-title" className={compact ? "sr-only" : "text-h3"}>
         Send a message
       </h3>
 
@@ -150,7 +156,7 @@ export function ContactForm() {
         onSubmit={onSubmit}
         noValidate
         aria-labelledby="contact-form-title"
-        className="relative mt-8 grid gap-6 sm:grid-cols-2"
+        className={cn("relative grid gap-6 sm:grid-cols-2", compact ? "mt-2 gap-5" : "mt-8")}
       >
         <Field field="name" label="Your name" required error={errors.name}>
           {(props) => (
@@ -166,20 +172,22 @@ export function ContactForm() {
           )}
         </Field>
 
-        <Field field="phone" label="Phone number" error={errors.phone}>
-          {(props) => (
-            <input
-              {...props}
-              type="tel"
-              autoComplete="tel"
-              maxLength={contactLimits.phone}
-              defaultValue={values.phone}
-              onChange={() => clearError("phone")}
-            />
-          )}
-        </Field>
+        {compact ? null : (
+          <Field field="phone" label="Phone number" error={errors.phone}>
+            {(props) => (
+              <input
+                {...props}
+                type="tel"
+                autoComplete="tel"
+                maxLength={contactLimits.phone}
+                defaultValue={values.phone}
+                onChange={() => clearError("phone")}
+              />
+            )}
+          </Field>
+        )}
 
-        <Field field="email" label="Email" required error={errors.email} className="sm:col-span-2">
+        <Field field="email" label="Email" required error={errors.email} className={compact ? undefined : "sm:col-span-2"}>
           {(props) => (
             <input
               {...props}
@@ -194,32 +202,58 @@ export function ContactForm() {
           )}
         </Field>
 
-        <Field field="subject" label="Subject" error={errors.subject} className="sm:col-span-2">
-          {(props) => (
-            <input
-              {...props}
-              type="text"
-              maxLength={contactLimits.subject}
-              value={subject}
-              onChange={(event) => {
-                setSubject(event.target.value);
-                clearError("subject");
-              }}
-            />
-          )}
-        </Field>
+        {compact ? (
+          <>
+            <Field field="company" label="Company" error={errors.company} className="sm:col-span-2">
+              {(props) => (
+                <input
+                  {...props}
+                  type="text"
+                  autoComplete="organization"
+                  maxLength={contactLimits.company}
+                  defaultValue={values.company}
+                  onChange={() => clearError("company")}
+                />
+              )}
+            </Field>
+            {/* Pre-filled by "Start a similar project"; sent along, shown as a note. */}
+            <input type="hidden" name="subject" value={subject} />
+            {subject ? <p className="text-sm text-ink-2 sm:col-span-2">About: {subject}</p> : null}
+          </>
+        ) : (
+          <Field field="subject" label="Subject" error={errors.subject} className="sm:col-span-2">
+            {(props) => (
+              <input
+                {...props}
+                type="text"
+                maxLength={contactLimits.subject}
+                value={subject}
+                onChange={(event) => {
+                  setSubject(event.target.value);
+                  clearError("subject");
+                }}
+              />
+            )}
+          </Field>
+        )}
 
-        <Field field="message" label="Your message" required error={errors.message} className="sm:col-span-2">
+        <Field
+          field="message"
+          label={compact ? "Tell us about it" : "Your message"}
+          required
+          error={errors.message}
+          className="sm:col-span-2"
+        >
           {(props) => (
             <textarea
               {...props}
               required
-              rows={6}
+              rows={compact ? 5 : 6}
               minLength={contactLimits.messageMin}
               maxLength={contactLimits.message}
               defaultValue={values.message}
               onChange={() => clearError("message")}
-              className={cn(props.className, "min-h-40 resize-y")}
+              className={cn(props.className, compact ? "min-h-32 resize-y" : "min-h-40 resize-y")}
             />
           )}
         </Field>
@@ -234,7 +268,7 @@ export function ContactForm() {
 
         <div className="flex flex-wrap items-center gap-4 sm:col-span-2">
           <Button type="submit" size="lg" disabled={pending}>
-            {pending ? "Sending…" : "Send message"}
+            {pending ? "Sending…" : submitLabel}
           </Button>
           <p className="text-sm text-ink-2">Fields marked required must be filled in.</p>
         </div>

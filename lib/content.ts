@@ -665,9 +665,8 @@ export const stats: readonly { id: string; value: number; suffix?: string; label
 export const contactShowcase = {
   eyebrow: "Contact",
   headline: ["Let’s build", "something", "useful."],
-  intro: contact.intro,
-  /** Scrolls to the contact form (CONTACT_SECTION_ID in lib/contact/prefill.ts). */
-  cta: { label: "Start a Project", href: "#contacts" },
+  prompt: "Have a project, idea, or problem to solve?",
+  submitLabel: "Start a conversation",
   email: contact.email,
   emailLabel: "Email us",
   copyLabel: "Copy",

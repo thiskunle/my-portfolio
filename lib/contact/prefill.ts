@@ -8,6 +8,7 @@ export const CONTACT_FIELD_IDS = {
   name: "contact-name",
   phone: "contact-phone",
   email: "contact-email",
+  company: "contact-company",
   subject: "contact-subject",
   message: "contact-message",
 } as const;

@@ -1,6 +1,6 @@
 /** Contact form shape and validation, shared by the field-level checks (instant feedback) and the submit action. */
 
-export const contactFields = ["name", "phone", "email", "subject", "message"] as const;
+export const contactFields = ["name", "phone", "email", "company", "subject", "message"] as const;
 export type ContactField = (typeof contactFields)[number];
 export type ContactValues = Record<ContactField, string>;
 export type ContactErrors = Partial<Record<ContactField, string>>;
@@ -17,6 +17,7 @@ export const emptyContactValues: ContactValues = {
   name: "",
   phone: "",
   email: "",
+  company: "",
   subject: "",
   message: "",
 };
@@ -34,6 +35,7 @@ export const contactLimits = {
   name: 120,
   phone: 30,
   email: 254,
+  company: 150,
   subject: 150,
   messageMin: 10,
   message: 5000,
@@ -48,6 +50,7 @@ export function readContactForm(formData: FormData): ContactValues {
     name: read("name"),
     phone: read("phone"),
     email: read("email"),
+    company: read("company"),
     subject: read("subject"),
     message: read("message"),
   };
@@ -72,6 +75,10 @@ export function validateContact(values: ContactValues): ContactErrors {
   if (!values.email) errors.email = "Please enter your email address.";
   else if (!EMAIL_PATTERN.test(values.email) || values.email.length > contactLimits.email) {
     errors.email = "Please enter a valid email address, like name@example.com.";
+  }
+
+  if (values.company.length > contactLimits.company) {
+    errors.company = `Please keep the company name under ${contactLimits.company} characters.`;
   }
 
   if (values.subject.length > contactLimits.subject) {

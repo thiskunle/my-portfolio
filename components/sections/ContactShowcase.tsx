@@ -50,7 +50,7 @@ export function ContactShowcase() {
           data-contact-card
           className="grid overflow-clip rounded-[2rem] bg-card shadow-lift ring-1 ring-line sm:rounded-[2.5rem] lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)]"
         >
-          <div className="p-7 sm:p-12 lg:p-14 xl:p-16">
+          <div className="@container p-7 sm:p-12 lg:p-14 xl:p-16">
             <span
               data-contact-fade
               className="inline-flex items-center gap-2 rounded-full bg-ink/6 px-4 py-2 font-display text-sm font-semibold"
@@ -58,7 +58,7 @@ export function ContactShowcase() {
               <span aria-hidden className="size-1.5 rounded-full bg-accent" />
               {contact.eyebrow}
             </span>
-            <h2 id="contact-title" className="mt-6 font-display text-hero font-extrabold text-wine uppercase">
+            <h2 id="contact-title" className="mt-6 font-display text-[clamp(2.25rem,12cqi,6.25rem)] leading-[0.95] font-extrabold tracking-[-0.03em] text-wine uppercase">
               {contactShowcase.headline.map((line) => (
                 <span key={line} className="-mb-[0.08em] block overflow-clip pb-[0.08em]">
                   <span data-contact-line className="block">

@@ -20,6 +20,8 @@ const WIDE_FACE_AT = 0.45;
 const WIDE_MIN_WIDTH = 1024;
 /** On narrow screens the face sits at this fraction of the canvas height. */
 const NARROW_FACE_AT = 0.55;
+/** After the last finger lifts, wait this long before looking forward again. */
+const TOUCH_RELEASE_MS = 400;
 /** Width (fraction of the drawn frame) over which its side edges fade out. The backdrop is
  * flat and matches the page, so this only softens where the sweater is cut by the frame edge. */
 const EDGE_FEATHER = 0.08;
@@ -74,9 +76,10 @@ function frameRect(width: number, height: number, imgW: number, imgH: number) {
 /**
  * Full-bleed canvas that turns the character's head toward the pointer by picking one of
  * 64 directional frames (public/frames/dir-00…63.webp, built by build_direction_frames.py)
- * from the pointer's angle around the face. Near the face, with reduced motion, or until a mouse, trackpad or pen moves (touch
- * screens have no hovering pointer to follow) it shows the forward-facing dir-center.webp; the
- * directional frames are only downloaded once there is such a pointer.
+ * from the pointer's angle around the face: the mouse, trackpad or pen on desktop, or a finger
+ * touching/dragging on the hero on touch screens. With no pointer (before any interaction, after
+ * the finger lifts), near the face, or with reduced motion it shows the forward-facing
+ * dir-center.webp. The directional frames download only after the first such interaction.
  */
 export function CursorTrackingCanvas() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -87,9 +90,10 @@ export function CursorTrackingCanvas() {
     if (!canvas || !ctx) return;
 
     const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)");
-    // A hint only: touchscreen laptops (e.g. Surface) report a coarse primary pointer even when
-    // used with a trackpad, so any real mouse/pen movement also enables tracking.
-    let hoveringPointer = matchMedia("(hover: hover) and (pointer: fine)").matches;
+    // Start loading frames up front only where a mouse is expected. This is a hint: touchscreen
+    // laptops (e.g. Surface) report a coarse pointer even with a trackpad, and phones track
+    // touches, so any real mouse/pen movement or touch on the hero also enables tracking.
+    let canTrack = matchMedia("(hover: hover) and (pointer: fine)").matches;
     let center: HTMLImageElement | null = null;
     let frames: HTMLImageElement[] = [];
     let width = 0;
@@ -100,9 +104,11 @@ export function CursorTrackingCanvas() {
     let rafId = 0;
     let cancelled = false;
     let framesRequested = false;
+    let touchReleaseTimer = 0;
+    // Touches are read from the whole hero (copy included), not just the canvas behind it.
+    const hero = canvas.closest("section") ?? canvas;
 
-    const tracking = () =>
-      hoveringPointer && !reduceMotion.matches && frames.length === FRAME_COUNT;
+    const tracking = () => canTrack && !reduceMotion.matches && frames.length === FRAME_COUNT;
 
     function resize() {
       const dpr = window.devicePixelRatio || 1;
@@ -163,17 +169,43 @@ export function CursorTrackingCanvas() {
     function updateLoop() {
       cancelAnimationFrame(rafId);
       rafId = 0;
-      if (visible && tracking()) loop();
+      // With no pointer the head faces forward, so a single draw is enough (saves battery
+      // on phones between touches).
+      if (visible && tracking() && pointer) loop();
       else draw();
     }
 
-    function handlePointerMove(event: PointerEvent) {
-      if (event.pointerType === "touch") return;
-      pointer = { x: event.clientX, y: event.clientY };
-      if (!hoveringPointer) {
-        hoveringPointer = true;
+    function track(x: number, y: number) {
+      const wasIdle = pointer === null;
+      pointer = { x, y };
+      if (!canTrack) {
+        canTrack = true;
         void loadFrames();
       }
+      if (wasIdle) updateLoop();
+    }
+
+    function handlePointerMove(event: PointerEvent) {
+      // Touch is handled by the touch listeners: pointer events are cancelled once a drag
+      // starts scrolling the page, but touch events keep reporting the finger.
+      if (event.pointerType === "touch") return;
+      track(event.clientX, event.clientY);
+    }
+
+    function handleTouch(event: TouchEvent) {
+      const touch = event.touches[0];
+      if (!touch) return;
+      window.clearTimeout(touchReleaseTimer);
+      track(touch.clientX, touch.clientY);
+    }
+
+    function handleTouchEnd(event: TouchEvent) {
+      if (event.touches.length > 0) return;
+      window.clearTimeout(touchReleaseTimer);
+      touchReleaseTimer = window.setTimeout(() => {
+        pointer = null;
+        updateLoop();
+      }, TOUCH_RELEASE_MS);
     }
 
     const resizeObserver = new ResizeObserver(resize);
@@ -187,7 +219,7 @@ export function CursorTrackingCanvas() {
     intersectionObserver.observe(canvas);
 
     async function loadFrames() {
-      if (framesRequested || !hoveringPointer) return;
+      if (framesRequested || !canTrack) return;
       framesRequested = true;
       try {
         const loaded = await Promise.all(
@@ -204,6 +236,11 @@ export function CursorTrackingCanvas() {
     }
 
     window.addEventListener("pointermove", handlePointerMove, { passive: true });
+    // Passive, so dragging still scrolls the page normally while the head follows the finger.
+    hero.addEventListener("touchstart", handleTouch, { passive: true });
+    hero.addEventListener("touchmove", handleTouch, { passive: true });
+    hero.addEventListener("touchend", handleTouchEnd, { passive: true });
+    hero.addEventListener("touchcancel", handleTouchEnd, { passive: true });
     reduceMotion.addEventListener("change", updateLoop);
 
     // Show the forward-facing frame as soon as it arrives; the directional frames follow.
@@ -219,9 +256,14 @@ export function CursorTrackingCanvas() {
     return () => {
       cancelled = true;
       cancelAnimationFrame(rafId);
+      window.clearTimeout(touchReleaseTimer);
       resizeObserver.disconnect();
       intersectionObserver.disconnect();
       window.removeEventListener("pointermove", handlePointerMove);
+      hero.removeEventListener("touchstart", handleTouch);
+      hero.removeEventListener("touchmove", handleTouch);
+      hero.removeEventListener("touchend", handleTouchEnd);
+      hero.removeEventListener("touchcancel", handleTouchEnd);
       reduceMotion.removeEventListener("change", updateLoop);
     };
   }, []);

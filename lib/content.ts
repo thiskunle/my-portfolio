@@ -57,17 +57,17 @@ export const ogImage = {
 
 export type NavItem = {
   label: string;
-  /** In-page anchors keep the original site's ids so existing links still resolve. */
   href: `#${string}`;
 };
 
+/* Section ids of the Peach-style homepage (components/sections). Pricing returns once verified. */
 export const navigation: readonly NavItem[] = [
-  { label: "Home", href: "#home" },
-  { label: "What We Do", href: "#features" },
-  { label: "Recent Projects", href: "#portfolio" },
-  // The pricing section is built once pricing has been verified.
-  { label: "Pricing", href: "#pricing" },
-  { label: "Contact", href: "#contacts" },
+  { label: "About", href: "#about" },
+  { label: "Services", href: "#services" },
+  { label: "Work", href: "#work" },
+  { label: "Story", href: "#story" },
+  { label: "Stack", href: "#stack" },
+  { label: "Contact", href: "#contact" },
 ];
 
 /* ── Hero ────────────────────────────────────────────── */
@@ -420,16 +420,6 @@ export const footer = {
  * redesign brief; service descriptions reuse the canonical ones above.
  */
 
-export type SectionId = "home" | "about" | "services" | "work" | "story" | "stack" | "contact";
-
-export const peachNavigation: readonly { label: string; href: `#${SectionId}` }[] = [
-  { label: "About", href: "#about" },
-  { label: "Services", href: "#services" },
-  { label: "Work", href: "#work" },
-  { label: "Story", href: "#story" },
-  { label: "Contact", href: "#contact" },
-];
-
 export const peachHero = {
   /** Each entry renders on its own line. */
   headline: ["We build", "digital experiences", "that work."],
@@ -557,6 +547,12 @@ export const stackSection = {
   ],
 } as const;
 
+export const statsSection = {
+  eyebrow: "By the numbers",
+  title: "GramByte in",
+  accent: "numbers",
+} as const;
+
 export const stats: readonly { id: string; value: number; suffix?: string; label: string }[] = [
   { id: "services", value: 6, label: "Core Services" },
   { id: "markets", value: 3, label: "Markets" },
@@ -566,7 +562,12 @@ export const stats: readonly { id: string; value: number; suffix?: string; label
 export const contactShowcase = {
   eyebrow: "Contact",
   headline: ["Let’s build", "something", "useful."],
-  cta: { label: "Start a Project", href: `mailto:${contact.email}` },
+  intro: contact.intro,
+  /** Scrolls to the contact form (CONTACT_SECTION_ID in lib/contact/prefill.ts). */
+  cta: { label: "Start a Project", href: "#contacts" },
   email: contact.email,
+  emailLabel: "Email us",
+  copyLabel: "Copy",
+  copiedLabel: "Copied",
   locations: aboutSection.locations.map((l) => l.name).join(" · "),
 } as const;

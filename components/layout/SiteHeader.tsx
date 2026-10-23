@@ -8,7 +8,7 @@ import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { Button, buttonStyles } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Icon } from "@/components/ui/Icon";
-import { hero, navigation } from "@/lib/content";
+import { navigation, peachHero } from "@/lib/content";
 import { cn } from "@/lib/cn";
 import { durations } from "@/lib/motion";
 
@@ -90,7 +90,7 @@ export function SiteHeader() {
           <div className="flex items-center gap-2">
             <ThemeToggle />
             <div className="hidden sm:block">
-              <Button href={hero.primaryCta.href}>{hero.primaryCta.label}</Button>
+              <Button href={peachHero.primaryCta.href}>{peachHero.primaryCta.label}</Button>
             </div>
             <button
               ref={menuButtonRef}
@@ -151,12 +151,12 @@ export function SiteHeader() {
                 })}
               </ul>
               <Button
-                href={hero.primaryCta.href}
+                href={peachHero.primaryCta.href}
                 size="lg"
                 className="mt-6 w-full sm:hidden"
                 onClick={() => closeMenu()}
               >
-                {hero.primaryCta.label}
+                {peachHero.primaryCta.label}
               </Button>
             </Container>
           </motion.nav>

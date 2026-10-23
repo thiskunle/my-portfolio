@@ -237,7 +237,7 @@ export const projects: readonly Project[] = [
       "A responsive business website built to improve online presence, lead generation, and customer trust.",
     scope:
       "Includes branded email setup, contact form, mobile design, SEO structure, and secure website configuration.",
-    image: { src: "/images/projects/business-website-email.png", alt: "", width: 800, height: 600 },
+    image: { src: "/images/projects/business-website-email.webp", alt: "", width: 1280, height: 714 },
   },
   {
     id: "custom-business-platform",
@@ -248,7 +248,7 @@ export const projects: readonly Project[] = [
       "A tailored business platform built to streamline internal operations, client management, and team collaboration.",
     scope:
       "Includes custom dashboards, user role management, data reporting tools, API integrations, and scalable cloud hosting.",
-    image: { src: "/images/projects/custom-business-platform.jpg", alt: "", width: 800, height: 600 },
+    image: { src: "/images/projects/custom-business-platform.webp", alt: "", width: 1280, height: 714 },
   },
   {
     id: "cybersecurity-audit",
@@ -259,7 +259,7 @@ export const projects: readonly Project[] = [
       "A full cybersecurity assessment performed for a mid-sized business to identify vulnerabilities and strengthen their digital defenses.",
     scope:
       "Includes network vulnerability scan, firewall review, staff phishing awareness training, security policy setup, and incident response plan.",
-    image: { src: "/images/projects/cybersecurity-audit.jpg", alt: "", width: 800, height: 600 },
+    image: { src: "/images/projects/cybersecurity-audit.webp", alt: "", width: 1280, height: 714 },
   },
   {
     id: "workflow-automation",
@@ -270,7 +270,7 @@ export const projects: readonly Project[] = [
       "An end-to-end automation solution built for a service business to eliminate manual tasks and reduce operational overhead.",
     scope:
       "Includes CRM integration, automated email sequences, invoice generation, appointment booking, and real-time performance tracking.",
-    image: { src: "/images/projects/workflow-automation.jpg", alt: "", width: 800, height: 600 },
+    image: { src: "/images/projects/workflow-automation.webp", alt: "", width: 1280, height: 714 },
   },
   {
     id: "google-workspace-deployment",
@@ -281,7 +281,7 @@ export const projects: readonly Project[] = [
       "A complete Google Workspace setup and migration for a growing business transitioning from outdated email and file systems.",
     scope:
       "Includes domain verification, Gmail business setup, Google Drive migration, team calendar configuration, and admin console management.",
-    image: { src: "/images/projects/google-workspace-deployment.jpg", alt: "", width: 800, height: 600 },
+    image: { src: "/images/projects/google-workspace-deployment.webp", alt: "", width: 1280, height: 714 },
   },
   {
     id: "digital-branding",
@@ -294,7 +294,7 @@ export const projects: readonly Project[] = [
       "Includes logo design, brand color guide, email signature, business card, social media kit, and branded document templates.",
     // Lossless crop of the product photo inside the old site's popup screenshot (portfolio-06.png),
     // so no old interface is shown inside the new project dialog.
-    image: { src: "/images/projects/digital-branding.png", alt: "", width: 326, height: 359 },
+    image: { src: "/images/projects/digital-branding.webp", alt: "", width: 1280, height: 714 },
   },
 ];
 
@@ -611,28 +611,28 @@ export const workSection = {
       name: "GramByte Green",
       category: "Cloud",
       services: "Cloud · Google Workspace deployment",
-      image: { src: "/images/projects/google-workspace-deployment.jpg", alt: "", width: 800, height: 600 },
+      image: { src: "/images/projects/google-workspace-deployment.webp", alt: "", width: 1280, height: 714 },
     },
     {
       id: "crown-and-root",
       name: "Crown & Root",
       category: "Digital Branding",
       services: "Digital branding · Business identity",
-      image: { src: "/images/projects/digital-branding.png", alt: "", width: 326, height: 359 },
+      image: { src: "/images/projects/digital-branding.webp", alt: "", width: 1280, height: 714 },
     },
     {
       id: "nursepro-canada",
       name: "NursePro Canada Inc.",
       category: "Business Systems",
       services: "Web development · Business platform",
-      image: { src: "/images/projects/custom-business-platform.jpg", alt: "", width: 800, height: 600 },
+      image: { src: "/images/projects/custom-business-platform.webp", alt: "", width: 1280, height: 714 },
     },
     {
       id: "lagos-ca",
       name: "Lagos.ca",
       category: "Automation",
       services: "Automation · Business workflows",
-      image: { src: "/images/projects/workflow-automation.jpg", alt: "", width: 800, height: 600 },
+      image: { src: "/images/projects/workflow-automation.webp", alt: "", width: 1280, height: 714 },
     },
     { id: "tiana-lux-hair", name: "Tiana Lux Hair" },
     {
@@ -640,7 +640,7 @@ export const workSection = {
       name: "Gibbs Africa Peace Corps",
       category: "Cybersecurity",
       services: "Cybersecurity · Audit & protection",
-      image: { src: "/images/projects/cybersecurity-audit.jpg", alt: "", width: 800, height: 600 },
+      image: { src: "/images/projects/cybersecurity-audit.webp", alt: "", width: 1280, height: 714 },
     },
   ] as readonly WorkProject[],
 } as const;

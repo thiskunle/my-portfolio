@@ -1,10 +1,10 @@
 import { ContactSection } from "@/components/contact/ContactSection";
 import { PricingSection } from "@/components/pricing/PricingSection";
-import { ProjectsSection } from "@/components/projects/ProjectsSection";
 import { OrganizationJsonLd } from "@/components/seo/OrganizationJsonLd";
 import { AboutSection } from "@/components/sections/AboutSection";
 import { HeroSection } from "@/components/sections/HeroSection";
-import { ServicesSection } from "@/components/services/ServicesSection";
+import { ServicesShowcase } from "@/components/sections/ServicesShowcase";
+import { WorkSection } from "@/components/sections/WorkSection";
 
 export default function Home() {
   return (
@@ -12,8 +12,8 @@ export default function Home() {
       <OrganizationJsonLd />
       <HeroSection />
       <AboutSection />
-      <ServicesSection />
-      <ProjectsSection />
+      <ServicesShowcase />
+      <WorkSection />
       <PricingSection />
       <ContactSection />
     </main>

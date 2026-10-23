@@ -108,6 +108,10 @@
   --color-nav: var(--gb-nav);
   --color-card: var(--gb-card);
   --color-tint: var(--gb-tint);
+  /* Raw brand tones for the alternating showcase cards (snow and blush carry wine text). */
+  --color-snow: var(--gb-snow);
+  --color-blush: var(--gb-blush);
+  --color-wine: var(--gb-red-dark);
   --color-ink: var(--gb-ink);
   --color-ink-2: var(--gb-ink-2);
   --color-forest: var(--gb-forest);

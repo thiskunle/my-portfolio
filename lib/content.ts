@@ -730,3 +730,148 @@ export const contactShowcase = {
   copiedLabel: "Copied",
   locations: aboutSection.locations.map((l) => l.name).join(" · "),
 } as const;
+
+/*
+ * Answers restate facts already on the site (services, markets, contact details). Questions the
+ * site cannot answer yet, such as timelines, stay out until GramByte supplies the answers.
+ */
+export const faqSection = {
+  eyebrow: "FAQ",
+  title: "Common",
+  accent: "questions",
+  items: [
+    {
+      id: "services",
+      question: "What services does GramByte offer?",
+      answer:
+        "Web development, cybersecurity, cloud solutions, automation, branding and business IT solutions.",
+    },
+    {
+      id: "markets",
+      question: "Where does GramByte work?",
+      answer: "We work across three markets: Toronto in Canada, Manchester in the United Kingdom, and Nigeria.",
+    },
+    {
+      id: "online-store",
+      question: "Can you build an online store?",
+      answer:
+        "Yes. Our web development work covers business websites, landing pages, e-commerce platforms and custom web applications.",
+    },
+    {
+      id: "cybersecurity",
+      question: "What cybersecurity support do you offer?",
+      answer:
+        "Security assessments, vulnerability testing, monitoring, cybersecurity awareness and protection for businesses.",
+    },
+    {
+      id: "google-workspace",
+      question: "Can you set up Google Workspace and business email?",
+      answer:
+        "Yes. Our cloud work includes cloud setup, Google Workspace, migration, business email systems and collaboration tools.",
+    },
+    {
+      id: "pricing",
+      question: "How much does a project cost?",
+      answer:
+        "We don’t list prices on the site. Tell us about your project and we’ll discuss the cost with you directly.",
+    },
+    {
+      id: "start",
+      question: "How do I start a project?",
+      answer: `Send a message using the form below, email ${contact.email} or call ${contact.phone.display}.`,
+    },
+  ],
+} as const;
+
+/* ── Privacy policy ──────────────────────────────────── */
+
+export type PrivacySection = {
+  id: string;
+  heading: string;
+  paragraphs?: readonly string[];
+  list?: readonly string[];
+};
+
+/*
+ * Describes what the site does today: the form fields in components/contact/ContactForm.tsx, the
+ * form service in lib/contact/delivery.ts and the theme key in lib/theme.ts. Update this text
+ * whenever any of those change, or when analytics or another outside service is added.
+ */
+export const privacyPage = {
+  title: "Privacy Policy",
+  description: `How ${company.name} handles the personal information you share through ${company.domain}.`,
+  updated: "November 5, 2026",
+  intro: `This policy explains how ${company.name} (“GramByte”, “we”) handles personal information collected through ${company.domain}.`,
+  sections: [
+    {
+      id: "collect",
+      heading: "What we collect",
+      paragraphs: ["We only collect what you choose to send us. When you use the contact form, that is:"],
+      list: [
+        "Your name and email address",
+        "Your company name, if you provide it",
+        "Your message, and the project it is about, if you selected one",
+      ],
+    },
+    {
+      id: "use",
+      heading: "How we use it",
+      paragraphs: [
+        "We use your information to reply to you, discuss your project and keep a record of our conversation. We do not sell it or use it for advertising.",
+      ],
+    },
+    {
+      id: "share",
+      heading: "Who handles it",
+      paragraphs: [
+        "A small number of outside services help us run this site and may process information outside Canada:",
+      ],
+      list: [
+        "FormSubmit (formsubmit.co) receives contact form messages and forwards them to our inbox.",
+        "Our email provider stores the messages we receive.",
+        "GitHub Pages hosts this site and may log technical details such as your IP address for security.",
+      ],
+    },
+    {
+      id: "cookies",
+      heading: "Cookies and browser storage",
+      paragraphs: [
+        "This site does not use analytics, advertising trackers or cookies of its own. If you use the light/dark toggle, your choice is saved in your browser so the site remembers it. It is not sent to us.",
+      ],
+    },
+    {
+      id: "retention",
+      heading: "How long we keep it",
+      paragraphs: [
+        "We keep your information only as long as we need it to respond to you, carry out any work you hire us for, and meet our legal and accounting obligations.",
+      ],
+    },
+    {
+      id: "security",
+      heading: "Security",
+      paragraphs: [
+        "We take reasonable steps to protect your information, but no website or email service can be guaranteed completely secure. Please don’t send passwords or other sensitive details through the form.",
+      ],
+    },
+    {
+      id: "rights",
+      heading: "Your choices",
+      paragraphs: [
+        `You can ask to see, correct or delete the personal information we hold about you by emailing ${contact.email}. Depending on where you live, you may have other rights under local privacy law.`,
+        "If you have a concern we haven’t resolved, you can contact the Office of the Privacy Commissioner of Canada or the privacy regulator where you live.",
+      ],
+    },
+    {
+      id: "contact",
+      heading: "Contact us",
+      paragraphs: [
+        `Questions about this policy can be sent to ${contact.email}, or call ${contact.phone.display}.`,
+      ],
+    },
+    {
+      id: "changes",
+      heading: "Changes to this policy",
+      paragraphs: ["If we change this policy, we will update it here and change the date at the top of this page."],
+    },
+  ] as readonly PrivacySection[],
+} as const;

@@ -21,7 +21,10 @@ The homepage (`app/page.tsx`) is built from the sections in `components/sections
 | Our Story | `StorySection` | Burgundy | Glowing road draws through editorial date milestones |
 | Technology Stack | `StackSection` | Cream | Throwable tags (Draggable + Inertia), Shuffle and Reset |
 | Stats | `StatsSection` | Red | Odometer count-up with supporting copy |
+| FAQ | `FaqSection` | Burgundy | Native expand/collapse questions |
 | Contact | `ContactShowcase` | Cream | One card: headline, compact form, email copy, portrait |
+
+The privacy policy is at `/privacy` (`app/privacy/page.tsx`, text in `privacyPage` in `lib/content.ts`). Keep it accurate when the form service, analytics or other outside services change. Links to homepage sections from other pages go through `components/layout/SectionLink.tsx`.
 
 - **Content** lives in `lib/content.ts`. Edit text, projects, milestones, tags and stats there.
 - **Shared pieces** (cards, the hand-drawn underline, curved section edges, the odometer, the tilt hook) live in `components/peach/`.

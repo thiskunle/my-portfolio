@@ -1,4 +1,5 @@
 import { Brand } from "@/components/layout/Brand";
+import { SectionLink } from "@/components/layout/SectionLink";
 import { Container } from "@/components/ui/Container";
 import { Icon } from "@/components/ui/Icon";
 import { SocialLinks } from "@/components/ui/SocialLinks";
@@ -29,9 +30,9 @@ export function SiteFooter() {
           <ul className="mt-4">
             {navigation.map((item) => (
               <li key={item.href}>
-                <a href={item.href} className={footerLink}>
+                <SectionLink href={item.href} className={footerLink}>
                   {item.label}
-                </a>
+                </SectionLink>
               </li>
             ))}
           </ul>
@@ -57,10 +58,13 @@ export function SiteFooter() {
         </div>
       </Container>
 
-      <Container className="border-t border-line py-6">
+      <Container className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-t border-line py-6">
         <p className="text-sm text-ink-2">
           © {year}. All rights reserved by {footer.rightsHolder}
         </p>
+        <a href="/privacy" className="inline-flex min-h-11 items-center text-sm text-ink-2 transition-colors duration-200 hover:text-ink">
+          Privacy Policy
+        </a>
       </Container>
     </footer>
   );

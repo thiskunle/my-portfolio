@@ -270,7 +270,13 @@ export function ContactForm({
           <Button type="submit" size="lg" disabled={pending}>
             {pending ? "Sending…" : submitLabel}
           </Button>
-          <p className="text-sm text-ink-2">Fields marked required must be filled in.</p>
+          <p className="text-sm text-ink-2">
+            Fields marked required must be filled in. See our{" "}
+            <a href="/privacy" className="underline underline-offset-2 hover:text-ink">
+              Privacy Policy
+            </a>
+            .
+          </p>
         </div>
       </form>
     </div>

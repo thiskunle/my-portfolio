@@ -1,6 +1,7 @@
 import { OrganizationJsonLd } from "@/components/seo/OrganizationJsonLd";
 import { AboutSection } from "@/components/sections/AboutSection";
 import { ContactShowcase } from "@/components/sections/ContactShowcase";
+import { FaqSection } from "@/components/sections/FaqSection";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { ServicesShowcase } from "@/components/sections/ServicesShowcase";
 import { StackSection } from "@/components/sections/StackSection";
@@ -26,6 +27,7 @@ export default function Home() {
       <StorySection />
       <StackSection />
       <StatsSection />
+      <FaqSection />
       <ContactShowcase />
     </main>
   );

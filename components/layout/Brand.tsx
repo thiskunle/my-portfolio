@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { SectionLink } from "@/components/layout/SectionLink";
 import { brandAssets, company } from "@/lib/content";
 import { cn } from "@/lib/cn";
 
@@ -15,7 +16,7 @@ type BrandProps = {
  */
 export function Brand({ variant = "compact", className }: BrandProps) {
   return (
-    <a
+    <SectionLink
       href="#top"
       aria-label={`${company.name}, back to top`}
       className={cn(
@@ -42,6 +43,6 @@ export function Brand({ variant = "compact", className }: BrandProps) {
           {company.shortName}
         </>
       )}
-    </a>
+    </SectionLink>
   );
 }

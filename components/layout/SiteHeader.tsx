@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState, type FocusEvent } from "react";
 import { Brand } from "@/components/layout/Brand";
+import { useHomePrefix } from "@/components/layout/SectionLink";
 import { useActiveSection } from "@/components/layout/useActiveSection";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { Button, buttonStyles } from "@/components/ui/Button";
@@ -22,6 +23,8 @@ export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const activeId = useActiveSection(sectionIds);
+  const homePrefix = useHomePrefix();
+  const ctaHref = `${homePrefix}${peachHero.primaryCta.href}`;
 
   const closeMenu = useCallback((returnFocus = false) => {
     setMenuOpen(false);
@@ -79,7 +82,7 @@ export function SiteHeader() {
                 return (
                   <li key={item.href}>
                     <a
-                      href={item.href}
+                      href={`${homePrefix}${item.href}`}
                       aria-current={isActive ? "true" : undefined}
                       className="block rounded-full px-4 py-2.5 text-base font-medium text-ink-2 transition-colors duration-200 hover:text-ink aria-[current]:bg-white/12 aria-[current]:text-ink"
                     >
@@ -94,7 +97,7 @@ export function SiteHeader() {
           <div className="flex items-center gap-2">
             <ThemeToggle />
             <div className="hidden sm:block">
-              <Button href={peachHero.primaryCta.href}>{peachHero.primaryCta.label}</Button>
+              <Button href={ctaHref}>{peachHero.primaryCta.label}</Button>
             </div>
             <button
               ref={menuButtonRef}
@@ -132,7 +135,7 @@ export function SiteHeader() {
                   return (
                     <li key={item.href}>
                       <a
-                        href={item.href}
+                        href={`${homePrefix}${item.href}`}
                         aria-current={isActive ? "true" : undefined}
                         className="flex min-h-14 items-center justify-between font-display text-xl font-semibold text-ink-2 aria-[current]:text-ink"
                         onClick={() => closeMenu()}
@@ -145,7 +148,7 @@ export function SiteHeader() {
                 })}
               </ul>
               <Button
-                href={peachHero.primaryCta.href}
+                href={ctaHref}
                 size="lg"
                 className="mt-6 w-full sm:hidden"
                 onClick={() => closeMenu()}

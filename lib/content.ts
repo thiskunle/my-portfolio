@@ -827,7 +827,7 @@ export const privacyPage = {
         "A small number of outside services help us run this site and may process information outside Canada:",
       ],
       list: [
-        "FormSubmit (formsubmit.co) receives contact form messages and forwards them to our inbox.",
+        "Static Forms (staticforms.dev) receives contact form messages, keeps a copy for up to a year, and forwards them to our inbox.",
         "Our email provider stores the messages we receive.",
         "GitHub Pages hosts this site and may log technical details such as your IP address for security.",
       ],

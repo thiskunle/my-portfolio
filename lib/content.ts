@@ -663,6 +663,7 @@ export const storySection = {
     { id: "incorporated", date: "May 2026", title: "GramByte Technologies Inc. incorporated" },
     { id: "first-clients", date: "2026", title: "First client projects" },
     { id: "toronto-workspace", date: "2026", title: "Toronto workspace established" },
+    { id: "apple-verified", date: "Nov 2026", title: "Apple verified business" },
     { id: "next-chapter", date: "Today", title: "Building the next chapter" },
   ],
 } as const;

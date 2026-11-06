@@ -647,8 +647,10 @@ export const workSection = {
       id: "gibbs-africa-peace-corps",
       name: "Gibbs Africa Peace Corps",
       category: "Cybersecurity",
-      services: "Cybersecurity · Audit & protection",
-      description: projectDescription("cybersecurity-audit"),
+      // The user confirmed (Nov 2026) that GramByte provides cybersecurity advice for this client.
+      services: "Cybersecurity · Security advice",
+      description: "GramByte provides cybersecurity advice to Gibbs Africa Peace Corps.",
+      url: "https://gibbsafrica.co.za/",
       image: { src: "/images/projects/cybersecurity-audit.webp", alt: "", width: 1280, height: 714 },
     },
     {

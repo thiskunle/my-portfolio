@@ -651,6 +651,17 @@ export const workSection = {
       description: projectDescription("cybersecurity-audit"),
       image: { src: "/images/projects/cybersecurity-audit.webp", alt: "", width: 1280, height: 714 },
     },
+    {
+      // Live site built by GramByte (Nov 2026). The image is the podcast's own logo, supplied by the user.
+      id: "thisradio",
+      name: "ThisRadio",
+      category: "Web Development",
+      services: "Web development · Podcast website",
+      description:
+        "Podcast website for ThisRadio, “Where Music Unites”, with a scroll-driven 3D radio that walks through each part of the show and a host video introduction.",
+      url: "http://thisradio.org",
+      image: { src: "/images/projects/thisradio.webp", alt: "", width: 1280, height: 714 },
+    },
   ] as readonly WorkProject[],
 } as const;
 

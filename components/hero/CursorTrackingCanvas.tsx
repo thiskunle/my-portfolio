@@ -20,8 +20,12 @@ const WIDE_FACE_AT = 0.45;
 const WIDE_MIN_WIDTH = 1024;
 /** On narrow screens the face sits at this fraction of the canvas height. */
 const NARROW_FACE_AT = 0.55;
-/** After the last finger lifts, wait this long before looking forward again. */
-const TOUCH_RELEASE_MS = 400;
+/** After the last finger lifts, wait this long before looking forward again (long enough that
+ * a quick tap visibly turns the head). */
+const TOUCH_RELEASE_MS = 1200;
+/** On touch screens the frames are fetched once the page is idle (so the first touch already
+ * turns the head), but no later than this after the forward-facing frame appears. */
+const TOUCH_PRELOAD_TIMEOUT_MS = 2500;
 /** Width (fraction of the drawn frame) over which its side edges fade out. The backdrop is
  * flat and matches the page, so this only softens where the sweater is cut by the frame edge. */
 const EDGE_FEATHER = 0.08;
@@ -40,6 +44,25 @@ function loadImage(src: string) {
 /** dir-NN frames are evenly spaced clockwise from straight up (see build_direction_frames.py). */
 function frameForAngle(angle: number) {
   return Math.round((angle / (Math.PI * 2)) * FRAME_COUNT) % FRAME_COUNT;
+}
+
+/** Frame indices coarse to fine (every 8th, then every 4th, 2nd, 1st), so the head can follow
+ * in every direction after the first few downloads while the rest fill in. */
+const LOAD_ORDER = [8, 4, 2, 1].flatMap((step) =>
+  Array.from({ length: FRAME_COUNT }, (_, i) => i).filter(
+    (i) => i % step === 0 && (step === 8 || i % (step * 2) !== 0),
+  ),
+);
+
+/** The loaded frame nearest (around the circle) to the wanted index. */
+function nearestLoaded(frames: (HTMLImageElement | undefined)[], wanted: number) {
+  for (let offset = 0; offset <= FRAME_COUNT / 2; offset++) {
+    const a = frames[(wanted + offset) % FRAME_COUNT];
+    if (a) return a;
+    const b = frames[(wanted - offset + FRAME_COUNT) % FRAME_COUNT];
+    if (b) return b;
+  }
+  return undefined;
 }
 
 function normalizeAngle(angle: number) {
@@ -79,7 +102,9 @@ function frameRect(width: number, height: number, imgW: number, imgH: number) {
  * from the pointer's angle around the face: the mouse, trackpad or pen on desktop, or a finger
  * touching/dragging on the hero on touch screens. With no pointer (before any interaction, after
  * the finger lifts), near the face, or with reduced motion it shows the forward-facing
- * dir-center.webp. The directional frames download only after the first such interaction.
+ * dir-center.webp. The directional frames download right away where a mouse is expected, and on
+ * touch screens once the page is idle (or on the first touch, whichever comes first; not at all
+ * with Save-Data until a touch). Each frame is used as soon as it arrives, nearest loaded first.
  */
 export function CursorTrackingCanvas() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -95,7 +120,9 @@ export function CursorTrackingCanvas() {
     // touches, so any real mouse/pen movement or touch on the hero also enables tracking.
     let canTrack = matchMedia("(hover: hover) and (pointer: fine)").matches;
     let center: HTMLImageElement | null = null;
-    let frames: HTMLImageElement[] = [];
+    // Filled in as each frame arrives; a frame that fails to load is covered by its neighbours.
+    const frames: (HTMLImageElement | undefined)[] = new Array(FRAME_COUNT);
+    let loadedCount = 0;
     let width = 0;
     let height = 0;
     let pointer: { x: number; y: number } | null = null;
@@ -105,10 +132,12 @@ export function CursorTrackingCanvas() {
     let cancelled = false;
     let framesRequested = false;
     let touchReleaseTimer = 0;
+    let preloadTimer = 0;
+    let idleCallback = 0;
     // Touches are read from the whole hero (copy included), not just the canvas behind it.
     const hero = canvas.closest("section") ?? canvas;
 
-    const tracking = () => canTrack && !reduceMotion.matches && frames.length === FRAME_COUNT;
+    const tracking = () => canTrack && !reduceMotion.matches && loadedCount > 0;
 
     function resize() {
       const dpr = window.devicePixelRatio || 1;
@@ -133,7 +162,7 @@ export function CursorTrackingCanvas() {
       // 0 = straight up, increasing clockwise.
       const target = normalizeAngle(Math.atan2(dy, dx) + Math.PI / 2);
       angle = normalizeAngle(lerpAngle(angle, target, RESPONSE_FACTOR));
-      return frames[frameForAngle(angle)];
+      return nearestLoaded(frames, frameForAngle(angle)) ?? center;
     }
 
     function draw() {
@@ -180,7 +209,7 @@ export function CursorTrackingCanvas() {
       pointer = { x, y };
       if (!canTrack) {
         canTrack = true;
-        void loadFrames();
+        loadFrames();
       }
       if (wasIdle) updateLoop();
     }
@@ -218,20 +247,32 @@ export function CursorTrackingCanvas() {
     });
     intersectionObserver.observe(canvas);
 
-    async function loadFrames() {
-      if (framesRequested || !canTrack) return;
+    /** Fetches the directional frames coarse to fine, using each one as soon as it arrives. */
+    function loadFrames() {
+      if (framesRequested) return;
       framesRequested = true;
-      try {
-        const loaded = await Promise.all(
-          Array.from({ length: FRAME_COUNT }, (_, i) =>
-            loadImage(framePath(`dir-${String(i).padStart(2, "0")}`)),
-          ),
-        );
-        if (cancelled) return;
-        frames = loaded;
-        updateLoop();
-      } catch (error) {
-        console.error("Cursor-tracking hero: could not load frames", error);
+      window.clearTimeout(preloadTimer);
+      for (const i of LOAD_ORDER) {
+        loadImage(framePath(`dir-${String(i).padStart(2, "0")}`))
+          .then((img) => {
+            if (cancelled) return;
+            frames[i] = img;
+            loadedCount++;
+            // The first arrival starts the loop if a finger or pointer is already waiting.
+            if (loadedCount === 1) updateLoop();
+          })
+          .catch((error) => console.error("Cursor-tracking hero:", error));
+      }
+    }
+
+    /** On touch screens, fetch the frames once the page is idle so the first touch already
+     * works, unless the visitor has asked to save data. */
+    function scheduleTouchPreload() {
+      const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+      if (connection?.saveData) return;
+      preloadTimer = window.setTimeout(loadFrames, TOUCH_PRELOAD_TIMEOUT_MS);
+      if ("requestIdleCallback" in window) {
+        idleCallback = window.requestIdleCallback(loadFrames, { timeout: TOUCH_PRELOAD_TIMEOUT_MS });
       }
     }
 
@@ -249,7 +290,8 @@ export function CursorTrackingCanvas() {
         if (cancelled) return;
         center = img;
         draw();
-        void loadFrames();
+        if (canTrack) loadFrames();
+        else scheduleTouchPreload();
       })
       .catch((error) => console.error("Cursor-tracking hero: could not load frames", error));
 
@@ -257,6 +299,8 @@ export function CursorTrackingCanvas() {
       cancelled = true;
       cancelAnimationFrame(rafId);
       window.clearTimeout(touchReleaseTimer);
+      window.clearTimeout(preloadTimer);
+      if (idleCallback) window.cancelIdleCallback(idleCallback);
       resizeObserver.disconnect();
       intersectionObserver.disconnect();
       window.removeEventListener("pointermove", handlePointerMove);

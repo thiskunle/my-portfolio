@@ -10,7 +10,7 @@ const DEADZONE_RATIO = 0.12;
 /** The frames' backdrop, recoloured to the site red by build_direction_frames.py (--gb-red). */
 const HERO_BACKDROP = "#c8102e";
 /** Face centre as a fraction of the frame's width/height. */
-const FACE_X = 0.53;
+const FACE_X = 0.51;
 const FACE_Y = 0.37;
 /** On wide screens the frame is drawn this many times the hero height (cropping the empty
  * backdrop above the head), with the face centred at WIDE_ANCHOR_X / WIDE_FACE_AT. */

@@ -386,7 +386,7 @@ export const contact = {
   },
   intro:
     "Contact GramByte Technologies Inc. for websites, cybersecurity support and awareness training, cloud setup, branding, and business technology services.",
-  /** Genuine founder portrait (previous site's contact image). Decorative beside the founder's name. */
+  /** Founder portrait (same likeness as the hero character). Decorative beside the founder's name. */
   /* Backdrop recoloured to the site red with recolor_backdrop() in build_direction_frames.py. */
   portrait: { src: "/images/contact/ade-akeju-portrait-red.jpg", alt: "" } as PortraitImage,
 } as const;

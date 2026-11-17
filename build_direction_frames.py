@@ -1,21 +1,23 @@
 """
 Build public/frames/dir-00.webp … dir-63.webp: 64 frames evenly spaced around the circle
-(dir-00 = looking straight up, increasing clockwise in 5.625° steps), from the frames that
-extract_frames.py pulled out of character.mp4.
+(dir-00 = looking straight up, increasing clockwise in 5.625° steps), plus dir-center.webp
+(the forward-facing pose), straight from the source head-turn video.
 
 The red backdrop is recoloured to a flat BACKDROP_HEX (the site's main red), so the frames
-blend into the page with no visible box or vignette. Also writes dir-center.webp (the
-forward-facing pose, recoloured the same way).
+blend into the page with no visible box or vignette.
 
-The source video only sweeps through the right-hand side (up → right → down); it never looks
-left. So the left half is synthesised by mirroring the matching right-hand pose: only the head
-and neck are mirrored (about the head's centre line) and blended onto the unmirrored body, so
-the lettering on the sweater stays readable.
+The source video does not look in every direction. It looks forward, then up and to the
+viewer's right, then to the viewer's left, then down, then forward again. ANCHORS maps each
+22.5° direction to the video frame that best shows it. Directions the video never shows are
+filled by mirroring a pose from the opposite side: only the head and neck are mirrored (about
+the head's centre line) and blended onto the unmirrored body, so the sweater lettering stays
+readable.
 
-Run from the project root after extract_frames.py:  python build_direction_frames.py
+Usage, from the project root:  python build_direction_frames.py path/to/head-turn.mp4
 """
 
 import os
+import sys
 
 import cv2
 import numpy as np
@@ -23,26 +25,49 @@ import numpy as np
 FRAMES_DIR = os.path.join("public", "frames")
 OUTPUT_COUNT = 64
 
-# [pointer angle in degrees, clockwise from straight up] -> source frame-NN index, for the
-# right half of the circle. Hand-picked by viewing the extracted frames; the source frames are
-# not evenly spaced (0–18 swing right -> up, 18–49 sweep up -> right -> down, 50–63 settle
-# forward). Repeating an angle marks a jump between two runs of the video.
-RIGHT_HALF_ANCHORS = [
-    (0, 15),
-    (45, 10),
-    (90, 4),
-    (90, 21),
-    (112, 23),
-    (135, 27),
-    (180, 40),
+# (pointer angle in degrees clockwise from straight up, video frame index, mirrored?).
+# Hand-picked by viewing the video's frames. Between two neighbouring anchors from the same
+# continuous run of the video (same mirroring, frames close together) the frame index is
+# interpolated; otherwise the nearer anchor is used as is.
+ANCHORS = [
+    (0.0, 56, False),  # eyes and chin lifted
+    (22.5, 66, False),
+    (45.0, 80, False),  # up and to the viewer's right
+    (67.5, 99, True),
+    (90.0, 104, True),  # viewer's right (mirrored three-quarter turn)
+    (112.5, 163, False),
+    (135.0, 160, False),  # down and to the viewer's right
+    (157.5, 156, False),
+    (180.0, 151, False),  # down
+    (202.5, 146, False),
+    (225.0, 144, False),  # down and to the viewer's left
+    (247.5, 142, False),
+    (270.0, 104, False),  # viewer's left (three-quarter turn)
+    (292.5, 100, False),
+    (315.0, 80, True),  # up and to the viewer's left (mirrored)
+    (337.5, 66, True),
 ]
+# Anchors further apart than this in the video are separate runs (never interpolated).
+MAX_RUN_GAP = 20
+# The forward-facing resting pose.
+CENTER_FRAME = 189
 
-# Mirror axis: x of the head's centre line in the 720px-wide frames (measured on center.webp).
-MIRROR_AXIS_X = 382
-# Rows (fraction of frame height) over which the mirrored head blends into the original body.
-# Above BLEND_START is fully mirrored; below BLEND_END is untouched (keeps the chest logo).
-BLEND_START = 0.64
-BLEND_END = 0.70
+# This video frames the head higher than the layout expects (CursorTrackingCanvas's FACE_Y).
+# Shift every frame down by this many pixels, filling the top with backdrop.
+SHIFT_DOWN = 90
+
+# Mirror axis: x of the head and neck centre line in the 720px-wide video frames.
+MIRROR_AXIS_X = 365
+# Rows (fraction of frame height, after SHIFT_DOWN) over which the mirrored head blends into
+# the original body. Above BLEND_START is fully mirrored; below BLEND_END is untouched (keeps
+# the chest logo readable).
+BLEND_START = 0.62
+BLEND_END = 0.69
+# Below SHOULDER_TOP only a band this many pixels either side of MIRROR_AXIS_X (the neck) is
+# mirrored, feathered over NECK_FEATHER pixels, so the shoulders are never mirrored.
+SHOULDER_TOP = 0.62
+NECK_HALF_WIDTH = 190
+NECK_FEATHER = 50
 
 WEBP_QUALITY = 82
 
@@ -55,21 +80,38 @@ SATURATION = (120, 160)
 BRIGHTNESS = (130, 170)
 
 
-def source_frame_for(degrees):
-    """Source frame index for a right-half angle (0–180), interpolating between anchors."""
-    for (a0, f0), (a1, f1) in zip(RIGHT_HALF_ANCHORS, RIGHT_HALF_ANCHORS[1:]):
-        if degrees <= a1:
-            t = 1.0 if a1 == a0 else (degrees - a0) / (a1 - a0)
-            return round(f0 + (f1 - f0) * t)
-    return RIGHT_HALF_ANCHORS[-1][1]
+def read_video(path):
+    capture = cv2.VideoCapture(path)
+    if not capture.isOpened():
+        raise SystemExit(f"Could not open {path}")
+    frames = []
+    while True:
+        ok, frame = capture.read()
+        if not ok:
+            break
+        frames.append(frame)
+    capture.release()
+    return frames
 
 
-def load(index):
-    path = os.path.join(FRAMES_DIR, f"frame-{index:02d}.webp")
-    image = cv2.imread(path)
-    if image is None:
-        raise SystemExit(f"Missing {path}; run extract_frames.py first.")
-    return image
+def pose_for(degrees):
+    """(video frame index, mirrored) for a pointer angle, from ANCHORS."""
+    for i, (a0, f0, m0) in enumerate(ANCHORS):
+        a1, f1, m1 = ANCHORS[(i + 1) % len(ANCHORS)]
+        if a1 <= a0:
+            a1 += 360
+        if a0 <= degrees < a1:
+            t = (degrees - a0) / (a1 - a0)
+            if m0 == m1 and abs(f1 - f0) <= MAX_RUN_GAP:
+                return round(f0 + (f1 - f0) * t), m0
+            return (f0, m0) if t < 0.5 else (f1, m1)
+    raise ValueError(degrees)
+
+
+def shift_down(image):
+    """Move the picture down by SHIFT_DOWN pixels, repeating the (backdrop) top row above it."""
+    top = np.repeat(image[:1], SHIFT_DOWN, axis=0)
+    return np.vstack([top, image[: image.shape[0] - SHIFT_DOWN]])
 
 
 def mirror_head(image):
@@ -81,7 +123,12 @@ def mirror_head(image):
     rows = np.arange(height, dtype=np.float32) / height
     alpha = np.clip((BLEND_END - rows) / (BLEND_END - BLEND_START), 0, 1)
     alpha = alpha * alpha * (3 - 2 * alpha)  # smoothstep
-    alpha = alpha[:, None, None]
+
+    columns = np.abs(np.arange(width, dtype=np.float32) - MIRROR_AXIS_X)
+    neck = np.clip((NECK_HALF_WIDTH + NECK_FEATHER - columns) / NECK_FEATHER, 0, 1)
+    below_shoulders = (rows >= SHOULDER_TOP)[:, None]
+    alpha = alpha[:, None] * np.where(below_shoulders, neck[None, :], 1)
+    alpha = alpha[..., None]
     return (mirrored * alpha + image * (1 - alpha)).astype(np.uint8)
 
 
@@ -101,7 +148,7 @@ def recolor_backdrop(image):
         * ramp(val, *BRIGHTNESS)
     )
     # Only red connected to the frame border is backdrop; this excludes lips and the red
-    # accents on the glasses, which can pass the colour test.
+    # reflections in the glasses, which can pass the colour test.
     _, labels = cv2.connectedComponents((mask > 0.5).astype(np.uint8))
     border = np.concatenate([labels[0], labels[:, 0], labels[:, -1]])
     backdrop = np.isin(labels, np.unique(border[border > 0])).astype(np.uint8)
@@ -118,18 +165,18 @@ def save(image, name):
 
 
 def main():
+    if len(sys.argv) != 2:
+        raise SystemExit("Usage: python build_direction_frames.py path/to/head-turn.mp4")
+    frames = read_video(sys.argv[1])
+    os.makedirs(FRAMES_DIR, exist_ok=True)
     step = 360 / OUTPUT_COUNT
     for i in range(OUTPUT_COUNT):
-        degrees = i * step
-        if degrees <= 180:
-            frame = load(source_frame_for(degrees))
-        else:
-            frame = mirror_head(load(source_frame_for(360 - degrees)))
+        index, mirrored = pose_for(i * step)
+        frame = shift_down(frames[index])
+        if mirrored:
+            frame = mirror_head(frame)
         save(frame, f"dir-{i:02d}.webp")
-    center = cv2.imread(os.path.join(FRAMES_DIR, "center.webp"))
-    if center is None:
-        raise SystemExit("Missing center.webp; run extract_frames.py first.")
-    save(center, "dir-center.webp")
+    save(shift_down(frames[CENTER_FRAME]), "dir-center.webp")
     print(f"Wrote {OUTPUT_COUNT} frames to {FRAMES_DIR}/dir-NN.webp, plus dir-center.webp")
 
 

@@ -26,6 +26,8 @@ const TOUCH_RELEASE_MS = 1200;
 /** On touch screens the frames are fetched once the page is idle (so the first touch already
  * turns the head), but no later than this after the forward-facing frame appears. */
 const TOUCH_PRELOAD_TIMEOUT_MS = 2500;
+/** Directional frames downloading at once (see loadFrames). */
+const FRAME_LOAD_CONCURRENCY = 4;
 /** Width (fraction of the drawn frame) over which its side edges fade out. The backdrop is
  * flat and matches the page, so this only softens where the sweater is cut by the frame edge. */
 const EDGE_FEATHER = 0.08;
@@ -247,13 +249,18 @@ export function CursorTrackingCanvas() {
     });
     intersectionObserver.observe(canvas);
 
-    /** Fetches the directional frames coarse to fine, using each one as soon as it arrives. */
+    /** Fetches the directional frames coarse to fine, a few at a time, using each one as soon
+     * as it arrives. Requesting all 64 at once would share the bandwidth between them over
+     * HTTP/2, so on a slow connection none would arrive until nearly all had. */
     function loadFrames() {
       if (framesRequested) return;
       framesRequested = true;
       window.clearTimeout(preloadTimer);
-      for (const i of LOAD_ORDER) {
-        loadImage(framePath(`dir-${String(i).padStart(2, "0")}`))
+      const queue = [...LOAD_ORDER];
+      const next = (): Promise<void> | undefined => {
+        const i = queue.shift();
+        if (i === undefined || cancelled) return;
+        return loadImage(framePath(`dir-${String(i).padStart(2, "0")}`))
           .then((img) => {
             if (cancelled) return;
             frames[i] = img;
@@ -261,8 +268,10 @@ export function CursorTrackingCanvas() {
             // The first arrival starts the loop if a finger or pointer is already waiting.
             if (loadedCount === 1) updateLoop();
           })
-          .catch((error) => console.error("Cursor-tracking hero:", error));
-      }
+          .catch((error) => console.error("Cursor-tracking hero:", error))
+          .then(next);
+      };
+      for (let n = 0; n < FRAME_LOAD_CONCURRENCY; n++) void next();
     }
 
     /** On touch screens, fetch the frames once the page is idle so the first touch already
